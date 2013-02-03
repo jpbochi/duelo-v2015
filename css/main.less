@@ -1,0 +1,9 @@
+@import 'reset';
+
+#board, #board * {
+  /* this is extremely important for performance:
+   * Kinetic easily drops the framerate below 20 because of the absurd
+   * amount of mouse event handlers it adds to each of its nodes.
+   */
+  pointer-events: none;
+}
