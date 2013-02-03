@@ -1,5 +1,7 @@
 # Duelo
 
+[![Build Status](https://travis-ci.org/jpbochi/duelo.png?branch=master)](https://travis-ci.org/jpbochi/duelo)
+
 [at heroku](http://shrouded-spire-4864.herokuapp.com/)
 
 ## running
