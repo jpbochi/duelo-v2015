@@ -1,8 +1,7 @@
 module.exports = function (grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
-    qunit: { all: { options: { urls: ['http://localhost:19999/tests/index.html'] } } },
-    connect: { server: { options: { port: 19999, base: '.' } } },
+    qunit: { all: { options: { urls: ['http://localhost:3333/tests/index.html'] } } },
     jshint: {
       all: [
         'lib/**/*.js',
@@ -21,11 +20,12 @@ module.exports = function (grunt) {
         plusplus: true,
         quotmark: 'single',
         trailing: true,
-        maxparams: 2,
+        maxparams: 3,
         maxlen: 150,
         browser: true,
         nomen: true,
         jquery: true,
+        white: true,
         globals: {
           'Kinetic': true,
           'KeyboardJS': true,
@@ -34,6 +34,8 @@ module.exports = function (grunt) {
           'deepEqual': true,
           'equal': true,
           'ok': true,
+          'start': true,
+          'stop': true,
           'expect': true,
           'sinon': true,
           'module': true,
@@ -52,10 +54,21 @@ module.exports = function (grunt) {
   });
 
   grunt.loadNpmTasks('grunt-contrib-qunit');
-  grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-contrib-jshint');
 
-  grunt.registerTask('test', ['connect', 'qunit']);
+  grunt.registerTask('server', 'Start a custom web server.', function () {
+    var requirejs = require('requirejs');
+    var app = requirejs('./lib/server.js');
+    var done = this.async();
+
+    /*jshint nomen:false*/
+    app.configure(__dirname);
+    app.start(3333, function () {
+      done(true);
+    });
+  });
+
+  grunt.registerTask('test', ['server', 'qunit']);
   grunt.registerTask('default', ['jshint', 'test']);
   grunt.registerTask('ci', ['jshint', 'test']);
 };
