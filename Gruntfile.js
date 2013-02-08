@@ -44,6 +44,7 @@ module.exports = function (grunt) {
           'test': true,
           'require': true,
           'define': true,
+          'global': true,
           'Line': true,
           '$V': true,
           '_': true,
