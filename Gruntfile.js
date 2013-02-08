@@ -26,6 +26,7 @@ module.exports = function (grunt) {
         nomen: true,
         jquery: true,
         white: true,
+        undef: true,
         globals: {
           'Kinetic': true,
           'KeyboardJS': true,
@@ -47,8 +48,7 @@ module.exports = function (grunt) {
           '$V': true,
           '_': true,
           '__dirname': true
-        },
-        undef: true
+        }
       }
     }
   });
@@ -64,6 +64,20 @@ module.exports = function (grunt) {
     /*jshint nomen:false*/
     app.configure(__dirname);
     app.start(3333, function () {
+      done(true);
+    });
+  });
+
+  grunt.registerTask('console', 'Start node CLI.', function () {
+    var repl = require('repl');
+    global.requirejs = require('requirejs');
+
+    var done = this.async();
+
+    repl.start({
+      prompt: '> ',
+      useGlobal: true
+    }).on('exit', function () {
       done(true);
     });
   });
