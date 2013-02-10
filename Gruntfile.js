@@ -20,7 +20,7 @@ module.exports = function (grunt) {
         plusplus: true,
         quotmark: 'single',
         trailing: true,
-        maxparams: 3,
+        maxparams: 4,
         maxlen: 150,
         browser: true,
         nomen: true,

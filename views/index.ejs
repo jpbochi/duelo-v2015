@@ -14,6 +14,12 @@
 </head>
 <body>
   <h1>duelo</h1>
-  <div id="board"></div>
+  <% if (!user) { %>
+    <a href="/auth/google">Login with Google</a>
+  <% } else { %>
+    <h2>Welcome, <%= user.displayName %>.</h2>
+    <a href="/logout">Log Out</a>
+    <div id="board"></div>
+  <% } %>
 </body>
 </html>
