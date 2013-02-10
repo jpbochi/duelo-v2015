@@ -17,6 +17,7 @@
     "less-middleware": "*",
     "passport": "*",
     "passport-google-oauth": "*",
+    "passport-facebook": "*",
     "mongoose": "*"
   },
   "devDependencies": {

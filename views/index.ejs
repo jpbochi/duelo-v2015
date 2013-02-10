@@ -16,6 +16,7 @@
   <h1>duelo</h1>
   <% if (!user) { %>
     <a href="/auth/google">Login with Google</a>
+    <a href="/auth/facebook">Login with Faceboook</a>
   <% } else { %>
     <h2>Welcome, <%= user.displayName %>.</h2>
     <a href="/logout">Log Out</a>
