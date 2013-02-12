@@ -3,6 +3,5 @@
   var app = requirejs('./lib/server');
 
   /*jshint nomen:false*/
-  app.configure(__dirname);
-  app.start();
+  app.configure(__dirname, app.start);
 })();

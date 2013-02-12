@@ -4,3 +4,5 @@ node_modules/
 .DS_[s|S]tore
 css/*.css
 *.sublime-workspace
+config_dump.json
+config_prod.json
