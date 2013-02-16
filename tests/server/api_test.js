@@ -1,4 +1,6 @@
 define(function (require) {
+  /*global notEqual*/
+
   function callExpecting(request, action, expectedStatus) {
     stop();
     return request.always(function () {
@@ -35,7 +37,6 @@ define(function (require) {
 
   module('POST /api/games', {
     setup: function () {
-      stop();
       this.request = post('/api/games', 201);
     }
   });
