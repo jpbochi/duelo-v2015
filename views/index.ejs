@@ -4,7 +4,8 @@
   <meta charset="utf-8"></meta>
   <title>Duelo</title>
 
-  <link rel="stylesheet" href="/css/main.css" />
+  <link href="/external/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+  <link href="/css/main.css" rel="stylesheet">
 
   <script src="/external/underscore/underscore-1.4.4.min.js"></script>
   <script src="/external/jquery/jquery-1.9.1.min.js"></script>
@@ -13,14 +14,48 @@
   <script data-main="client" src="/external/requirejs/require.js"></script>
 </head>
 <body>
-  <h1>duelo</h1>
-  <% if (!user) { %>
-    <a href="/auth/google">Login with Google</a>
-    <a href="/auth/facebook">Login with Faceboook</a>
-  <% } else { %>
-    <h2>Welcome, <%= user.displayName %>.</h2>
-    <a href="/logout">Log Out</a>
-    <div id="board"></div>
-  <% } %>
+  <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="brand" href="#">Duelo</a>
+        <div class="nav-collapse collapse">
+          <ul class="nav">
+            <li class="active"><a href="#">Play</a></li>
+            <li><a href="https://github.com/jpbochi/duelo">Source</a></li>
+          </ul>
+          <% if (user) { %>
+            <ul class="nav pull-right">
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                  <%= user.displayName %> <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu">
+                  <li><a href="/logout">Sign out</a></li>
+                </ul>
+              </li>
+            </ul>
+          <% } %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <% if (!user) { %>
+      <form class="form-signin">
+        <h2 class="form-signin-heading">Please sign in</h2>
+        <a href="/auth/facebook" class="btn btn-primary btn-block">Login with Faceboook</a>
+        <a href="/auth/google" class="btn btn-block">Login with Google</a>
+      </form>
+    <% } else { %>
+      <h1>New game</h1>
+      <div id="board"></div>
+    <% } %>
+  </div>
+  <script src="external/bootstrap/js/bootstrap.min.js"></script>
 </body>
 </html>
