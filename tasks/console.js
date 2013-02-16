@@ -5,6 +5,7 @@ define(function (require) {
         var repl = require('repl');
         require('../external/underscore/underscore-1.4.4.min.js');
         var config = require('../lib/server/config.js');
+        var mongo = require('../lib/server/mongo.js');
 
         var done = this.async();
 
@@ -14,6 +15,7 @@ define(function (require) {
           global.requirejs = requirejs;
           global.config = config;
           global.redis = config.redis;
+          global.mongo = mongo;
 
           repl.start({
             prompt: '> ',
