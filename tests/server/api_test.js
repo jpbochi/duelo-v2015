@@ -1,17 +1,54 @@
 define(function (require) {
-  module('server/api');
+  function callExpecting(request, action, expectedStatus) {
+    stop();
+    return request.always(function () {
+      start();
+    }).fail(function (jqXHR) {
+      equal(jqXHR.status, expectedStatus, action + ' => ' + expectedStatus);
+    }).done(function (data, textStatus, jqXHR) {
+      equal(jqXHR.status, expectedStatus, action + ' => ' + expectedStatus);
+    });
+  }
 
-	test('GET /api', function () {
-		stop();
+  function get(url, expectedStatus) {
+    return callExpecting($.get(url), 'GET ' + url, expectedStatus || 200);
+  }
 
-		$.get('/api').always(function () {
-			start();
-		}).fail(function (jqXHR, textStatus, errorThrown) {
-			ok(false, ['GET /api failed with: ', jqXHR.status, textStatus, errorThrown].join(', '));
-		}).done(function (data, textStatus, jqXHR) {
-			equal(jqXHR.status, 200, 'status == 200');
+  function post(url, expectedStatus) {
+    return callExpecting($.post(url), 'POST ' + url, expectedStatus || 200);
+  }
 
-			deepEqual(data, [ { rel: 'self', href: '/api' }]);
-		});
-	});
+  module('GET /api', {
+    setup: function () {
+      this.request = get('/api');
+    }
+  });
+
+  test('lists root links', function () {
+    this.request.done(function (data) {
+      deepEqual(data, [
+        { rel: 'self', href: '/api' },
+        { rel: 'games', href: '/api/games' }
+      ]);
+    });
+  });
+
+  module('POST /api/games', {
+    setup: function () {
+      stop();
+      this.request = post('/api/games', 201);
+    }
+  });
+
+  test('redirects to a created game', function () {
+    this.request.done(function (data, textStatus, jqXHR) {
+      var location = jqXHR.getResponseHeader('Location');
+      notEqual(location, null, 'Location != null');
+
+      get(location).done(function (data, textStatus, jqXHR) {
+        var type = jqXHR.getResponseHeader('Content-Type');
+        equal(type, 'application/vnd.game+json');
+      });
+    });
+  });
 });
