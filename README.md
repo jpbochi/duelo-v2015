@@ -10,6 +10,7 @@ requirements:
 
 * node ~> 0.8
 * npm ~> 1.1
+* redis running on default port (6379)
 
 to run it, simply:
 
