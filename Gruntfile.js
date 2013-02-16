@@ -1,4 +1,5 @@
 module.exports = function (grunt) {
+
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     qunit: { all: { options: { urls: ['http://localhost:3333/tests/index.html'] } } },
@@ -48,8 +49,7 @@ module.exports = function (grunt) {
           'global': true,
           'Line': true,
           '$V': true,
-          '_': true,
-          '__dirname': true
+          '_': true
         }
       }
     }
@@ -58,25 +58,14 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-qunit');
   grunt.loadNpmTasks('grunt-contrib-jshint');
 
+  /*jshint nomen:false*/
+  /*global __dirname*/
   var requirejs = require('requirejs');
-
   requirejs('./tasks/config.js').register(grunt);
   requirejs('./tasks/console.js').register(grunt);
+  requirejs('./tasks/server.js').register(grunt, __dirname);
 
-  grunt.registerTask('server', 'Start a custom web server.', function () {
-    var requirejs = require('requirejs');
-    var app = requirejs('./lib/server.js');
-    var done = this.async();
-
-    /*jshint nomen:false*/
-    app.configure(__dirname, function () {
-      app.start(3333, function () {
-        done(true);
-      });
-    });
-  });
-
-  grunt.registerTask('test', ['server', 'qunit']);
+  grunt.registerTask('test', ['test:server:3333', 'qunit']);
   grunt.registerTask('default', ['jshint', 'test']);
   grunt.registerTask('ci', ['jshint', 'test']);
 };
