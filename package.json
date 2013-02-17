@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "requirejs": "~2.1.4",
+    "qunit": "*",
     "express": "3.0.3",
     "ejs": "*",
     "less-middleware": "*",

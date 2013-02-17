@@ -64,8 +64,8 @@ module.exports = function (grunt) {
   requirejs('./tasks/config.js').register(grunt);
   requirejs('./tasks/console.js').register(grunt);
   requirejs('./tasks/server.js').register(grunt, __dirname);
+  requirejs('./tasks/tests.js').register(grunt);
 
-  grunt.registerTask('test', ['test_server:3333', 'qunit']);
   grunt.registerTask('default', ['jshint', 'test']);
   grunt.registerTask('ci', ['jshint', 'test']);
 };
