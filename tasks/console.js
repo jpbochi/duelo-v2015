@@ -7,21 +7,26 @@ define(function (require) {
         var config = require('../lib/server/config.js');
         var mongo = require('../lib/server/mongo.js');
 
+        global.grunt = grunt;
+        global.requirejs = requirejs;
+        global.config = config;
+        global.redis = config.redis;
+        global.mongo = mongo;
+
         var done = this.async();
 
         config.redis.on('connect', function () {
-          console.log('Connected to', config.redisUrl, '.');
+          console.log('redis connected to', config.redisUrl, '.');
 
-          global.requirejs = requirejs;
-          global.config = config;
-          global.redis = config.redis;
-          global.mongo = mongo;
+          mongo.connect(function () {
+            console.log('mongo connected to ' + mongo.url());
 
-          repl.start({
-            prompt: '> ',
-            useGlobal: true
-          }).on('exit', function () {
-            done(true);
+            repl.start({
+              prompt: '> ',
+              useGlobal: true
+            }).on('exit', function () {
+              done(true);
+            });
           });
         });
       });
