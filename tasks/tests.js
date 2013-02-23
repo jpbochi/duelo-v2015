@@ -26,8 +26,6 @@ define(function (require) {
         }, function (err, report) {
           if (err) { throw err; }
 
-          console.log('task executed in ' + (report ? report.runtime : '?') + 'ms');
-
           var succeeded = report && report.failed === 0;
           done(succeeded);
         });
