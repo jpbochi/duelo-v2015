@@ -21,7 +21,8 @@
     "passport-facebook": "*",
     "redis": "*",
     "redis-url": "*",
-    "mongoose": "*"
+    "mongoose": "*",
+    "lodash": "*"
   },
   "devDependencies": {
     "grunt": "0.4.0rc5",

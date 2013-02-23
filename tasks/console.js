@@ -3,7 +3,6 @@ define(function (require) {
     register: function (grunt) {
       grunt.registerTask('console', 'Start node CLI.', function () {
         var repl = require('repl');
-        require('../external/underscore/underscore-1.4.4.min.js');
         var config = require('../lib/server/config.js');
         var mongo = require('../lib/server/mongo.js');
 
@@ -12,6 +11,7 @@ define(function (require) {
         global.config = config;
         global.redis = config.redis;
         global.mongo = mongo;
+        global.lodash = require('lodash');
 
         var done = this.async();
 

@@ -1,4 +1,19 @@
 module.exports = function (grunt) {
+  /*global global*/
+  var _ = require('lodash');
+
+  var globals = _.reduce([
+    'Kinetic',
+    '$',
+    'console', 'process',
+    'require', 'define',
+    'equal', 'deepEqual', 'strictEqual', 'ok',
+    'start', 'stop',
+    'module', 'QUnit', 'test', 'sinon'
+  ], function (acc, name) {
+    acc[name] = true;
+    return acc;
+  }, {});
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
@@ -28,29 +43,7 @@ module.exports = function (grunt) {
         jquery: true,
         white: true,
         undef: true,
-        globals: {
-          'Kinetic': true,
-          'KeyboardJS': true,
-          '$': true,
-          'console': true,
-          'deepEqual': true,
-          'equal': true,
-          'ok': true,
-          'start': true,
-          'stop': true,
-          'expect': true,
-          'sinon': true,
-          'module': true,
-          'QUnit': true,
-          'test': true,
-          'process': true,
-          'require': true,
-          'define': true,
-          'global': true,
-          'Line': true,
-          '$V': true,
-          '_': true
-        }
+        globals: globals
       }
     }
   });
