@@ -1,5 +1,7 @@
 define(function (require) {
   var mongo = require('../../lib/server/mongo.js');
+  require('../../external/qunit/sinon-1.5.2.js');
+  //require('../../external/qunit/sinon-qunit-1.0.0.js');
 
   function throwIfErr(err) {
     if (err) {

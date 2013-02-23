@@ -11,7 +11,7 @@ define(function (require) {
         global.config = config;
         global.redis = config.redis;
         global.mongo = mongo;
-        global.lodash = require('lodash');
+        global.lo = require('lodash');
 
         var done = this.async();
 

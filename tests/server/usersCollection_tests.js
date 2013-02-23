@@ -5,35 +5,22 @@ define(function (require) {
   var users = mongo.users;
 
   var data = {
-    userAuthProfile: {
+    authProfile: {
       provider: 'facebook',
-      id: '1303111482',
-      username: 'jpbochi',
-      displayName: 'João Paulo Bochi',
-      gender: 'male',
-      profileUrl: 'http://www.facebook.com/jpbochi',
-      emails: [ { value: 'jpbochi@gmail.com' } ],
+      id: '12345',
+      username: 'le-user',
+      displayName: 'John Doe',
+      emails: [ { value: 'j@duelo.com' } ],
       '_json': {
-        id: '1303111482',
-        name: 'João Paulo Bochi',
-        link: 'http://www.facebook.com/jpbochi',
-        username: 'jpbochi',
-        email: 'jpbochi@gmail.com',
+        id: '12345',
+        name: 'John Doe',
+        username: 'jd1',
+        email: 'jd@duelo.com',
         timezone: -3,
         locale: 'en_GB'
       }
     }
   };
-
-  QUnit.module('mongo.users.buildFromAuth');
-
-  test('builds from a facebook auth profile', function () {
-    var user = users.buildFromAuth(data.userAuthProfile);
-
-    equal(user.key, 'facebook:1303111482');
-    equal(user.email, 'jpbochi@gmail.com');
-    equal(user.displayName, 'João Paulo Bochi');
-  });
 
   QUnit.module('mongo.users.loginWith', {
     setup: function () {
@@ -45,21 +32,54 @@ define(function (require) {
   test('creates a user if he/she is not registered', function () {
     stop();
 
-    users.loginWith(data.userAuthProfile, function (err, user) {
+    users.loginWith(data.authProfile, function (err, user) {
       strictEqual(err, null);
+
+      deepEqual(
+        _.pick(user, 'key', 'email', 'displayName'),
+        { key: 'facebook:12345', email: 'j@duelo.com', displayName: 'John Doe' }
+      );
 
       users.model.find({}, function (err, result) {
         start();
         strictEqual(err, null);
 
-        deepEqual(_.pluck(result, 'key'), ['facebook:1303111482']);
-        deepEqual(_.pluck(result, 'email'), ['jpbochi@gmail.com']);
-        deepEqual(_.pluck(result, 'displayName'), ['João Paulo Bochi']);
+        deepEqual(_.pluck(result, 'key'), ['facebook:12345']);
+        deepEqual(_.pluck(result, 'email'), ['j@duelo.com']);
+        deepEqual(_.pluck(result, 'displayName'), ['John Doe']);
+        //TODO test lastLogin date
       });
     });
   });
 
   test('returns existing user if he/she is registered', function () {
-    ok('TODO');
+    stop();
+
+    new users.model({
+      key: 'facebook:12345',
+      email: 'previous@old.me',
+      displayName: 'Previous Name'
+    }).save(function (err) {
+      strictEqual(err, null);
+
+      users.loginWith(data.authProfile, function (err, user) {
+        strictEqual(err, null);
+
+        deepEqual(
+          _.pick(user, 'key', 'email', 'displayName'),
+          { key: 'facebook:12345', email: 'previous@old.me', displayName: 'Previous Name' }
+        );
+
+        users.model.find({}, function (err, result) {
+          start();
+          strictEqual(err, null);
+
+          deepEqual(_.pluck(result, 'key'), ['facebook:12345']);
+          deepEqual(_.pluck(result, 'email'), ['previous@old.me']);
+          deepEqual(_.pluck(result, 'displayName'), ['Previous Name']);
+          //TODO test lastLogin date
+        });
+      });
+    });
   });
 });
