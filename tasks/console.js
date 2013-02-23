@@ -12,6 +12,8 @@ define(function (require) {
         global.redis = config.redis;
         global.mongo = mongo;
         global.lo = require('lodash');
+        global.qunit = require('qunit');
+        global.sinon = require('sinon-restore');
 
         var done = this.async();
 
