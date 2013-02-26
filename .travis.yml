@@ -2,7 +2,7 @@ language: node_js
 node_js:
   - 0.8
 install: "npm install --loglevel warn"
-before_script: "npm install -g grunt-cli"
+before_script: "npm install -g grunt-cli --loglevel warn"
 script: "npm test"
 services:
   - mongodb
