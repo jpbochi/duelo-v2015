@@ -1,40 +1,63 @@
 define(function (require) {
   var fs = require('fs');
   var config = require('../lib/server/config.js');
+  var mongo = require('../lib/server/mongo.js');
+
+  function throwIfError(err) {
+    if (err) {
+      console.error(err);
+      throw err;
+    }
+  }
 
   return {
     register: function (grunt) {
-      grunt.registerTask('config:dump', 'Dumps the configuration.', function (configFile) {
+      grunt.registerTask('config:dump', 'Dumps the configuration from mongo or defaults.', function (configFile) {
         configFile = configFile || 'config_dump.json';
 
         var done = this.async();
 
-        config.read(function (configValues) {
-          console.log('Read config from', config.redisUrl, ', and merged to defaults.');
-          console.log(configValues);
+        console.log('Saving config to', configFile, '...');
 
-          var data = JSON.stringify(configValues);
-          fs.writeFile(configFile, data, function (err) {
-            if (err) { throw err; }
+        mongo.connect(function () {
+          console.log('mongo connected to ' + mongo.url());
 
-            console.log(configFile, 'saved.');
-            done(true);
+          config.read(function (err, configValues) {
+            throwIfError(err);
+
+            console.log(configValues);
+
+            var data = JSON.stringify(configValues);
+            fs.writeFile(configFile, data, function (err) {
+              throwIfError(err);
+
+              console.log(configFile, 'saved.');
+              done(true);
+            });
           });
         });
       });
 
-      grunt.registerTask('config:upload', 'Uploads config json file to redis.', function (configFile) {
+      grunt.registerTask('config:update', 'Updates config json file to mongo.', function (configFile) {
         configFile = configFile || 'config_dump.json';
 
         var done = this.async();
 
-        fs.readFile(configFile, function (err, data) {
-          if (err) { throw err; }
+        mongo.connect(function () {
+          console.log('mongo connected to ' + mongo.url());
 
-          var configValues = JSON.parse(data);
-          config.save(configValues, function () {
-            console.log([configFile, ' processed.'].join(''));
-            done(true);
+          fs.readFile(configFile, function (err, data) {
+            throwIfError(err);
+
+            var configValues = JSON.parse(data);
+            console.log(configValues);
+
+            config.update(configValues, function (err) {
+              throwIfError(err);
+
+              console.log([configFile, ' processed.'].join(''));
+              done(true);
+            });
           });
         });
       });

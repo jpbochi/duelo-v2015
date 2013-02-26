@@ -21,13 +21,16 @@ define(function (require) {
         var done = this.async();
 
         testrunner.run({
-          code: '/dev/null',
+          code: 'package.json',
           tests: 'tests/server.js'
         }, function (err, report) {
-          if (err) { throw err; }
-
-          var succeeded = report && report.failed === 0;
-          done(succeeded);
+          if (err) {
+            done(false);
+            throw err;
+          } else {
+            var succeeded = report && report.failed === 0;
+            done(succeeded);
+          }
         });
       });
 

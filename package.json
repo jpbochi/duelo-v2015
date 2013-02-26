@@ -21,8 +21,6 @@
     "passport": "*",
     "passport-google-oauth": "*",
     "passport-facebook": "*",
-    "redis": "*",
-    "redis-url": "*",
     "mongoose": "*",
     "lodash": "*"
   },

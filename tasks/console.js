@@ -9,7 +9,6 @@ define(function (require) {
         global.grunt = grunt;
         global.requirejs = requirejs;
         global.config = config;
-        global.redis = config.redis;
         global.mongo = mongo;
         global.lo = require('lodash');
         global.qunit = require('qunit');
@@ -17,18 +16,14 @@ define(function (require) {
 
         var done = this.async();
 
-        config.redis.on('connect', function () {
-          console.log('redis connected to', config.redisUrl, '.');
+        mongo.connect(function () {
+          console.log('mongo connected to ' + mongo.url());
 
-          mongo.connect(function () {
-            console.log('mongo connected to ' + mongo.url());
-
-            repl.start({
-              prompt: '> ',
-              useGlobal: true
-            }).on('exit', function () {
-              done(true);
-            });
+          repl.start({
+            prompt: '> ',
+            useGlobal: true
+          }).on('exit', function () {
+            done(true);
           });
         });
       });
