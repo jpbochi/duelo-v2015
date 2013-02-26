@@ -1,4 +1,11 @@
 define(function (require) {
+  function throwIfError(err) {
+    if (err) {
+      console.error(err);
+      throw err;
+    }
+  }
+
   return {
     register: function (grunt) {
       grunt.registerTask('console', 'Start node CLI.', function () {
@@ -16,7 +23,8 @@ define(function (require) {
 
         var done = this.async();
 
-        mongo.connect(function () {
+        mongo.connect(function (err) {
+          throwIfError(err);
           console.log('mongo connected to ' + mongo.url());
 
           repl.start({

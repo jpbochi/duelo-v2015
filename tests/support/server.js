@@ -1,7 +1,7 @@
 define(function (require) {
   var mongo = require('../../lib/server/mongo.js');
 
-  function throwIfErr(err) {
+  function throwIfError(err) {
     if (err) {
       console.error(err);
       throw err;
@@ -15,9 +15,9 @@ define(function (require) {
 
     mongo.db.connection.on('error', console.error.bind(console, 'connection error:'));
     mongo.connect(function (err) {
-      throwIfErr(err);
-
+      throwIfError(err);
       console.log('mongo connected to ' + mongo.url());
+
       done();
     });
   }
@@ -26,7 +26,7 @@ define(function (require) {
     clearDb: function (done) {
       ensureMongoConnected(function () {
         mongo.users.model.remove(function (err) {
-          throwIfErr(err);
+          throwIfError(err);
 
           done();
         });

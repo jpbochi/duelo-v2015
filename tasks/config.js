@@ -19,7 +19,8 @@ define(function (require) {
 
         console.log('Saving config to', configFile, '...');
 
-        mongo.connect(function () {
+        mongo.connect(function (err) {
+          throwIfError(err);
           console.log('mongo connected to ' + mongo.url());
 
           config.read(function (err, configValues) {
@@ -43,7 +44,8 @@ define(function (require) {
 
         var done = this.async();
 
-        mongo.connect(function () {
+        mongo.connect(function (err) {
+          throwIfError(err);
           console.log('mongo connected to ' + mongo.url());
 
           fs.readFile(configFile, function (err, data) {
