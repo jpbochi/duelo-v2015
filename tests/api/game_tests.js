@@ -50,7 +50,7 @@ define(function (require) {
 
       get(location).done(function (data, textStatus, jqXHR) {
         var type = jqXHR.getResponseHeader('Content-Type');
-        equal(type, 'application/vnd.game+json');
+        equal(type, 'application/hal+json');
       });
     });
   });
