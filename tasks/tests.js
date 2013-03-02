@@ -34,8 +34,21 @@ define(function (require) {
         });
       });
 
-      grunt.registerTask('test:node', 'Run all tests.', ['test:set_env', 'test:node:all']);
-      grunt.registerTask('test', 'Run all tests.', ['test:set_env', 'test_server:3333', 'qunit', 'test:node']);
+      grunt.registerTask(
+        'test:node',
+        'Run all server-side tests.',
+        ['test:set_env', 'test:node:all']
+      );
+      grunt.registerTask(
+        'test:client',
+        'Run all client-side tests.',
+        ['test:set_env', 'server:test:3333', 'qunit']
+      );
+      grunt.registerTask(
+        'test',
+        'Run all tests.',
+        ['test:client', 'test:node']
+      );
     }
   };
 });

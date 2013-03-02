@@ -11,8 +11,9 @@ define(function (require) {
         });
       });
 
-      grunt.registerTask('test_server', 'Starts a web server to run tests.', function (port) {
+      grunt.registerTask('server:test', 'Starts a web server to run tests.', function (port) {
         var done = this.async();
+        port = port || 3030;
 
         app.configure(dirname, function () {
           app.start(port, function () {
