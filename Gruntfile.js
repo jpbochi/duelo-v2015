@@ -7,7 +7,7 @@ module.exports = function (grunt) {
     '$',
     'console', 'process',
     'require', 'define',
-    'equal', 'deepEqual', 'strictEqual', 'ok',
+    'equal', 'notEqual', 'deepEqual', 'strictEqual', 'ok',
     'start', 'stop',
     'module', 'QUnit', 'test', 'sinon'
   ], function (acc, name) {
@@ -39,7 +39,7 @@ module.exports = function (grunt) {
         maxparams: 4,
         maxlen: 150,
         browser: true,
-        nomen: true,
+        nomen: false,
         jquery: true,
         white: true,
         undef: true,
@@ -51,7 +51,6 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-qunit');
   grunt.loadNpmTasks('grunt-contrib-jshint');
 
-  /*jshint nomen:false*/
   /*global __dirname*/
   var requirejs = require('requirejs');
   requirejs('./tasks/config.js').register(grunt);

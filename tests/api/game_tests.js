@@ -1,5 +1,5 @@
 define(function (require) {
-  /*global notEqual*/
+  /*global hal */
 
   function callExpecting(request, action, expectedStatus) {
     stop();
@@ -28,10 +28,12 @@ define(function (require) {
 
   test('lists root links', function () {
     this.request.done(function (data) {
-      deepEqual(data, [
-        { rel: 'self', href: '/api' },
-        { rel: 'games', href: '/api/games' }
-      ]);
+      var res = new hal.Resource(data);
+
+      deepEqual(res._links, {
+        self: { href: '/api' },
+        games: { href: '/api/games' }
+      });
     });
   });
 

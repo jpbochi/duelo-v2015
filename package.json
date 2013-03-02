@@ -22,7 +22,8 @@
     "passport-google-oauth": "*",
     "passport-facebook": "*",
     "mongoose": "*",
-    "lodash": "*"
+    "lodash": "*",
+    "hal": "*"
   },
   "devDependencies": {
     "grunt": "0.4.0rc5",
