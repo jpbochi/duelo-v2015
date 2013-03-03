@@ -7,7 +7,7 @@ define(function (require) {
   var gameHref = gameContainer.data('gameHref');
 
   function renderTopNav(root) {
-    var links = root._links
+    var links = root._links;
     var link = $(ms.render('<li><a href="{{href}}" rel="{{rel}}">{{title}}</a></li>', links.games));
     $('#top-nav-links').append(link);
 
