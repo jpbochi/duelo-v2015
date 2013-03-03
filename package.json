@@ -17,6 +17,7 @@
     "sinon-restore": "*",
     "express": "3.0.3",
     "ejs": "*",
+    "mustache": "*",
     "less-middleware": "*",
     "passport": "*",
     "passport-google-oauth": "*",
