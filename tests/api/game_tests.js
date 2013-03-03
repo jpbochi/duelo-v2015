@@ -28,9 +28,7 @@ define(function (require) {
 
   test('lists root links', function () {
     this.request.done(function (data) {
-      var resource = new hal.Resource(data);
-
-      deepEqual(resource._links, {
+      deepEqual(data._links, {
         self: { href: '/api' },
         games: { href: '/api/games', title: 'Create game' }
       });
@@ -50,10 +48,9 @@ define(function (require) {
 
       get(location).done(function (data, textStatus, jqXHR) {
         var type = jqXHR.getResponseHeader('Content-Type');
-        var resource = new hal.Resource(data);
 
         equal(type, 'application/hal+json');
-        deepEqual(resource._links.self, { href: location });
+        deepEqual(data._links.self, { href: location });
       });
     });
   });

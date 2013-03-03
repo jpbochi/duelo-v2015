@@ -23,7 +23,7 @@
     "passport-facebook": "*",
     "mongoose": "*",
     "lodash": "*",
-    "hal": "*"
+    "halberd": "*"
   },
   "devDependencies": {
     "grunt": "0.4.0rc5",

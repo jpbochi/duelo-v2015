@@ -1,3 +1,11 @@
 define(function (require) {
-  //var canvas = require('./lib/client/renderer').canvas(window.innerWidth, window.innerHeight);
+  /*global hal */
+
+  var client = require('./lib/client/api_client.js').extendHal();
+
+  client.get('/api').then(function (root) {
+    window.api = root;
+  }).fail(function (jqXHR) {
+    throw 'Failed to load api';
+  });
 });
