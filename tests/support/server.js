@@ -25,10 +25,19 @@ define(function (require) {
   return {
     clearDb: function (done) {
       ensureMongoConnected(function () {
-        mongo.users.model.remove(function (err) {
-          throwIfError(err);
+        var collectionsToClear = [
+          mongo.users.model,
+          mongo.games.model
+        ];
+        var remaining = collectionsToClear.length;
 
-          done();
+        collectionsToClear.forEach(function (collection) {
+          collection.remove(function (err) {
+            throwIfError(err);
+
+            remaining -= 1;
+            (remaining === 0) && done();
+          });
         });
       });
     }
