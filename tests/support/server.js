@@ -10,7 +10,7 @@ define(function (require) {
 
   function ensureMongoConnected(done) {
     if (mongo.isConnected()) {
-      return done();
+      return done && done();
     }
 
     mongo.db.connection.on('error', console.error.bind(console, 'connection error:'));
@@ -18,11 +18,12 @@ define(function (require) {
       throwIfError(err);
       console.log('mongo connected to ' + mongo.url());
 
-      done();
+      done && done();
     });
   }
 
   return {
+    ensureMongoConnected: ensureMongoConnected,
     clearDb: function (done) {
       ensureMongoConnected(function () {
         var collectionsToClear = [

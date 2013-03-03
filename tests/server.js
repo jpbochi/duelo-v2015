@@ -1,7 +1,12 @@
+var fs = require('fs');
 var requirejs = require('requirejs');
 var sinon = require('sinon-restore');
-var fs = require('fs');
+var support = requirejs('tests/support/server.js');
 
+QUnit.testStart(function () {
+  QUnit.stop();
+  support.clearDb(QUnit.start);
+});
 QUnit.testDone(sinon.restoreAll);
 
 var pathToInclude = './tests/server/';

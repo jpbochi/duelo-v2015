@@ -1,6 +1,5 @@
 define(function (require) {
   var _ = require('lodash');
-  var support = require('../../tests/support/server.js');
   var sinon = require('sinon-restore');
   var mongo = require('../../lib/server/mongo.js');
   var users = mongo.users;
@@ -31,12 +30,7 @@ define(function (require) {
     }
   }
 
-  QUnit.module('mongo.users.loginWith', {
-    setup: function () {
-      stop();
-      support.clearDb(start);
-    }
-  });
+  QUnit.module('mongo.users.loginWith');
 
   test('creates a user if he not registered', function () {
     stop();
