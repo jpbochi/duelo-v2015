@@ -28,11 +28,11 @@ define(function (require) {
 
   test('lists root links', function () {
     this.request.done(function (data) {
-      var res = new hal.Resource(data);
+      var resource = new hal.Resource(data);
 
-      deepEqual(res._links, {
+      deepEqual(resource._links, {
         self: { href: '/api' },
-        games: { href: '/api/games' }
+        games: { href: '/api/games', title: 'Create game' }
       });
     });
   });
@@ -50,7 +50,10 @@ define(function (require) {
 
       get(location).done(function (data, textStatus, jqXHR) {
         var type = jqXHR.getResponseHeader('Content-Type');
+        var resource = new hal.Resource(data);
+
         equal(type, 'application/hal+json');
+        deepEqual(resource._links.self, { href: location });
       });
     });
   });
