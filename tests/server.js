@@ -7,7 +7,10 @@ QUnit.testStart(function () {
   QUnit.stop();
   support.clearDb(QUnit.start);
 });
+
 QUnit.testDone(sinon.restoreAll);
+
+QUnit.config.testTimeout = 1000;
 
 var pathToInclude = './tests/server/';
 fs.readdirSync(pathToInclude)

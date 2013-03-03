@@ -23,6 +23,7 @@ define(function (require) {
   }
 
   return {
+    throwIfError: throwIfError,
     ensureMongoConnected: ensureMongoConnected,
     clearDb: function (done) {
       ensureMongoConnected(function () {
@@ -39,6 +40,20 @@ define(function (require) {
             remaining -= 1;
             (remaining === 0) && done();
           });
+        });
+      });
+    },
+    saveAll: function (models, done) {
+      var savedModels = [];
+      var remaining = models.length;
+
+      models.forEach(function (model) {
+        model.save(function (err, saved) {
+          throwIfError(err);
+
+          savedModels.push(saved);
+          remaining -= 1;
+          (remaining === 0) && done(savedModels);
         });
       });
     }
