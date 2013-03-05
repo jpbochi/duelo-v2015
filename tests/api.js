@@ -1,3 +1,3 @@
 define(function (require) {
-  require('./api/game_tests');
+  require('/tests/api/game_tests.js');
 });

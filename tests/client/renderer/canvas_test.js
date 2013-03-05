@@ -1,6 +1,6 @@
 define(function (require) {
-  var support = require('tests/support');
-  var canvas = require('lib/client/renderer/canvas');
+  var support = require('/tests/support.js');
+  var canvas = require('/client/renderer/canvas.js');
 
   module('canvas', {
     setup: support.kineticStubs.stage,

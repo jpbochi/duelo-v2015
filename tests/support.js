@@ -1,5 +1,5 @@
 define(function (require) {
   return {
-    kineticStubs: require('./support/kinetic_stubs')
+    kineticStubs: require('/tests/support/kinetic_stubs.js')
   };
 });

@@ -1,3 +1,3 @@
 define(function (require) {
-  require('./client/renderer/canvas_test');
+  require('/tests/client/renderer/canvas_test.js');
 });
