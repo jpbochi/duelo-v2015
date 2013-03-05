@@ -7,13 +7,13 @@ define(function (require) {
 
   QUnit.module('mongo.games.create');
 
-  test('creates a game in lobby', function () {
+  test('creates a game in lobby state', function () {
     stop();
 
     games.create(function (err, game) {
       strictEqual(err, null);
 
-      equal(game.status, 'lobby', 'game.status');
+      equal(game.state, 'lobby', 'game.status');
 
       games.model.findOne({}, function (err, result) {
         start();
@@ -30,8 +30,8 @@ define(function (require) {
     stop();
 
     var existing = [
-      new games.model({ status: 'one' }),
-      new games.model({ status: 'two' })
+      new games.model({ state: 'one' }),
+      new games.model({ state: 'two' })
     ];
 
     support.saveAll(existing, function (all) {
@@ -40,7 +40,7 @@ define(function (require) {
         strictEqual(err, null);
 
         equal(result.id, existing[1].id);
-        equal(result.status, 'two');
+        equal(result.state, 'two');
       });
     });
   });
