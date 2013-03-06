@@ -47,7 +47,7 @@ define(function (require) {
       grunt.registerTask(
         'test',
         'Run all tests.',
-        ['test:client', 'test:node']
+        ['test:node', 'test:client']
       );
     }
   };

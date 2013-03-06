@@ -1,27 +1,33 @@
 define(function (require) {
-  var _ = require('lodash');
+  var lo = require('lodash');
   var sinon = require('sinon-restore');
   var support = require('tests/support/server.js');
   var mongo = require('lib/server/mongo.js');
   var games = mongo.games;
 
+  function verifyGameIsValid(game) {
+    stop();
+    game.validate(function (err) {
+      start();
+      equal(err, null, 'game should be valid');
+    });
+  }
+
   QUnit.module('mongo.games.create');
 
-  test('creates a game in lobby state', function () {
-    stop();
+  test('builds a valid game in lobby state by default', function () {
+    var game = games.build();
 
-    games.create(function (err, game) {
-      strictEqual(err, null);
+    equal(game.state, 'lobby', 'game.status');
+    verifyGameIsValid(game);
+  });
 
-      equal(game.state, 'lobby', 'game.status');
+  test('accepts an initial player', function () {
+    var player = { name: 'O Joker' };
+    var game = games.build({ players: [player] });
 
-      games.model.findOne({}, function (err, result) {
-        start();
-        strictEqual(err, null);
-
-        equal(result.id, game.id);
-      });
-    });
+    deepEqual(lo.pluck(game.players, 'name'), ['O Joker']);
+    verifyGameIsValid(game);
   });
 
   QUnit.module('mongo.games.get');

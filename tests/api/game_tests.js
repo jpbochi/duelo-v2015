@@ -1,12 +1,12 @@
 define(function (require) {
-  /*global hal */
+  var lo = require('/external/lodash/lodash.js');
 
   function callExpecting(request, action, expectedStatus) {
     stop();
     return request.always(function () {
       start();
     }).fail(function (jqXHR) {
-      equal(jqXHR.status, expectedStatus, action + ' => ' + expectedStatus);
+      equal(jqXHR.status, expectedStatus, action + ' => ' + expectedStatus + '\n' + jqXHR.responseText);
     }).done(function (data, textStatus, jqXHR) {
       equal(jqXHR.status, expectedStatus, action + ' => ' + expectedStatus);
     });
@@ -16,8 +16,8 @@ define(function (require) {
     return callExpecting($.get(url), 'GET ' + url, expectedStatus || 200);
   }
 
-  function post(url, expectedStatus) {
-    return callExpecting($.post(url), 'POST ' + url, expectedStatus || 200);
+  function post(url, data, expectedStatus) {
+    return callExpecting($.post(url, data), 'POST ' + url, expectedStatus || 200);
   }
 
   module('GET /api', {
@@ -37,21 +37,35 @@ define(function (require) {
 
   module('POST /api/games', {
     setup: function () {
-      this.request = post('/api/games', 201);
+      var context = this;
+      context.username = 'Batima';
+      post('/auth/test', { username: this.username, password: 'robin' }).then(function () {
+        post('/api/games', null, 201).then(function (data, textStatus, jqXHR) {
+          context.data = data;
+          context.jqXHR = jqXHR;
+        });
+      });
     }
   });
 
   test('redirects to a created game', function () {
-    this.request.done(function (data, textStatus, jqXHR) {
-      var location = jqXHR.getResponseHeader('Location');
-      notEqual(location, null, 'Location != null');
+    var location = this.jqXHR.getResponseHeader('Location');
+    notEqual(location, null, 'Location != null');
 
-      get(location).done(function (data, textStatus, jqXHR) {
-        var type = jqXHR.getResponseHeader('Content-Type');
+    get(location).done(function (data, textStatus, jqXHR) {
+      var type = jqXHR.getResponseHeader('Content-Type');
 
-        equal(type, 'application/hal+json');
-        deepEqual(data._links.self, { href: location });
-      });
+      equal(type, 'application/hal+json');
+      deepEqual(data._links.self, { href: location });
+    });
+  });
+
+  test('includes logged user in the players list', function () {
+    var context = this;
+    var location = this.jqXHR.getResponseHeader('Location');
+
+    get(location).done(function (data, textStatus, jqXHR) {
+      deepEqual(lo.pluck(data.players, 'name'), [context.username]);
     });
   });
 });
