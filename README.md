@@ -4,6 +4,8 @@
 
 [Live demo](http://duelo.herokuapp.com/)
 
+[Trello board](https://trello.com/board/duelo-js/5105a4da52f437bd250034df)
+
 ## running
 
 requirements:
