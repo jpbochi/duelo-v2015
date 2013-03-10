@@ -94,4 +94,8 @@ define(function (require) {
   test('has link to self', function () {
     deepEqual(this.game._links.self, { href: this.location });
   });
+
+  test('has link to join game', function () {
+    deepEqual(this.game._links.join, { href: this.location + '/join' });
+  });
 });
