@@ -2,11 +2,24 @@ define(function (require) {
   var _ = require('/external/lodash/lodash.js');
 
   function callExpecting(request, action, expectedStatus) {
+    function verify(jqXHR) {
+      if (jqXHR.status !== expectedStatus) {
+        equal(
+          jqXHR.status,
+          expectedStatus,
+          [ action, ' expected ', expectedStatus,
+            ', not ', jqXHR.status,
+            '. Body was:\n', jqXHR.responseText
+          ].join('')
+        );
+      }
+    }
+
     stop();
     return request.fail(function (jqXHR) {
-      (jqXHR.status === expectedStatus) || ok(false, action + ' => ' + expectedStatus + '\n' + jqXHR.responseText);
+      verify(jqXHR);
     }).done(function (data, textStatus, jqXHR) {
-      (jqXHR.status === expectedStatus) || ok(false, action + ' => ' + expectedStatus);
+      verify(jqXHR);
     });
   }
 
@@ -124,5 +137,24 @@ define(function (require) {
     get(context.gameHref).done(function (data) {
       deepEqual(_.pluck(data.players, 'displayName'), [context.username]);
     }).always(start);
+  });
+
+  module('unlogged POST /api/game/:id/join', {
+    setup: function () {
+      var context = this;
+      context.username = 'Joker';
+
+      createAndGetGame().then(function (data) {
+        context.gameHref = this.url;
+        context.game = data;
+      }).always(start);
+    },
+    teardown: logOutAndContinue
+  });
+
+  test('is 401 unathorized', function () {
+    var context = this;
+    post(context.game._links.join.href, null, 401).always(start);
+    ok(true);
   });
 });
