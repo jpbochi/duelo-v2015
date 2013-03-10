@@ -35,18 +35,27 @@ define(function (require) {
     return post('/auth/test', { username: username, password: '***' });
   }
 
+  function logOut() {
+    return get('/auth/logout');
+  }
+
   function logOutAndContinue() {
-    return get('/auth/logout').always(start);
+    return logOut().always(start);
   }
 
   function createGame() {
     return post('/api/games', null, 201);
   }
 
-  function createAndGetGame() {
-    return createGame().then(function (data, textStatus, jqXHR) {
+  function createTestGame(context) {
+    return logIn('someone else')
+    .then(createGame)
+    .then(function (data, textStatus, jqXHR) {
       return get(jqXHR.getResponseHeader('Location'));
-    });
+    }).then(function (data) {
+      context.gameHref = this.url;
+      context.game = data;
+    }).then(logOut);
   }
 
   module('GET /api', {
@@ -100,10 +109,7 @@ define(function (require) {
   module('GET /api/game/:id', {
     setup: function () {
       var context = this;
-      createAndGetGame().then(function (data) {
-        context.gameHref = this.url;
-        context.game = data;
-      }).always(start);
+      createTestGame(context).always(start);
     }
   });
 
@@ -120,10 +126,7 @@ define(function (require) {
       var context = this;
       context.username = 'Joker';
 
-      context.request = createAndGetGame().then(function (data) {
-        context.gameHref = this.url;
-        context.game = data;
-      }).then(
+      context.request = createTestGame(context).then(
         _.partial(logIn, context.username)
       ).then(function (data) {
         return post(context.game._links.join.href);
@@ -134,20 +137,25 @@ define(function (require) {
 
   test('adds logged user to game players', function () {
     var context = this;
+    var initialPlayers = _.pluck(context.game.players, 'displayName');
+    var expectedPlayers = initialPlayers.concat(context.username)
+
     get(context.gameHref).done(function (data) {
-      deepEqual(_.pluck(data.players, 'displayName'), [context.username]);
+      deepEqual(_.pluck(data.players, 'displayName'), expectedPlayers);
     }).always(start);
+  });
+
+  test('attempt to join twice is 403 forbidden', function () {
+    var context = this;
+    post(context.game._links.join.href, null, 403).always(start);
+    ok(true);
   });
 
   module('unlogged POST /api/game/:id/join', {
     setup: function () {
       var context = this;
-      context.username = 'Joker';
 
-      createAndGetGame().then(function (data) {
-        context.gameHref = this.url;
-        context.game = data;
-      }).always(start);
+      createTestGame(context).always(start);
     },
     teardown: logOutAndContinue
   });
