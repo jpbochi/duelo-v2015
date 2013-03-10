@@ -20,6 +20,20 @@ define(function (require) {
     return callExpecting($.post(url, data), 'POST ' + url, expectedStatus || 200);
   }
 
+  function logIn(username) {
+    return post('/auth/test', { username: username, password: '***' });
+  }
+
+  function createGame() {
+    return post('/api/games', null, 201);
+  }
+
+  function createAndGetGame() {
+    return createGame().then(function (data, textStatus, jqXHR) {
+      return get(jqXHR.getResponseHeader('Location'));
+    });
+  }
+
   module('GET /api', {
     setup: function () {
       this.request = get('/api');
@@ -39,11 +53,9 @@ define(function (require) {
     setup: function () {
       var context = this;
       context.username = 'Batima';
-      post('/auth/test', { username: this.username, password: 'robin' }).then(function () {
-        post('/api/games', null, 201).then(function (data, textStatus, jqXHR) {
-          context.data = data;
-          context.jqXHR = jqXHR;
-        });
+      logIn(context.username).then(createGame).then(function (data, textStatus, jqXHR) {
+        context.data = data;
+        context.jqXHR = jqXHR;
       });
     }
   });
@@ -60,12 +72,26 @@ define(function (require) {
     });
   });
 
-  test('includes logged user in the players list', function () {
+  test('adds logged user in the players list', function () {
     var context = this;
     var location = this.jqXHR.getResponseHeader('Location');
 
     get(location).done(function (data, textStatus, jqXHR) {
       deepEqual(lo.pluck(data.players, 'name'), [context.username]);
     });
+  });
+
+  module('GET /api/game/:id', {
+    setup: function () {
+      var context = this;
+      createAndGetGame().then(function (data) {
+        context.location = this.url;
+        context.game = data;
+      });
+    }
+  });
+
+  test('has link to self', function () {
+    deepEqual(this.game._links.self, { href: this.location });
   });
 });
