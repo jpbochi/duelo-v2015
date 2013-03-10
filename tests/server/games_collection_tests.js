@@ -23,10 +23,10 @@ define(function (require) {
   });
 
   test('accepts an initial player', function () {
-    var player = { name: 'O Joker' };
+    var player = { displayName: 'O Joker' };
     var game = games.build({ players: [player] });
 
-    deepEqual(lo.pluck(game.players, 'name'), ['O Joker']);
+    deepEqual(lo.pluck(game.players, 'displayName'), ['O Joker']);
     verifyGameIsValid(game);
   });
 
