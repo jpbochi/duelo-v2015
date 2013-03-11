@@ -138,7 +138,7 @@ define(function (require) {
   test('adds logged user to game players', function () {
     var context = this;
     var initialPlayers = _.pluck(context.game.players, 'displayName');
-    var expectedPlayers = initialPlayers.concat(context.username)
+    var expectedPlayers = initialPlayers.concat(context.username);
 
     get(context.gameHref).done(function (data) {
       deepEqual(_.pluck(data.players, 'displayName'), expectedPlayers);
