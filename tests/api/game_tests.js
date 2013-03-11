@@ -26,8 +26,8 @@ define(function (require) {
   function get(url, expectedStatus) {
     if (url && url.href) { url = url.href; }
     if (!url) {
-      ok(url, ['<', url, '> should be a string'].join(''));
-      return $.Deferred().resolve({});
+      equal(url, '/*', ['<', url, '> is not a valid url'].join(''));
+      return $.Deferred().reject();
     }
     return callExpecting($.get(url), 'GET ' + url, expectedStatus || 200);
   }
@@ -35,8 +35,8 @@ define(function (require) {
   function post(url, data, expectedStatus) {
     if (url && url.href) { url = url.href; }
     if (!url) {
-      ok(url, ['<', url, '> should be a string'].join(''));
-      return $.Deferred().resolve({});
+      equal(url, '/*', ['<', url, '> is not a valid url'].join(''));
+      return $.Deferred().reject();
     }
     return callExpecting($.post(url, data), 'POST ' + url, expectedStatus || 200);
   }
@@ -61,11 +61,15 @@ define(function (require) {
     return logIn('someone else')
     .then(createGame)
     .then(function (data, textStatus, jqXHR) {
-      return get(jqXHR.getResponseHeader('Location'));
+      context.gameHref = jqXHR.getResponseHeader('Location');
+    })
+    .then(logOut)
+    .then(function () {
+      return get(context.gameHref);
     }).then(function (data) {
       context.gameHref = this.url;
       context.game = data;
-    }).then(logOut);
+    });
   }
 
   module('GET /api');
@@ -150,6 +154,13 @@ define(function (require) {
 
     get(context.gameHref).done(function (data) {
       deepEqual(_.pluck(data.players, 'displayName'), expectedPlayers);
+    }).always(start);
+  });
+
+  test('link to join twice is not present', function () {
+    var context = this;
+    get(context.gameHref).then(function (data) {
+      equal(data._links.join, null, 'link[rel=join] should not be present');
     }).always(start);
   });
 
