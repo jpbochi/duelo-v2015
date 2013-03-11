@@ -24,10 +24,20 @@ define(function (require) {
   }
 
   function get(url, expectedStatus) {
+    if (url && url.href) { url = url.href; }
+    if (!url) {
+      ok(url, ['<', url, '> should be a string'].join(''));
+      return $.Deferred().resolve({});
+    }
     return callExpecting($.get(url), 'GET ' + url, expectedStatus || 200);
   }
 
   function post(url, data, expectedStatus) {
+    if (url && url.href) { url = url.href; }
+    if (!url) {
+      ok(url, ['<', url, '> should be a string'].join(''));
+      return $.Deferred().resolve({});
+    }
     return callExpecting($.post(url, data), 'POST ' + url, expectedStatus || 200);
   }
 
@@ -58,26 +68,24 @@ define(function (require) {
     }).then(logOut);
   }
 
-  module('GET /api', {
-    setup: function () {
-      this.request = get('/api').always(start);
-    }
-  });
+  module('GET /api');
 
   test('lists root links', function () {
-    this.request.done(function (data) {
+    get('/api').done(function (data) {
       deepEqual(data._links, {
         self: { href: '/api' },
         games: { href: '/api/games', title: 'Create game' }
       });
-    });
+    }).always(start);
   });
 
   module('logged POST /api/games', {
     setup: function () {
       var context = this;
       context.username = 'Batima';
-      context.request = logIn(context.username).then(createGame).then(function (data, textStatus, jqXHR) {
+      logIn(context.username)
+      .then(createGame)
+      .then(function (data, textStatus, jqXHR) {
         context.data = data;
         context.jqXHR = jqXHR;
         context.gameHref = jqXHR.getResponseHeader('Location');
@@ -98,7 +106,7 @@ define(function (require) {
     }).always(start);
   });
 
-  test('adds logged user in the players list', function () {
+  test('starts with logged user in the players list', function () {
     var context = this;
 
     get(context.gameHref).done(function (data, textStatus, jqXHR) {
@@ -129,13 +137,13 @@ define(function (require) {
       context.request = createTestGame(context).then(
         _.partial(logIn, context.username)
       ).then(function (data) {
-        return post(context.game._links.join.href);
+        return post(context.game._links.join);
       }).always(start);
     },
     teardown: logOutAndContinue
   });
 
-  test('adds logged user to game players', function () {
+  test('adds logged user to game players list', function () {
     var context = this;
     var initialPlayers = _.pluck(context.game.players, 'displayName');
     var expectedPlayers = initialPlayers.concat(context.username);
@@ -147,7 +155,7 @@ define(function (require) {
 
   test('attempt to join twice is 403 forbidden', function () {
     var context = this;
-    post(context.game._links.join.href, null, 403).always(start);
+    post(context.game._links.join, null, 403).always(start);
     ok(true);
   });
 
@@ -162,7 +170,7 @@ define(function (require) {
 
   test('is 401 unathorized', function () {
     var context = this;
-    post(context.game._links.join.href, null, 401).always(start);
+    post(context.game._links.join, null, 401).always(start);
     ok(true);
   });
 });
