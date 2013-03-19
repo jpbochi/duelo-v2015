@@ -1,4 +1,5 @@
 (function () {
+  'use strict';
   var requirejs = require('requirejs');
   var app = requirejs('./lib/server');
 

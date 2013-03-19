@@ -1,5 +1,6 @@
 module.exports = function (grunt) {
   /*global global*/
+  'use strict';
   var _ = require('lodash');
 
   var globals = _.reduce([
