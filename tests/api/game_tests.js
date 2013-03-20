@@ -63,13 +63,31 @@ define(function (require) {
     deepEqual(this.game._links.join, { href: this.gameHref + '/join' });
   });
 
+  module('logged GET /api/game/:id', {
+    setup: function () {
+      var context = this;
+      context.username = 'O Palhaco';
+
+      api.createTestGame(context).then(
+        _.partial(api.logIn, context)
+      ).then(
+        _.partial(api.getGame, context)
+      ).always(start);
+    },
+    teardown: api.logOutAndContinue
+  });
+
+  test('has a link to the logged user', function () {
+    deepEqual(this.game._links['viewed-by'], this.user._links.self, 'link[rel=viewed-by]');
+  });
+
   module('logged POST /api/game/:id/join', {
     setup: function () {
       var context = this;
       context.username = 'Joker';
 
       context.request = api.createTestGame(context).then(
-        _.partial(api.logIn, context.username)
+        _.partial(api.logIn, context)
       ).then(function (data) {
         return api.post(context.game._links.join);
       }).always(start);

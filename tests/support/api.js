@@ -1,4 +1,7 @@
 define(function (require) {
+  'use strict';
+  var _ = require('/external/lodash/lodash.js');
+
   function callExpecting(request, action, expectedStatus) {
     function verify(jqXHR) {
       if (jqXHR.status !== expectedStatus) {
@@ -39,8 +42,15 @@ define(function (require) {
     return callExpecting($.post(url, data), 'POST ' + url, expectedStatus || 200);
   }
 
-  function logIn(username) {
-    return post('/auth/test', { username: username, password: '***' });
+  function logIn(context) {
+    var username = context.username || context;
+    return post(
+      '/auth/test',
+      { username: username, password: '***' }
+    ).then(function (data) {
+      if (_.isPlainObject(context)) { context.user = data; }
+      return this;
+    });
   }
 
   function logOut() {
@@ -60,13 +70,19 @@ define(function (require) {
     .then(createGame)
     .then(function (data, textStatus, jqXHR) {
       context.gameHref = jqXHR.getResponseHeader('Location');
+      return this;
     })
     .then(logOut)
     .then(function () {
-      return get(context.gameHref);
-    }).then(function (data) {
+      return getGame(context);
+    });
+  }
+
+  function getGame(context) {
+    return get(context.gameHref).then(function (data) {
       context.gameHref = this.url;
       context.game = data;
+      return this;
     });
   }
 
@@ -77,6 +93,7 @@ define(function (require) {
     logOut: logOut,
     logOutAndContinue: logOutAndContinue,
     createGame: createGame,
+    getGame: getGame,
     createTestGame: createTestGame
   };
 });
