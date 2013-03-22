@@ -61,6 +61,11 @@ define(function (require) {
     deepEqual(this.game._links.join, { href: this.gameHref + '/join' });
   });
 
+  test('does not expose any _id\'s', function () {
+    strictEqual(this.game._id, undefined, 'game._id');
+    strictEqual(this.game.players[0]._id, undefined, 'game.players[0]._id');
+  });
+
   module('logged GET /api/game/:id', {
     setup: function () {
       var context = this;
