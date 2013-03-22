@@ -17,11 +17,9 @@ define(function (require) {
     setup: function () {
       var context = this;
       context.username = 'Batima';
-      api.logIn(context.username)
+      api.logIn(context)
       .then(api.createGame)
       .then(function (data, textStatus, jqXHR) {
-        context.data = data;
-        context.jqXHR = jqXHR;
         context.gameHref = jqXHR.getResponseHeader('Location');
       }).always(start);
     },
