@@ -2,7 +2,9 @@ language: node_js
 node_js:
   - 0.8
 install: "time npm install --loglevel warn"
-before_script: "time npm install -g grunt-cli --loglevel warn"
+before_script:
+  - "time npm install -g grunt-cli --loglevel warn"
+  - "mongo --eval 'db.runCommand( { serverStatus: 1 }).version'"
 script: "time npm test"
 services:
   - mongodb
