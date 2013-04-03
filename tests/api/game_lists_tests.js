@@ -3,13 +3,19 @@ define(function (require) {
   'use strict';
   var api = require('/tests/support/api.js');
 
+  function stringify(value) {
+    if (_.isFunction(value.value)) { value = value.value(); }
+    return JSON.stringify(value, null, 2);
+  }
+
   function should(value, transform, description) {
     description = description || JSON.stringify(value);
+
     ok(
       transform(value),
       [
         description, ' was expected to ', transform.name,
-        '\nActual: ', JSON.stringify(value, null, 2)
+        '\nActual: ', stringify(value)
       ].join('')
     );
   }
@@ -30,16 +36,14 @@ define(function (require) {
         should(data._embedded, bePlainObject, 'data._embedded');
         should(data._embedded.game, _.isArray, 'data._embedded.game');
 
-        var links = _(data._embedded.game).pluck('_links').pluck('self').pluck('href');
-
-        ok(
-          links.all(function (href) {
-            return (/^\/api\/games\/[0-9a-zA-Z]{24}$/).test(href);
-          }),
-          [
-            'data._embedded.game#_links#self#href expected all to match /api/game/{id}\nActual: ',
-            JSON.stringify(links.value(), null, 2)
-          ].join('')
+        should(
+          _(data._embedded.game).pluck('_links').pluck('self').pluck('href'),
+          function allMatchGameHref(links) {
+            return links.all(function (href) {
+              return (/^\/api\/games\/[0-9a-zA-Z]{24}$/).test(href);
+            });
+          },
+          'data._embedded.game#_links#self#href'
         );
       }).always(start);
     });
