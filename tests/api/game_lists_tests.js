@@ -2,25 +2,7 @@ define(function (require) {
   /*global _*/
   'use strict';
   var api = require('/tests/support/api.js');
-
-  function stringify(value) {
-    if (_.isFunction(value.value)) { value = value.value(); }
-    return JSON.stringify(value, null, 2);
-  }
-
-  function should(value, transform, description) {
-    description = description || JSON.stringify(value);
-
-    ok(
-      transform(value),
-      [
-        description, ' was expected to ', transform.name,
-        '\nActual: ', stringify(value)
-      ].join('')
-    );
-  }
-
-  function bePlainObject(value) { return _.isPlainObject(value); }
+  var should = require('/tests/support/should.js');
 
   module('GET /api/games/all', {
     setup: function () {
@@ -33,10 +15,10 @@ define(function (require) {
       api.get('/api/games/all').done(function (data) {
         deepEqual(data._links, { 'self': { href: '/api/games/all' } }, 'data._links');
 
-        should(data._embedded, bePlainObject, 'data._embedded');
-        should(data._embedded.game, _.isArray, 'data._embedded.game');
+        should.be(data._embedded, should.bePlainObject, 'data._embedded');
+        should.be(data._embedded.game, _.isArray, 'data._embedded.game');
 
-        should(
+        should.be(
           _(data._embedded.game).pluck('_links').pluck('self').pluck('href'),
           function allMatchGameHref(links) {
             return links.all(function (href) {
