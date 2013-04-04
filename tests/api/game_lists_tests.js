@@ -27,6 +27,11 @@ define(function (require) {
           },
           'data._embedded.game#_links#self#href'
         );
+        deepEqual(
+          _.pluck(data._embedded.game, 'state'),
+          _.map(data._embedded.game, function () { return 'lobby'; }),
+          'data._embedded.game#state'
+        );
       }).always(start);
     });
   });
