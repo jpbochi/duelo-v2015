@@ -10,12 +10,12 @@
 <body>
   <% include partials/navbar %>
 
-  <section>
+  <section id="container">
     <h1>Welcome to Duelo</h1>
   </section>
 
-  <section id="container"></section>
-
+  <script type="text/x-mustache" id="loading-template"><span>loading game&hellip;</span></script>
+  <script type="text/x-mustache" id="lobby-template"><% include partials/lobby.ms %></script>
   <script type="text/x-mustache" id="games-list-template"><% include partials/games_list.ms %></script>
 
   <script src="/external/jquery/jquery-1.9.1.min.js"></script>

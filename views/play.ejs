@@ -10,15 +10,12 @@
 <body>
   <% include partials/navbar %>
 
-  <section id="game-container" data-game-href="<%= gameHref %>">
+  <section id="container" data-game-href="<%= gameHref %>">
     <span>loading game&hellip;</span>
   </section>
 
-  <!--
-  <script src="/external/lodash/lodash.js"></script>
-  <script src="/external/kinetic/kinetic-4.3.1.min.js"></script>
-  -->
   <script type="text/x-mustache" id="lobby-template"><% include partials/lobby.ms %></script>
+
   <script src="/external/jquery/jquery-1.9.1.min.js"></script>
   <script src="/external/bootstrap/js/bootstrap.min.js"></script>
   <script data-main="/client" src="/external/requirejs/require.js"></script>
