@@ -12,6 +12,7 @@ define(function (require) {
         var repl = require('repl');
         var config = require('../lib/server/config.js');
         var mongo = require('../lib/server/mongo.js');
+        var done = this.async();
 
         global.grunt = grunt;
         global.requirejs = requirejs;
@@ -21,7 +22,9 @@ define(function (require) {
         global.qunit = require('qunit');
         global.sinon = require('sinon-restore');
 
-        var done = this.async();
+        Object.defineProperty(global, 'exit', {
+          get: function () { done(true); return 'bye'; }
+        });
 
         mongo.connect(function (err) {
           throwIfError(err);
