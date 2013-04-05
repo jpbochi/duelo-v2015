@@ -1,6 +1,7 @@
 define(function (require) {
   var _ = require('lodash');
   var sinon = require('sinon-restore');
+  var should = require('../../tests/support/should.js');
   var mongo = require('../../lib/server/mongo.js');
   var users = mongo.users;
 
@@ -22,15 +23,7 @@ define(function (require) {
     }
   };
 
-  function dateEqual(actual, expected) {
-    if (!actual || actual.constructor !== Date) {
-      ok(false, ['"', actual, '" does not seems to be Date.'].join(''));
-    } else {
-      equal(actual.toJSON(), new Date(expected).toJSON());
-    }
-  }
-
-  QUnit.module('mongo.users.loginWith');
+  QUnit.module('mongo.users.loginWith()');
 
   test('creates a user if he not registered', function () {
     stop();
@@ -49,7 +42,7 @@ define(function (require) {
           displayName: 'John Doe'
         }
       );
-      dateEqual(user.lastLogin, expectedDate);
+      should.dateEqual(user.lastLogin, expectedDate);
 
       users.model.find({}, function (err, result) {
         start();
@@ -58,7 +51,7 @@ define(function (require) {
         deepEqual(_.pluck(result, 'key'), ['facebook:12345']);
         deepEqual(_.pluck(result, 'email'), ['j@duelo.com']);
         deepEqual(_.pluck(result, 'displayName'), ['John Doe']);
-        dateEqual(result[0].lastLogin, expectedDate);
+        should.dateEqual(result[0].lastLogin, expectedDate);
       });
     });
   });
@@ -88,7 +81,7 @@ define(function (require) {
             displayName: 'Previous Name'
           }
         );
-        dateEqual(user.lastLogin, expectedDate);
+        should.dateEqual(user.lastLogin, expectedDate);
 
         users.model.find({}, function (err, result) {
           start();
@@ -97,7 +90,7 @@ define(function (require) {
           deepEqual(_.pluck(result, 'key'), ['facebook:12345']);
           deepEqual(_.pluck(result, 'email'), ['previous@old.me']);
           deepEqual(_.pluck(result, 'displayName'), ['Previous Name']);
-          dateEqual(result[0].lastLogin, expectedDate);
+          should.dateEqual(result[0].lastLogin, expectedDate);
         });
       });
     });

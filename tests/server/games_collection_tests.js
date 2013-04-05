@@ -1,7 +1,8 @@
 define(function (require) {
-  var lo = require('lodash');
+  var _ = require('lodash');
   var sinon = require('sinon-restore');
   var support = require('tests/support/server.js');
+  var should = require('tests/support/should.js');
   var mongo = require('lib/server/mongo.js');
   var games = mongo.games;
 
@@ -13,7 +14,7 @@ define(function (require) {
     });
   }
 
-  QUnit.module('mongo.games.create');
+  QUnit.module('mongo.games.build()');
 
   test('builds a valid game in lobby state by default', function () {
     var game = games.build();
@@ -26,11 +27,20 @@ define(function (require) {
     var player = { displayName: 'O Joker' };
     var game = games.build({ players: [player] });
 
-    deepEqual(lo.pluck(game.players, 'displayName'), ['O Joker']);
+    deepEqual(_.pluck(game.players, 'displayName'), ['O Joker']);
     verifyGameIsValid(game);
   });
 
-  QUnit.module('mongo.games.get');
+  test('records a createdAt date', function () {
+    var expectedDate = Date.UTC(2013, 2, 28);
+    sinon.stub(Date, 'now').returns(expectedDate);
+
+    var game = games.build();
+
+    should.dateEqual(game.createdAt, expectedDate, 'game.createdAt');
+  });
+
+  QUnit.module('mongo.games.get()');
 
   test('gets a game by its id', function () {
     stop();

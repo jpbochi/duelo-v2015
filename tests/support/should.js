@@ -19,8 +19,17 @@ define(function (require) {
     );
   }
 
+  function dateEqual(actual, expected) {
+    if (!actual || actual.constructor !== Date) {
+      ok(false, ['"', actual, '" does not seems to be Date.'].join(''));
+    } else {
+      equal(actual.toJSON(), new Date(expected).toJSON());
+    }
+  }
+
   return {
     be: should,
-    bePlainObject: function bePlainObject(value) { return _.isPlainObject(value); }
+    bePlainObject: function bePlainObject(value) { return _.isPlainObject(value); },
+    dateEqual: dateEqual
   };
 });
