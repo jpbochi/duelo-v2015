@@ -46,8 +46,11 @@ define(function (require) {
 
   test('content type is duelo-games-list', function () {
     this.request.done(function (data, textStatus, jqXHR) {
+      var expectedType = 'duelo-games-list';
       var type = jqXHR.getResponseHeader('Content-Type');
-      equal(type, 'application/duelo-games-list+hal+json');
+
+      equal(type, 'application/' + expectedType + '+hal+json', 'Content-Type');
+      equal(data._contentType, expectedType, 'data._contentType');
     });
   });
 });

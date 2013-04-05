@@ -21,9 +21,6 @@ define(function (require) {
     notEqual(context.gameHref, null, 'Location != null');
 
     api.get(context.gameHref).done(function (data, textStatus, jqXHR) {
-      var type = jqXHR.getResponseHeader('Content-Type');
-
-      equal(type, 'application/duelo-game+hal+json');
       deepEqual(data._links.self, { href: context.gameHref });
     }).always(start);
   });
@@ -39,12 +36,22 @@ define(function (require) {
   module('GET /api/game/:id', {
     setup: function () {
       var context = this;
-      api.createTestGame(context).always(start);
+      context.request = api.createTestGame(context).always(start);
     }
   });
 
   test('has link to self', function () {
     deepEqual(this.game._links.self, { href: this.gameHref });
+  });
+
+  test('content type is duelo-game', function () {
+    this.request.done(function (data, textStatus, jqXHR) {
+      var expectedType = 'duelo-game';
+      var type = jqXHR.getResponseHeader('Content-Type');
+
+      equal(type, 'application/' + expectedType + '+hal+json', 'Content-Type');
+      equal(data._contentType, expectedType, 'data._contentType');
+    });
   });
 
   test('has link to join game', function () {

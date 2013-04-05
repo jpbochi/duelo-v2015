@@ -92,7 +92,7 @@ define(function (require) {
   }
 
   function getGame(context) {
-    return get(context.gameHref).then(function (data) {
+    return get(context.gameHref).done(function (data) {
       context.gameHref = this.url;
       context.game = data;
       return this;
