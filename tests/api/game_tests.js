@@ -23,7 +23,7 @@ define(function (require) {
     api.get(context.gameHref).done(function (data, textStatus, jqXHR) {
       var type = jqXHR.getResponseHeader('Content-Type');
 
-      equal(type, 'application/hal+json');
+      equal(type, 'application/duelo-game+hal+json');
       deepEqual(data._links.self, { href: context.gameHref });
     }).always(start);
   });
