@@ -8,7 +8,7 @@ define(function (require) {
 
   return {
     register: function (grunt) {
-      grunt.registerTask('console', 'Start node CLI.', function () {
+      grunt.registerTask('console', 'Start node CLI.', function (nodb) {
         var repl = require('repl');
         var config = require('../lib/server/config.js');
         var mongo = require('../lib/server/mongo.js');
@@ -26,17 +26,24 @@ define(function (require) {
           get: function () { done(true); return 'bye'; }
         });
 
-        mongo.connect(function (err) {
-          throwIfError(err);
-          console.log('mongo connected to ' + mongo.url());
-
+        function startRepl() {
           repl.start({
             prompt: '> ',
             useGlobal: true
           }).on('exit', function () {
             done(true);
           });
-        });
+        }
+
+        if (nodb === 'nodb') {
+          return startRepl();
+        } else {
+          mongo.connect(function (err) {
+            throwIfError(err);
+            console.log('mongo connected to ' + mongo.url());
+            startRepl();
+          });
+        }
       });
     }
   };
