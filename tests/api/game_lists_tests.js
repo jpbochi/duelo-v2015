@@ -22,6 +22,16 @@ define(function (require) {
     });
   });
 
+  test('content type is duelo-games-list', function () {
+    this.request.done(function (data, textStatus, jqXHR) {
+      var expectedType = 'duelo-games-list';
+      var type = jqXHR.getResponseHeader('Content-Type');
+
+      equal(type, 'application/' + expectedType + '+hal+json', 'Content-Type');
+      equal(data._contentType, expectedType, 'data._contentType');
+    });
+  });
+
   test('embedds all games', function () {
     this.request.done(function (data, textStatus, jqXHR) {
       should.be(data._embedded, should.bePlainObject, 'data._embedded');
@@ -36,21 +46,30 @@ define(function (require) {
         },
         'data._embedded.game#_links#self#href'
       );
+    });
+  });
+
+  test('embedded games have state', function () {
+    this.request.done(function (data, textStatus, jqXHR) {
       deepEqual(
         _.pluck(data._embedded.game, 'state'),
-        _.map(data._embedded.game, function () { return 'lobby'; }),
+        ['lobby', 'lobby'],
         'data._embedded.game#state'
       );
     });
   });
 
-  test('content type is duelo-games-list', function () {
+  test('embedded games have createAt', function () {
     this.request.done(function (data, textStatus, jqXHR) {
-      var expectedType = 'duelo-games-list';
-      var type = jqXHR.getResponseHeader('Content-Type');
-
-      equal(type, 'application/' + expectedType + '+hal+json', 'Content-Type');
-      equal(data._contentType, expectedType, 'data._contentType');
+      should.be(
+        _(data._embedded.game).pluck('createdAt'),
+        function allAreDates(dates) {
+          return dates.all(function (date) {
+            return !isNaN(Date.parse(date));
+          });
+        },
+        'data._embedded.game#createdAt'
+      );
     });
   });
 });
