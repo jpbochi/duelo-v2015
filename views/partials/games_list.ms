@@ -1,9 +1,12 @@
 <h3>Games</h3>
-<ul>
+<ul class="game-list">
   {{#game}}
-    <li><a href="#{{_links.self.href}}">{{_links.self.href}}</a></li>
+    <li class="game-row">
+      <span class="link"><a href="#{{_links.self.href}}">{{_links.self.href}}</a></span>
+      <span class="state">{{state}}</span>
+    </li>
   {{/game}}
   {{^game}}
-    <li>No games.</li>
+    <li class="empty">No games.</li>
   {{/game}}
 </ul>
