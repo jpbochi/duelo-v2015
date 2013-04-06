@@ -4,6 +4,7 @@
     <li class="game-row">
       <span class="link"><a href="#{{_links.self.href}}">{{_links.self.href}}</a></span>
       <span class="state">{{state}}</span>
+      <span class="createdAt">{{createdAt}}</span>
     </li>
   {{/game}}
   {{^game}}
