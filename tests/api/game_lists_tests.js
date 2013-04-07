@@ -73,4 +73,31 @@ define(function (require) {
       'data._embedded.game#createdAt'
     );
   });
+
+  test('embedded games have embedded players', function () {
+    var games = this.data._embedded.game;
+    if (!games) { return; }
+
+    should.be(
+      _(games).pluck('_embedded'),
+      function allBePlainObjects(embedded) {
+        return embedded.all(_.isPlainObject);
+      },
+      'data._embedded.game#embedded'
+    );
+    if (should.hasFailed()) { return; }
+
+    should.be(
+      _(games).pluck('_embedded').pluck('player'),
+      function allArePlayers(players) {
+        return players.flatten().all(function (player) {
+          return player &&
+          player._links &&
+          player._links.self &&
+          (/^\/api\/user\//).test(player._links.self.href);
+        });
+      },
+      'data._embedded.game#embedded.player'
+    );
+  });
 });
