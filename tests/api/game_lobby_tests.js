@@ -79,8 +79,7 @@ define(function (require) {
   });
 
   test('attempt to join twice is 403 forbidden', function () {
-    var context = this;
-    api.put(context.game._links.join, null, 403).always(start);
+    api.put(this.game._links.join, null, 403).always(start);
     ok(true);
   });
 
@@ -138,5 +137,10 @@ define(function (require) {
         'data._embedded.player#[logged].state'
       );
     }).always(start);
+  });
+
+  test('attempt to get-ready twice is 403 forbidden', function () {
+    api.put(this.game._links.self.href + '/get-ready', null, 403).always(start);
+    ok(true);
   });
 });
