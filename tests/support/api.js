@@ -45,6 +45,16 @@ define(function (require) {
     });
   }
 
+  function put(url, data, expectedStatus) {
+    return validateUrl(url, function (url) {
+      return callExpecting(
+        $.ajax({ type: 'PUT', url: url }),
+        'PUT ' + url,
+        expectedStatus || 200
+      );
+    });
+  }
+
   function del(url, expectedStatus) {
     return validateUrl(url, function (url) {
       return callExpecting(
@@ -97,6 +107,7 @@ define(function (require) {
   return {
     get: get,
     post: post,
+    put: put,
     delete: del,
     logIn: logIn,
     logOut: logOut,

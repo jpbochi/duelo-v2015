@@ -15,11 +15,11 @@ define(function (require) {
 
   test('is 401 unathorized', function () {
     var context = this;
-    api.post(context.game._links.join, null, 401).always(start);
+    api.put(context.game._links.join, null, 401).always(start);
     ok(true);
   });
 
-  module('POST rel=join', {
+  module('PUT rel=join', {
     setup: function () {
       var context = this;
       context.username = 'Joker';
@@ -27,7 +27,7 @@ define(function (require) {
       context.request = api.createTestGame(context).then(
         _.partial(api.logIn, context)
       ).then(function (data) {
-        return api.post(context.game._links.join);
+        return api.put(context.game._links.join);
       }).always(start);
     },
     teardown: api.logOutAndContinue
@@ -56,7 +56,7 @@ define(function (require) {
 
   test('attempt to join twice is 403 forbidden', function () {
     var context = this;
-    api.post(context.game._links.join, null, 403).always(start);
+    api.put(context.game._links.join, null, 403).always(start);
     ok(true);
   });
 });
