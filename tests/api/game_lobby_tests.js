@@ -107,4 +107,36 @@ define(function (require) {
     api.put(this.gameHref + '/get-ready', null, 403).always(start);
     ok(true);
   });
+
+  module('PUT rel=get-ready', {
+    setup: function () {
+      var context = this;
+      context.username = 'Robin';
+
+      context.request = api.logIn(context).then(
+        _.partial(api.createTestGame, context)
+      ).then(function (data) {
+        return api.put(context.game._links.join);
+      }).then(function (data) {
+        return api.put(context.game._links.self.href + '/get-ready');
+      }).always(start);
+    },
+    teardown: api.logOutAndContinue
+  });
+
+  test('marks logged user as ready', function () {
+    var context = this;
+
+    api.getGame(context).done(function (data) {
+      var loggedPlayer = _(data._embedded.player).find(function (player) {
+        return player._links.self.href === data._links['viewed-by'].href;
+      });
+
+      deepEqual(
+        _.pick(loggedPlayer, 'displayName', 'state'),
+        { displayName: context.username, state: 'ready' },
+        'data._embedded.player#[logged].state'
+      );
+    }).always(start);
+  });
 });
