@@ -4,7 +4,22 @@ define(function (require) {
   var api = require('/tests/support/api.js');
   var should = require('/tests/support/should.js');
 
-  module('logged POST /api/game/:id/join', {
+  module('unlogged POST rel=join', {
+    setup: function () {
+      var context = this;
+
+      api.createTestGame(context).always(start);
+    },
+    teardown: api.logOutAndContinue
+  });
+
+  test('is 401 unathorized', function () {
+    var context = this;
+    api.post(context.game._links.join, null, 401).always(start);
+    ok(true);
+  });
+
+  module('POST rel=join', {
     setup: function () {
       var context = this;
       context.username = 'Joker';
@@ -42,21 +57,6 @@ define(function (require) {
   test('attempt to join twice is 403 forbidden', function () {
     var context = this;
     api.post(context.game._links.join, null, 403).always(start);
-    ok(true);
-  });
-
-  module('unlogged POST /api/game/:id/join', {
-    setup: function () {
-      var context = this;
-
-      api.createTestGame(context).always(start);
-    },
-    teardown: api.logOutAndContinue
-  });
-
-  test('is 401 unathorized', function () {
-    var context = this;
-    api.post(context.game._links.join, null, 401).always(start);
     ok(true);
   });
 });
