@@ -96,6 +96,10 @@ define(function (require) {
     });
   }
 
+  function testPlayersReady(context) {
+    return put(context.gameHref.replace('api', 'api-test') + '/test-players-ready');
+  }
+
   function getGame(context) {
     return get(context.gameHref).done(function (data) {
       context.gameHref = this.url;
@@ -114,6 +118,7 @@ define(function (require) {
     logOutAndContinue: logOutAndContinue,
     createGame: createGame,
     getGame: getGame,
-    createTestGame: createTestGame
+    createTestGame: createTestGame,
+    testPlayersReady: testPlayersReady
   };
 });
