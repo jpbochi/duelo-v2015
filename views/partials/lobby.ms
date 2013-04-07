@@ -1,4 +1,4 @@
-<h3>This is game #{{_id}}</h3>
+<h3>This game is on <i>{{state}}</i></h3>
 <ul>
   {{#_embedded.player}}
     <li data-userid="{{_links.self.href}}">{{displayName}}</li>
@@ -10,3 +10,6 @@
 {{#_links.join}}
 <button class="btn" href="{{href}}" rel="{{rel}}">Join</button>
 {{/_links.join}}
+{{#_links.get-ready}}
+<button class="btn" href="{{href}}" rel="{{rel}}">I'm ready</button>
+{{/_links.get-ready}}
