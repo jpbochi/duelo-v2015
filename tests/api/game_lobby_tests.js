@@ -4,7 +4,7 @@ define(function (require) {
   var api = require('/tests/support/api.js');
   var should = require('/tests/support/should.js');
 
-  module('unlogged POST rel=join', {
+  module('unlogged PUT rel=join', {
     setup: function () {
       var context = this;
 
@@ -50,7 +50,7 @@ define(function (require) {
   test('link to join twice is not present', function () {
     var context = this;
     api.get(context.gameHref).then(function (data) {
-      equal(data._links.join, null, 'link[rel=join] should not be present');
+      ok(!data._links.hasOwnProperty('join'), 'link[rel=join] should not be present');
     }).always(start);
   });
 
@@ -58,5 +58,12 @@ define(function (require) {
     var context = this;
     api.put(context.game._links.join, null, 403).always(start);
     ok(true);
+  });
+
+  test('link to get-ready becomes available', function () {
+    var context = this;
+    api.get(context.gameHref).done(function (data) {
+      deepEqual(data._links['get-ready'], { href: context.gameHref + '/get-ready' });
+    }).always(start);
   });
 });
