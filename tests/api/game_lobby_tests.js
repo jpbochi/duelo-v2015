@@ -142,4 +142,37 @@ define(function (require) {
       );
     }).always(start);
   });
+
+  module('last player to PUT rel=get-ready', {
+    setup: function () {
+      var context = this;
+      context.username = 'Robin';
+
+      context.request = api.logIn(context).then(
+        _.partial(api.createTestGame, context)
+      ).then(function (data) {
+        return api.put(context.game._links.join);
+      }).then(
+        _.partial(api.testPlayersReady, context)
+      ).then(function (data) {
+        return api.put(context.game._links.self.href + '/get-ready');
+      }).always(start);
+    },
+    teardown: api.logOutAndContinue
+  });
+
+  test('starts the game', function () {
+    var context = this;
+    api.getGame(context).done(function (data) {
+      equal(data.state, 'playing', 'game.state');
+
+      should.be(
+        _(data._embedded.player).pluck('state'),
+        function allBePlaying(states) {
+          return states.all(function (state) { return state === 'playing'; });
+        },
+        'game._embedded.player#state'
+      );
+    }).always(start);
+  });
 });
