@@ -79,14 +79,9 @@ define(function (require) {
   }
 
   function createTestGame(context) {
-    return logIn('game creator')
-    .then(createGame)
+    return post('/api/seed?games=1')
     .then(function (data, textStatus, jqXHR) {
-      context.gameHref = jqXHR.getResponseHeader('Location');
-      return this;
-    })
-    .then(logOut)
-    .then(function () {
+      context.gameHref = '/api/games/' + data[0]._id;
       return getGame(context);
     });
   }

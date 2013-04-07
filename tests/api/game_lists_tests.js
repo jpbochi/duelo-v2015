@@ -9,7 +9,7 @@ define(function (require) {
       var context = this;
 
       context.request = api.delete('/api/delete-all').then(function () {
-        return api.post('/api/seed');
+        return api.post('/api/seed?games=3');
       }).then(function () {
         return api.get('/api/games/all');
       }).done(function (data, textStatus, jqXHR) {
@@ -54,7 +54,7 @@ define(function (require) {
 
     deepEqual(
       _.pluck(games, 'state'),
-      ['lobby', 'lobby'],
+      ['lobby', 'lobby', 'lobby'],
       'data._embedded.game#state'
     );
   });
