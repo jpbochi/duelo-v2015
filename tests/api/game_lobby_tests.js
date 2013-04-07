@@ -4,7 +4,7 @@ define(function (require) {
   var api = require('/tests/support/api.js');
   var should = require('/tests/support/should.js');
 
-  module('unlogged PUT rel=join', {
+  module('unlogged, on a lobby game', {
     setup: function () {
       var context = this;
 
@@ -13,9 +13,15 @@ define(function (require) {
     teardown: api.logOutAndContinue
   });
 
-  test('is 401 unathorized', function () {
+  test('PUT rel=join is 401 unathorized', function () {
     var context = this;
     api.put(context.gameHref + '/join', null, 401).always(start);
+    ok(true);
+  });
+
+  test('PUT rel=get-ready is 401 unathorized', function () {
+    var context = this;
+    api.put(context.gameHref + '/get-ready', null, 401).always(start);
     ok(true);
   });
 
@@ -83,5 +89,22 @@ define(function (require) {
     api.get(context.gameHref).done(function (data) {
       deepEqual(data._links['get-ready'], { href: context.gameHref + '/get-ready' });
     }).always(start);
+  });
+
+  module('unjoined PUT rel=get-ready', {
+    setup: function () {
+      var context = this;
+      context.username = 'Coringa';
+
+      context.request = api.logIn(context).then(
+        _.partial(api.createTestGame, context)
+      ).always(start);
+    },
+    teardown: api.logOutAndContinue
+  });
+
+  test('is 403 forbidden', function () {
+    api.put(this.gameHref + '/get-ready', null, 403).always(start);
+    ok(true);
   });
 });
