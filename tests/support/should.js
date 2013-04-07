@@ -3,7 +3,7 @@ define(function (require) {
   'use strict';
 
   function stringify(value) {
-    if (_.isFunction(value.value)) { value = value.value(); }
+    if (value && _.isFunction(value.value)) { value = value.value(); }
     return JSON.stringify(value, null, 2);
   }
 
