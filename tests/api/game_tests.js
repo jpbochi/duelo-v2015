@@ -2,6 +2,7 @@ define(function (require) {
   'use strict';
   var _ = require('/external/lodash/lodash.js');
   var api = require('/tests/support/api.js');
+  var should = require('/tests/support/should.js');
 
   module('logged POST /api/games', {
     setup: function () {
@@ -101,7 +102,7 @@ define(function (require) {
     var expectedPlayers = initialPlayers.concat(context.username);
 
     api.get(context.gameHref).done(function (data) {
-      deepEqual(_.pluck(data.players, 'displayName'), expectedPlayers);
+      deepEqual(_.pluck(data.players, 'displayName'), expectedPlayers, 'data.players#displayName');
     }).always(start);
   });
 
