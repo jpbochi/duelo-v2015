@@ -123,9 +123,13 @@ define(function (require) {
     teardown: api.logOutAndContinue
   });
 
+  test('attempt to get-ready twice is 403 forbidden', function () {
+    api.put(this.game._links.self.href + '/get-ready', null, 403).always(start);
+    ok(true);
+  });
+
   test('marks logged user as ready', function () {
     var context = this;
-
     api.getGame(context).done(function (data) {
       var loggedPlayer = _(data._embedded.player).find(function (player) {
         return player._links.self.href === data._links['viewed-by'].href;
@@ -137,10 +141,5 @@ define(function (require) {
         'data._embedded.player#[logged].state'
       );
     }).always(start);
-  });
-
-  test('attempt to get-ready twice is 403 forbidden', function () {
-    api.put(this.game._links.self.href + '/get-ready', null, 403).always(start);
-    ok(true);
   });
 });
