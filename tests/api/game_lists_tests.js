@@ -94,7 +94,7 @@ define(function (require) {
           return player &&
           player._links &&
           player._links.self &&
-          (/^\/api\/user\//).test(player._links.self.href);
+          (/^\/api(\-test)?\/user\//).test(player._links.self.href);
         });
       },
       'data._embedded.game#embedded.player'
