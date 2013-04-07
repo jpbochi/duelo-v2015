@@ -7,12 +7,6 @@
   </li>
   {{/_embedded.player}}
   {{^_embedded.player}}
-    <li>No players have joined yet.</li>
+    <li>No players playing ?!</li>
   {{/_embedded.player}}
 </ul>
-{{#_links.join}}
-<button class="btn" href="{{href}}" rel="{{rel}}">Join</button>
-{{/_links.join}}
-{{#_links.get-ready}}
-<button class="btn" href="{{href}}" rel="{{rel}}">I'm ready</button>
-{{/_links.get-ready}}
