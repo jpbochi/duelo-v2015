@@ -64,10 +64,6 @@ define(function (require) {
     });
   });
 
-  test('has link to join game', function () {
-    deepEqual(this.game._links.join, { href: this.gameHref + '/join' });
-  });
-
   test('does not expose any _id\'s', function () {
     strictEqual(this.game._id, undefined, 'game._id');
     strictEqual(this.game._embedded.player[0]._id, undefined, 'game._embedded.player[0]._id');

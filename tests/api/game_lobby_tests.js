@@ -15,8 +15,26 @@ define(function (require) {
 
   test('is 401 unathorized', function () {
     var context = this;
-    api.put(context.game._links.join, null, 401).always(start);
+    api.put(context.gameHref + '/join', null, 401).always(start);
     ok(true);
+  });
+
+  module('logged GET game', {
+    setup: function () {
+      var context = this;
+      context.username = 'Joker';
+
+      context.request = api.logIn(context).then(
+        _.partial(api.createTestGame, context)
+      ).then(
+        _.partial(api.getGame, context)
+      ).always(start);
+    },
+    teardown: api.logOutAndContinue
+  });
+
+  test('has link to join game', function () {
+    deepEqual(this.game._links.join, { href: this.gameHref + '/join' });
   });
 
   module('PUT rel=join', {
@@ -24,8 +42,8 @@ define(function (require) {
       var context = this;
       context.username = 'Joker';
 
-      context.request = api.createTestGame(context).then(
-        _.partial(api.logIn, context)
+      context.request = api.logIn(context).then(
+        _.partial(api.createTestGame, context)
       ).then(function (data) {
         return api.put(context.game._links.join);
       }).always(start);
