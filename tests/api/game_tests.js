@@ -31,9 +31,9 @@ define(function (require) {
 
     api.get(context.gameHref).done(function (data, textStatus, jqXHR) {
       should.be(data._embedded, should.bePlainObject, 'data._embedded');
-      if (!data._embedded) { return; }
+      if (should.hasFailed()) { return; }
       should.be(data._embedded.player, Array.isArray, 'data._embedded.player');
-      if (!data._embedded.player) { return; }
+      if (should.hasFailed()) { return; }
 
       deepEqual(
         _.pluck(data._embedded.player, 'displayName'),

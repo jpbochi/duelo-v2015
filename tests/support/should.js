@@ -27,9 +27,16 @@ define(function (require) {
     }
   }
 
+  function hasFailed() {
+    return _(QUnit.config.current.assertions).any(function (assertion) {
+      return !assertion.result;
+    });
+  }
+
   return {
     be: should,
     bePlainObject: function bePlainObject(value) { return _.isPlainObject(value); },
-    dateEqual: dateEqual
+    dateEqual: dateEqual,
+    hasFailed: hasFailed
   };
 });

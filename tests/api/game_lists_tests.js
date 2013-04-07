@@ -12,64 +12,65 @@ define(function (require) {
         return api.post('/api/seed');
       }).then(function () {
         return api.get('/api/games/all');
+      }).done(function (data, textStatus, jqXHR) {
+        context.data = data;
+        context.textStatus = textStatus;
+        context.jqXHR = jqXHR;
       }).always(start);
     }
   });
 
   test('has a link to self', function () {
-    this.request.done(function (data, textStatus, jqXHR) {
-      deepEqual(data._links, { 'self': { href: '/api/games/all' } }, 'data._links');
-    });
+    deepEqual(this.data._links, { 'self': { href: '/api/games/all' } }, 'data._links');
   });
 
   test('content type is duelo-games-list', function () {
-    this.request.done(function (data, textStatus, jqXHR) {
-      var expectedType = 'duelo-games-list';
-      var type = jqXHR.getResponseHeader('Content-Type');
+    var expectedType = 'duelo-games-list';
+    var type = this.jqXHR.getResponseHeader('Content-Type');
 
-      equal(type, 'application/' + expectedType + '+hal+json', 'Content-Type');
-      equal(data._contentType, expectedType, 'data._contentType');
-    });
+    equal(type, 'application/' + expectedType + '+hal+json', 'Content-Type');
+    equal(this.data._contentType, expectedType, 'data._contentType');
   });
 
   test('embedds all games', function () {
-    this.request.done(function (data, textStatus, jqXHR) {
-      should.be(data._embedded, should.bePlainObject, 'data._embedded');
-      should.be(data._embedded.game, _.isArray, 'data._embedded.game');
+    should.be(this.data._embedded, should.bePlainObject, 'data._embedded');
+    should.be(this.data._embedded.game, _.isArray, 'data._embedded.game');
+    if (should.hasFailed()) { return; }
 
-      should.be(
-        _(data._embedded.game).pluck('_links').pluck('self').pluck('href'),
-        function allMatchGameHref(links) {
-          return links.all(function (href) {
-            return (/^\/api\/games\/[0-9a-zA-Z]{24}$/).test(href);
-          });
-        },
-        'data._embedded.game#_links#self#href'
-      );
-    });
+    should.be(
+      _(this.data._embedded.game).pluck('_links').pluck('self').pluck('href'),
+      function allMatchGameHref(links) {
+        return links.all(function (href) {
+          return (/^\/api\/games\/[0-9a-zA-Z]{24}$/).test(href);
+        });
+      },
+      'data._embedded.game#_links#self#href'
+    );
   });
 
   test('embedded games have state', function () {
-    this.request.done(function (data, textStatus, jqXHR) {
-      deepEqual(
-        _.pluck(data._embedded.game, 'state'),
-        ['lobby', 'lobby'],
-        'data._embedded.game#state'
-      );
-    });
+    var games = this.data._embedded.game;
+    if (!games) { return; }
+
+    deepEqual(
+      _.pluck(games, 'state'),
+      ['lobby', 'lobby'],
+      'data._embedded.game#state'
+    );
   });
 
   test('embedded games have createAt', function () {
-    this.request.done(function (data, textStatus, jqXHR) {
-      should.be(
-        _(data._embedded.game).pluck('createdAt'),
-        function allAreDates(dates) {
-          return dates.all(function (date) {
-            return !isNaN(Date.parse(date));
-          });
-        },
-        'data._embedded.game#createdAt'
-      );
-    });
+    var games = this.data._embedded.game;
+    if (!games) { return; }
+
+    should.be(
+      _(games).pluck('createdAt'),
+      function allAreDates(dates) {
+        return dates.all(function (date) {
+          return !isNaN(Date.parse(date));
+        });
+      },
+      'data._embedded.game#createdAt'
+    );
   });
 });
