@@ -2,5 +2,5 @@ define(function (require) {
   require('/tests/client.js');
   require('/tests/api.js');
 
-  QUnit.start();
+  $.get('/auth/logout').always(QUnit.start);
 });
