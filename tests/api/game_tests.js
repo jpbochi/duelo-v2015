@@ -26,11 +26,20 @@ define(function (require) {
     }).always(start);
   });
 
-  test('starts with logged user in the players list', function () {
+  test('starts with logged user in embedded players', function () {
     var context = this;
 
     api.get(context.gameHref).done(function (data, textStatus, jqXHR) {
-      deepEqual(_.pluck(data.players, 'displayName'), [context.username]);
+      should.be(data._embedded, should.bePlainObject, 'data._embedded');
+      if (!data._embedded) { return; }
+      should.be(data._embedded.player, Array.isArray, 'data._embedded.player');
+      if (!data._embedded.player) { return; }
+
+      deepEqual(
+        _.pluck(data._embedded.player, 'displayName'),
+        [ context.username ],
+        'data._embedded.player#displayName'
+      );
     }).always(start);
   });
 
@@ -61,7 +70,7 @@ define(function (require) {
 
   test('does not expose any _id\'s', function () {
     strictEqual(this.game._id, undefined, 'game._id');
-    strictEqual(this.game.players[0]._id, undefined, 'game.players[0]._id');
+    strictEqual(this.game._embedded.player[0]._id, undefined, 'game._embedded.player[0]._id');
   });
 
   module('logged GET /api/game/:id', {
@@ -98,11 +107,15 @@ define(function (require) {
 
   test('adds logged user to game players list', function () {
     var context = this;
-    var initialPlayers = _.pluck(context.game.players, 'displayName');
+    var initialPlayers = _.pluck(context.game._embedded.player, 'displayName');
     var expectedPlayers = initialPlayers.concat(context.username);
 
     api.get(context.gameHref).done(function (data) {
-      deepEqual(_.pluck(data.players, 'displayName'), expectedPlayers, 'data.players#displayName');
+      deepEqual(
+        _.pluck(data._embedded.player, 'displayName'),
+        expectedPlayers,
+        'data._embedded.player#displayName'
+      );
     }).always(start);
   });
 

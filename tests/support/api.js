@@ -79,7 +79,7 @@ define(function (require) {
   }
 
   function createTestGame(context) {
-    return logIn('someone else')
+    return logIn('game creator')
     .then(createGame)
     .then(function (data, textStatus, jqXHR) {
       context.gameHref = jqXHR.getResponseHeader('Location');
