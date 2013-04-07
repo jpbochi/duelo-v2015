@@ -62,7 +62,7 @@ define(function (require) {
     var initialPlayers = _.pluck(context.game._embedded.player, 'displayName');
     var expectedPlayers = initialPlayers.concat(context.username);
 
-    api.get(context.gameHref).done(function (data) {
+    api.getGame(context).done(function (data) {
       deepEqual(
         _.pluck(data._embedded.player, 'displayName'),
         expectedPlayers,
@@ -73,7 +73,7 @@ define(function (require) {
 
   test('link to join twice is not present', function () {
     var context = this;
-    api.get(context.gameHref).then(function (data) {
+    api.getGame(context).then(function (data) {
       ok(!data._links.hasOwnProperty('join'), 'link[rel=join] should not be present');
     }).always(start);
   });
@@ -86,7 +86,7 @@ define(function (require) {
 
   test('link to get-ready becomes available', function () {
     var context = this;
-    api.get(context.gameHref).done(function (data) {
+    api.getGame(context).done(function (data) {
       deepEqual(data._links['get-ready'], { href: context.gameHref + '/get-ready' });
     }).always(start);
   });
