@@ -19,7 +19,7 @@ define(function (require) {
         global.lo = require('lodash');
         global.qunit = require('qunit');
         global.sinon = require('sinon-restore');
-        global.base26 = require('../lib/base26.js');
+        global.tileName = require('../lib/tile_name.js');
 
         Object.defineProperty(global, 'exit', {
           get: function () { done(true); return 'bye'; }
