@@ -1,8 +1,12 @@
 (function () {
+  'use strict';
+  /*global GLOBAL*/
+
   var fs = require('fs');
   var requirejs = require('requirejs');
   var sinon = require('sinon-restore');
   var support = requirejs('tests/support/server.js');
+  GLOBAL._ = require('lodash');
 
   QUnit.testStart(function () {
     QUnit.stop();

@@ -1,6 +1,6 @@
 define(function (require) {
-  /*global _*/
   'use strict';
+  /*global _*/
   var api = require('/tests/support/api.js');
   var should = require('/tests/support/should.js');
 

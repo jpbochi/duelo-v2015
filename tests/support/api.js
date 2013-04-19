@@ -1,6 +1,6 @@
 define(function (require) {
-  /*global _*/
   'use strict';
+  /*global _*/
 
   function callExpecting(request, action, expectedStatus) {
     function verify(jqXHR) {
