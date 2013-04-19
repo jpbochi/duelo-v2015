@@ -10,17 +10,16 @@ define(function (require) {
     register: function (grunt) {
       grunt.registerTask('console', 'Start node CLI.', function (nodb) {
         var repl = require('repl');
-        var config = require('../lib/server/config.js');
-        var mongo = require('../lib/server/mongo.js');
         var done = this.async();
 
         global.grunt = grunt;
         global.requirejs = requirejs;
-        global.config = config;
-        global.mongo = mongo;
+        global.config = require('../lib/server/config.js');
+        global.mongo = require('../lib/server/mongo.js');
         global.lo = require('lodash');
         global.qunit = require('qunit');
         global.sinon = require('sinon-restore');
+        global.base26 = require('../lib/base26.js');
 
         Object.defineProperty(global, 'exit', {
           get: function () { done(true); return 'bye'; }
