@@ -20,8 +20,6 @@ define(function (require) {
     notEqual(game.board, null, 'game.board should not be null');
     if (should.hasFailed()) { return; }
 
-    should.be(game.board.tiles, _.isArray, 'game.board.tiles');
-
-    //TODO: deepEqual(game.board.tiles, [['a1', 'a2'], ['b1', 'b2'], ['c1', 'c2']], 'game.board');
+    deepEqual(game.board.tiles, [['a1', 'a2'], ['b1', 'b2'], ['c1', 'c2']], 'game.board');
   });
 });
