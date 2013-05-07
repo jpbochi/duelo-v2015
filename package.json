@@ -28,9 +28,9 @@
   },
   "devDependencies": {
     "passport-local": "*",
-    "grunt": "0.4.0rc5",
-    "grunt-contrib-qunit": "0.1.1rc5",
-    "grunt-contrib-connect": "0.1.0",
-    "grunt-contrib-jshint": "0.1.1rc5"
+    "grunt": "*",
+    "grunt-contrib-qunit": "*",
+    "grunt-contrib-connect": "*",
+    "grunt-contrib-jshint": "*"
   }
 }
