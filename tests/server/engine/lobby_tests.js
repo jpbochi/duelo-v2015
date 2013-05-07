@@ -2,6 +2,7 @@ define(function (require) {
   var _ = require('lodash');
   var sinon = require('sinon-restore');
   var should = require('tests/support/should.js');
+  var mongo = require('lib/server/mongo.js');
   var lobby = require('lib/server/engine/lobby.js');
 
   var newGame = function (options) {
