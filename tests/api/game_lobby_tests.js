@@ -19,9 +19,9 @@ define(function (require) {
     ok(true);
   });
 
-  test('PUT rel=get-ready is 401 unathorized', function () {
+  test('PUT rel=become-ready is 401 unathorized', function () {
     var context = this;
-    api.put(context.gameHref + '/get-ready', null, 401).always(start);
+    api.put(context.gameHref + '/become-ready', null, 401).always(start);
     ok(true);
   });
 
@@ -83,14 +83,14 @@ define(function (require) {
     ok(true);
   });
 
-  test('link to get-ready becomes available', function () {
+  test('link to become-ready becomes available', function () {
     var context = this;
     api.getGame(context).done(function (data) {
-      deepEqual(data._links['get-ready'], { href: context.gameHref + '/get-ready' });
+      deepEqual(data._links['become-ready'], { href: context.gameHref + '/become-ready' });
     }).always(start);
   });
 
-  module('unjoined PUT rel=get-ready', {
+  module('unjoined PUT rel=become-ready', {
     setup: function () {
       var context = this;
       context.username = 'Coringa';
@@ -103,11 +103,11 @@ define(function (require) {
   });
 
   test('is 403 forbidden', function () {
-    api.put(this.gameHref + '/get-ready', null, 403).always(start);
+    api.put(this.gameHref + '/become-ready', null, 403).always(start);
     ok(true);
   });
 
-  module('PUT rel=get-ready', {
+  module('PUT rel=become-ready', {
     setup: function () {
       var context = this;
       context.username = 'Robin';
@@ -117,14 +117,14 @@ define(function (require) {
       ).then(function (data) {
         return api.put(context.game._links.join);
       }).then(function (data) {
-        return api.put(context.game._links.self.href + '/get-ready');
+        return api.put(context.game._links.self.href + '/become-ready');
       }).always(start);
     },
     teardown: api.logOutAndContinue
   });
 
-  test('attempt to get-ready twice is 403 forbidden', function () {
-    api.put(this.game._links.self.href + '/get-ready', null, 403).always(start);
+  test('attempt to become-ready twice is 403 forbidden', function () {
+    api.put(this.game._links.self.href + '/become-ready', null, 403).always(start);
     ok(true);
   });
 
@@ -143,7 +143,7 @@ define(function (require) {
     }).always(start);
   });
 
-  module('last player to PUT rel=get-ready', {
+  module('last player to PUT rel=become-ready', {
     setup: function () {
       var context = this;
       context.username = 'Robin';
@@ -155,7 +155,7 @@ define(function (require) {
       }).then(
         _.partial(api.testPlayersReady, context)
       ).then(function (data) {
-        return api.put(context.game._links.self.href + '/get-ready');
+        return api.put(context.game._links.self.href + '/become-ready');
       }).always(start);
     },
     teardown: api.logOutAndContinue

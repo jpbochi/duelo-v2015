@@ -13,6 +13,6 @@
 {{#_links.join}}
 <button class="btn" href="{{href}}" rel="{{rel}}">Join</button>
 {{/_links.join}}
-{{#_links.get-ready}}
+{{#_links.become-ready}}
 <button class="btn" href="{{href}}" rel="{{rel}}">I'm ready</button>
-{{/_links.get-ready}}
+{{/_links.become-ready}}
