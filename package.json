@@ -31,6 +31,8 @@
     "grunt": "*",
     "grunt-contrib-qunit": "*",
     "grunt-contrib-connect": "*",
-    "grunt-contrib-jshint": "*"
+    "grunt-contrib-jshint": "*",
+    "grunt-mocha": "~0.4.0",
+    "mocha-unfunk-reporter": "~0.2.0"
   }
 }
