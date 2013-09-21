@@ -5,39 +5,10 @@ define(function (require) {
         process.env.MONGOHQ_URL = 'mongodb://localhost/duelo_test';
       });
 
-      grunt.registerTask('test:node:all', 'Runs node-side tests.', function (port) {
-        this.requires('test:set_env');
-
-        var testrunner = require('qunit');
-
-        testrunner.setup({
-          log: {
-            tests: true,
-            errors: true,
-            globalSummary: true
-          }
-        });
-
-        var done = this.async();
-
-        testrunner.run({
-          code: 'package.json',
-          tests: 'tests/server.js'
-        }, function (err, report) {
-          if (err) {
-            done(false);
-            throw err;
-          } else {
-            var succeeded = report && report.failed === 0;
-            done(succeeded);
-          }
-        });
-      });
-
       grunt.registerTask(
-        'test:node',
+        'test:backend',
         'Run all server-side tests.',
-        ['test:set_env', 'test:node:all']
+        ['test:set_env', 'mochaTest']
       );
       grunt.registerTask(
         'test:client',
@@ -47,7 +18,7 @@ define(function (require) {
       grunt.registerTask(
         'test',
         'Run all tests.',
-        ['test:node', 'test:client']
+        ['test:backend', 'test:client']
       );
     }
   };

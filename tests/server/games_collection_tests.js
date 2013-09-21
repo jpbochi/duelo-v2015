@@ -6,29 +6,28 @@ define(function (require) {
   var mongo = require('lib/server/mongo.js');
   var games = mongo.games;
 
-  function verifyGameIsValid(game) {
-    stop();
+  function verifyGameIsValid(game, done) {
     game.validate(function (err) {
-      start();
-      equal(err, null, 'game should be valid');
+      equal(err, undefined, 'game should be valid');
+      done && done();
     });
   }
 
   QUnit.module('mongo.games.create()');
 
-  test('creates a valid game in lobby state by default', function () {
+  test('creates a valid game in lobby state by default', function (done) {
     var game = games.create();
 
     equal(game.state, 'lobby', 'game.status');
-    verifyGameIsValid(game);
+    verifyGameIsValid(game, done);
   });
 
-  test('accepts an initial player', function () {
+  test('accepts an initial player', function (done) {
     var player = { displayName: 'O Joker' };
     var game = games.create({ players: [player] });
 
     deepEqual(_.pluck(game.players, 'displayName'), ['O Joker']);
-    verifyGameIsValid(game);
+    verifyGameIsValid(game, done);
   });
 
   test('records a createdAt date', function () {
@@ -42,9 +41,7 @@ define(function (require) {
 
   QUnit.module('mongo.games.get()');
 
-  test('gets a game by its id', function () {
-    stop();
-
+  test('gets a game by its id', function (done) {
     var existing = [
       new games.model({ state: 'one' }),
       new games.model({ state: 'two' })
@@ -52,11 +49,11 @@ define(function (require) {
 
     support.saveAll(existing, function (all) {
       games.get(existing[1].id, function (err, result) {
-        start();
         strictEqual(err, null);
 
         equal(result.id, existing[1].id);
         equal(result.state, 'two');
+        done();
       });
     });
   });

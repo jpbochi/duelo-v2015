@@ -8,14 +8,27 @@
   var support = requirejs('tests/support/server.js');
   GLOBAL._ = require('lodash');
 
-  QUnit.testStart(function () {
-    QUnit.stop();
-    support.clearDb(QUnit.start);
-  });
+  var expect = require('expect.js');
+  GLOBAL.stop = function () {};
+  GLOBAL.strictEqual = function (actual, expected, message) {
+    expect(actual).to.equal(expected, message);
+  };
+  GLOBAL.equal = function (actual, expected, message) {
+    expect(actual).to.eql(expected, message);
+  };
+  GLOBAL.notEqual = function (actual, expected, message) {
+    expect(actual).not.to.eql(expected, message);
+  };
+  GLOBAL.deepEqual = GLOBAL.equal;
+  GLOBAL.test = GLOBAL.it;
+  GLOBAL.QUnit = {
+    config: { current: { assertions: [] } },
+    module: function () {}// GLOBAL.suite
+  };
+  GLOBAL.module = GLOBAL.QUnit.suite;
 
-  QUnit.testDone(sinon.restoreAll);
-
-  QUnit.config.testTimeout = 1000;
+  beforeEach(support.clearDb);//mocha.run.bind(null, function() {}));
+  afterEach(sinon.restoreAll);
 
   (function requireRecursively(initialPath) {
     fs.readdirSync(initialPath)
