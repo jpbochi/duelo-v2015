@@ -22,9 +22,23 @@ define(function (require) {
     });
   }
 
+  function disconnectMongo(done) {
+    if (!mongo.isConnected()) {
+      return done && done();
+    }
+
+    mongo.db.disconnect(function (err) {
+      throwIfError(err);
+      console.log('mongo disconnected');
+
+      done && done();
+    });
+  }
+
   return {
     throwIfError: throwIfError,
     ensureMongoConnected: ensureMongoConnected,
+    disconnectMongo: disconnectMongo,
     clearDb: function (done) {
       ensureMongoConnected(function () {
         var collectionsToClear = [

@@ -1,6 +1,6 @@
 (function () {
   'use strict';
-  /*global GLOBAL*/
+  /*global GLOBAL,before,beforeEach,afterEach,after*/
 
   var fs = require('fs');
   var requirejs = require('requirejs');
@@ -27,8 +27,10 @@
   };
   GLOBAL.module = GLOBAL.QUnit.suite;
 
+  before(support.ensureMongoConnected);
   beforeEach(support.clearDb);//mocha.run.bind(null, function() {}));
   afterEach(sinon.restoreAll);
+  after(support.disconnectMongo);
 
   (function requireRecursively(initialPath) {
     fs.readdirSync(initialPath)

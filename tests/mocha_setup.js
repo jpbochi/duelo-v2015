@@ -1,4 +1,5 @@
 define(function (require) {
+  /*global mocha,chai */
   mocha.setup({
     ui: 'qunit'
   });
