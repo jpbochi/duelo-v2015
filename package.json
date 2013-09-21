@@ -33,6 +33,8 @@
     "grunt-contrib-connect": "*",
     "grunt-contrib-jshint": "*",
     "grunt-mocha": "~0.4.0",
-    "mocha-unfunk-reporter": "~0.2.0"
+    "mocha-unfunk-reporter": "~0.2.0",
+    "grunt-mocha-test": "~0.7.0",
+    "expect.js": "~0.2.0"
   }
 }
