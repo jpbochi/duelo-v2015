@@ -26,7 +26,7 @@ module.exports = function (grunt) {
         options: {
           reporter: 'spec'
         }
-      },
+      }
     },
     mocha: {
       all: {
@@ -66,7 +66,6 @@ module.exports = function (grunt) {
         jquery: true,
         white: true,
         undef: true,
-        es5: true,
         globals: globals
       }
     }

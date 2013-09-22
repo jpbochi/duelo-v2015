@@ -8,7 +8,7 @@ define(function (require) {
     setup: function () {
       var context = this;
 
-      context.request = api.delete('/api-test/delete-all').then(function () {
+      context.request = api.del('/api-test/delete-all').then(function () {
         return api.post('/api-test/seed?games=3');
       }).then(function () {
         return api.get('/api/games/all');

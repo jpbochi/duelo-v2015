@@ -12,9 +12,6 @@
   },
   "dependencies": {
     "requirejs": "~2.1.4",
-    "qunit": "*",
-    "sinon": "*",
-    "sinon-restore": "*",
     "express": "3.0.3",
     "ejs": "*",
     "mustache": "*",
@@ -28,6 +25,9 @@
   },
   "devDependencies": {
     "passport-local": "*",
+    "qunit": "*",
+    "sinon": "*",
+    "sinon-restore": "*",
     "grunt": "*",
     "grunt-contrib-qunit": "*",
     "grunt-contrib-connect": "*",

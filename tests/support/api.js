@@ -112,7 +112,7 @@ define(function (require) {
     get: get,
     post: post,
     put: put,
-    delete: del,
+    del: del,
     logIn: logIn,
     logOut: logOut,
     logOutAndContinue: logOutAndContinue,
