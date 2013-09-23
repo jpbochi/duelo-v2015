@@ -29,13 +29,13 @@
     "qunit": "*",
     "sinon": "*",
     "sinon-restore": "*",
+    "chai": "~1.8.0",
     "grunt": "*",
     "grunt-contrib-qunit": "*",
     "grunt-contrib-connect": "*",
     "grunt-contrib-jshint": "*",
-    "grunt-mocha": "~0.4.0",
-    "mocha-unfunk-reporter": "~0.2.0",
+    "grunt-mocha-phantomjs": "~0.3.0",
     "grunt-mocha-test": "~0.7.0",
-    "chai": "~1.8.0"
+    "mocha-unfunk-reporter": "~0.2.0"
   }
 }

@@ -28,16 +28,16 @@ module.exports = function (grunt) {
         }
       }
     },
-    mocha: {
+    mocha_phantomjs: {
       all: {
         options: {
           urls: ['http://localhost:3000/tests'],
           mocha: {
             ignoreLeaks: false
           },
-          reporter: 'mocha-unfunk-reporter',
           log: true,
-          run: false
+          run: false,
+          reporter: 'spec' //'mocha-unfunk-reporter',
         }
       }
     },
@@ -73,8 +73,8 @@ module.exports = function (grunt) {
 
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-qunit');
-  grunt.loadNpmTasks('grunt-mocha');
   grunt.loadNpmTasks('grunt-mocha-test');
+  grunt.loadNpmTasks('grunt-mocha-phantomjs');
 
   /*global __dirname*/
   var requirejs = require('requirejs');

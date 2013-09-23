@@ -4,8 +4,8 @@ define(function (require) {
   var api = require('/tests/support/api.js');
   var should = require('/tests/support/should.js');
 
-  module('GET /api/games/all', {
-    setup: function () {
+  describe('GET /api/games/all', function () {
+    beforeEach(function (done) {
       var context = this;
 
       context.request = api.del('/api-test/delete-all').then(function () {
@@ -16,88 +16,88 @@ define(function (require) {
         context.data = data;
         context.textStatus = textStatus;
         context.jqXHR = jqXHR;
-      }).always(start);
-    }
-  });
+      }).always(done.bind(null, null));
+    });
 
-  test('has a link to self', function () {
-    deepEqual(this.data._links, { 'self': { href: '/api/games/all' } }, 'data._links');
-  });
+    test('has a link to self', function () {
+      deepEqual(this.data._links, { 'self': { href: '/api/games/all' } }, 'data._links');
+    });
 
-  test('content type is duelo-games-list', function () {
-    var expectedType = 'duelo-games-list';
-    var type = this.jqXHR.getResponseHeader('Content-Type');
+    test('content type is duelo-games-list', function () {
+      var expectedType = 'duelo-games-list';
+      var type = this.jqXHR.getResponseHeader('Content-Type');
 
-    equal(type, 'application/' + expectedType + '+hal+json', 'Content-Type');
-    equal(this.data._contentType, expectedType, 'data._contentType');
-  });
+      equal(type, 'application/' + expectedType + '+hal+json', 'Content-Type');
+      equal(this.data._contentType, expectedType, 'data._contentType');
+    });
 
-  test('embedds all games', function () {
-    should.be(this.data._embedded, should.bePlainObject, 'data._embedded');
-    should.be(this.data._embedded.game, _.isArray, 'data._embedded.game');
-    if (should.hasFailed()) { return; }
+    test('embedds all games', function () {
+      should.be(this.data._embedded, should.bePlainObject, 'data._embedded');
+      should.be(this.data._embedded.game, _.isArray, 'data._embedded.game');
+      if (should.hasFailed()) { return; }
 
-    should.be(
-      _(this.data._embedded.game).pluck('_links').pluck('self').pluck('href'),
-      function allMatchGameHref(links) {
-        return links.all(function (href) {
-          return (/^\/api\/games\/[0-9a-zA-Z]{24}$/).test(href);
-        });
-      },
-      'data._embedded.game#_links#self#href'
-    );
-  });
+      should.be(
+        _(this.data._embedded.game).pluck('_links').pluck('self').pluck('href'),
+        function allMatchGameHref(links) {
+          return links.all(function (href) {
+            return (/^\/api\/games\/[0-9a-zA-Z]{24}$/).test(href);
+          });
+        },
+        'data._embedded.game#_links#self#href'
+      );
+    });
 
-  test('embedded games have state', function () {
-    var games = this.data._embedded.game;
-    if (!games) { return; }
+    test('embedded games have state', function () {
+      var games = this.data._embedded.game;
+      if (!games) { return; }
 
-    deepEqual(
-      _.pluck(games, 'state'),
-      ['lobby', 'lobby', 'lobby'],
-      'data._embedded.game#state'
-    );
-  });
+      deepEqual(
+        _.pluck(games, 'state'),
+        ['lobby', 'lobby', 'lobby'],
+        'data._embedded.game#state'
+      );
+    });
 
-  test('embedded games have createAt', function () {
-    var games = this.data._embedded.game;
-    if (!games) { return; }
+    test('embedded games have createAt', function () {
+      var games = this.data._embedded.game;
+      if (!games) { return; }
 
-    should.be(
-      _(games).pluck('createdAt'),
-      function allAreDates(dates) {
-        return dates.all(function (date) {
-          return !isNaN(Date.parse(date));
-        });
-      },
-      'data._embedded.game#createdAt'
-    );
-  });
+      should.be(
+        _(games).pluck('createdAt'),
+        function allAreDates(dates) {
+          return dates.all(function (date) {
+            return !isNaN(Date.parse(date));
+          });
+        },
+        'data._embedded.game#createdAt'
+      );
+    });
 
-  test('embedded games have embedded players', function () {
-    var games = this.data._embedded.game;
-    if (!games) { return; }
+    test('embedded games have embedded players', function () {
+      var games = this.data._embedded.game;
+      if (!games) { return; }
 
-    should.be(
-      _(games).pluck('_embedded'),
-      function allBePlainObjects(embedded) {
-        return embedded.all(_.isPlainObject);
-      },
-      'data._embedded.game#embedded'
-    );
-    if (should.hasFailed()) { return; }
+      should.be(
+        _(games).pluck('_embedded'),
+        function allBePlainObjects(embedded) {
+          return embedded.all(_.isPlainObject);
+        },
+        'data._embedded.game#embedded'
+      );
+      if (should.hasFailed()) { return; }
 
-    should.be(
-      _(games).pluck('_embedded').pluck('player'),
-      function allArePlayers(players) {
-        return players.flatten().all(function (player) {
-          return player &&
-          player._links &&
-          player._links.self &&
-          (/^\/api(\-test)?\/user\//).test(player._links.self.href);
-        });
-      },
-      'data._embedded.game#embedded.player'
-    );
+      should.be(
+        _(games).pluck('_embedded').pluck('player'),
+        function allArePlayers(players) {
+          return players.flatten().all(function (player) {
+            return player &&
+            player._links &&
+            player._links.self &&
+            (/^\/api(\-test)?\/user\//).test(player._links.self.href);
+          });
+        },
+        'data._embedded.game#embedded.player'
+      );
+    });
   });
 });

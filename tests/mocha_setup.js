@@ -1,17 +1,21 @@
 define(function (require) {
   /*global mocha,chai */
   mocha.setup({
-    ui: 'qunit'
+    ui: 'bdd'
   });
 
-  (function (expect) {
-    window.stop = function () {};
+  (function (expect, assert) {
+    var GLOBAL = window;
 
-    window.equal = function (actual, expected, message) {
-      return expect(actual).to.equal(expected, message);
+    GLOBAL.stop = function () {};
+    GLOBAL.strictEqual = assert.strictEqual;
+    GLOBAL.ok = assert.ok;
+    GLOBAL.equal = assert.equal;
+    GLOBAL.notEqual = assert.notEqual;
+    GLOBAL.deepEqual = assert.deepEqual;
+    GLOBAL.test = GLOBAL.it;
+    GLOBAL.QUnit = {
+      config: { current: { assertions: [] } }
     };
-    window.deepEqual = function (actual, expected, message) {
-      return expect(actual).to.eql(expected, message);
-    };
-  })(chai.expect);
+  })(chai.expect, chai.assert);
 });

@@ -1,12 +1,14 @@
 define(function (require) {
   'use strict';
   /*global _*/
+  //var should = require('/external/should/lib/should.js');
+  var expect = chai.expect;
 
   function callExpecting(request, action, expectedStatus) {
     function verify(jqXHR) {
       if (jqXHR.status !== expectedStatus) {
-        equal(
-          jqXHR.status,
+        expect(
+          jqXHR.status).to.equal(
           expectedStatus,
           [ action, ' expected ', expectedStatus,
             ', not ', jqXHR.status,
@@ -16,7 +18,7 @@ define(function (require) {
       }
     }
 
-    stop();
+    //stop();
     return request.fail(function (jqXHR) {
       verify(jqXHR);
     }).done(function (data, textStatus, jqXHR) {
@@ -27,7 +29,7 @@ define(function (require) {
   function validateUrl(url, done) {
     if (url && url.href) { url = url.href; }
     if (!url) {
-      equal(url, '/*', ['<', url, '> is not a valid url'].join(''));
+      expect(url).to.equal  ('/*', ['<', url, '> is not a valid url'].join(''));
       return $.Deferred().reject();
     }
     return done(url);
@@ -71,7 +73,7 @@ define(function (require) {
       '/auth/test',
       { username: username, password: '***' }
     ).then(function (data) {
-      if (_.isPlainObject(context)) { context.user = data; }
+      if (_.isObject(context)) { context.user = data; }
       return this;
     });
   }
@@ -80,8 +82,8 @@ define(function (require) {
     return get('/auth/logout');
   }
 
-  function logOutAndContinue() {
-    return logOut().always(start);
+  function logOutAndContinue(done) {
+    return logOut().always(done.bind(null, null));
   }
 
   function createGame() {

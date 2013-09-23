@@ -13,7 +13,7 @@ define(function (require) {
       grunt.registerTask(
         'test:client',
         'Run all client-side tests.',
-        ['test:set_env', 'server:test:3333', 'qunit']
+        ['test:set_env', 'server:test:3333', 'mocha_phantomjs']
       );
       grunt.registerTask(
         'test',
