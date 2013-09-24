@@ -19,7 +19,6 @@ module.exports = function (grunt) {
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
-    qunit: { all: { options: { urls: ['http://localhost:3333/tests'] } } },
     mochaTest: {
       test: {
         src: [ 'tests/server.js' ],
@@ -72,7 +71,6 @@ module.exports = function (grunt) {
   });
 
   grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-contrib-qunit');
   grunt.loadNpmTasks('grunt-mocha-test');
   grunt.loadNpmTasks('grunt-mocha-phantomjs');
 
