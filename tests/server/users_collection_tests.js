@@ -25,9 +25,7 @@ define(function (require) {
 
   QUnit.module('mongo.users.loginWith()');
 
-  test('creates a user if he not registered', function () {
-    stop();
-
+  it('creates a user if he not registered', function (done) {
     var expectedDate = Date.UTC(2013, 2, 28);
     sinon.stub(Date, 'now').returns(expectedDate);
 
@@ -45,20 +43,18 @@ define(function (require) {
       should.dateEqual(user.lastLogin, expectedDate);
 
       users.model.find({}, function (err, result) {
-        start();
         strictEqual(err, null);
 
         deepEqual(_.pluck(result, 'key'), ['facebook:12345']);
         deepEqual(_.pluck(result, 'email'), ['j@duelo.com']);
         deepEqual(_.pluck(result, 'displayName'), ['John Doe']);
         should.dateEqual(result[0].lastLogin, expectedDate);
+        done();
       });
     });
   });
 
-  test('returns existing user if he registered', function () {
-    stop();
-
+  it('returns existing user if he registered', function (done) {
     new users.model({
       key: 'facebook:12345',
       email: 'previous@old.me',
@@ -84,13 +80,13 @@ define(function (require) {
         should.dateEqual(user.lastLogin, expectedDate);
 
         users.model.find({}, function (err, result) {
-          start();
           strictEqual(err, null);
 
           deepEqual(_.pluck(result, 'key'), ['facebook:12345']);
           deepEqual(_.pluck(result, 'email'), ['previous@old.me']);
           deepEqual(_.pluck(result, 'displayName'), ['Previous Name']);
           should.dateEqual(result[0].lastLogin, expectedDate);
+          done();
         });
       });
     });

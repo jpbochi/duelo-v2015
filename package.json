@@ -1,6 +1,7 @@
 {
   "name": "duelo",
   "version": "0.0.1",
+  "repository": "https://github.com/jpbochi/duelo",
   "private": true,
   "scripts": {
     "start": "node main",
@@ -12,9 +13,6 @@
   },
   "dependencies": {
     "requirejs": "~2.1.4",
-    "qunit": "*",
-    "sinon": "*",
-    "sinon-restore": "*",
     "express": "3.0.3",
     "ejs": "*",
     "mustache": "*",
@@ -28,9 +26,15 @@
   },
   "devDependencies": {
     "passport-local": "*",
+    "sinon": "*",
+    "sinon-restore": "*",
+    "chai": "~1.8.0",
     "grunt": "*",
-    "grunt-contrib-qunit": "*",
     "grunt-contrib-connect": "*",
-    "grunt-contrib-jshint": "*"
+    "grunt-contrib-jshint": "*",
+    "grunt-mocha-phantomjs": "~0.3.0",
+    "grunt-mocha-test": "~0.7.0",
+    "mocha-unfunk-reporter": "~0.2.0",
+    "mocha": "~1.13.0"
   }
 }

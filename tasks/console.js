@@ -17,7 +17,6 @@ define(function (require) {
         global.config = require('../lib/server/config.js');
         global.mongo = require('../lib/server/mongo.js');
         global.lo = require('lodash');
-        global.qunit = require('qunit');
         global.sinon = require('sinon-restore');
         global.tileName = require('../lib/tile_name.js');
 
