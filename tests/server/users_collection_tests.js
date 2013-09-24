@@ -25,7 +25,7 @@ define(function (require) {
 
   QUnit.module('mongo.users.loginWith()');
 
-  test('creates a user if he not registered', function (done) {
+  it('creates a user if he not registered', function (done) {
     var expectedDate = Date.UTC(2013, 2, 28);
     sinon.stub(Date, 'now').returns(expectedDate);
 
@@ -54,7 +54,7 @@ define(function (require) {
     });
   });
 
-  test('returns existing user if he registered', function (done) {
+  it('returns existing user if he registered', function (done) {
     new users.model({
       key: 'facebook:12345',
       email: 'previous@old.me',

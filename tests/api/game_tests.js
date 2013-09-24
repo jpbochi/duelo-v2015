@@ -18,7 +18,7 @@ define(function (require) {
         }).always(done.bind(null, null));
       });
 
-      test('redirects to a created game', function (done) {
+      it('redirects to a created game', function (done) {
         var context = this;
         notEqual(context.gameHref, null, 'Location != null');
 
@@ -27,7 +27,7 @@ define(function (require) {
         }).always(done.bind(null, null));
       });
 
-      test('starts with logged user in embedded players', function (done) {
+      it('starts with logged user in embedded players', function (done) {
         var context = this;
 
         api.get(context.gameHref).done(function (data, textStatus, jqXHR) {
@@ -51,11 +51,11 @@ define(function (require) {
         context.request = api.createTestGame(context).always(done.bind(null, null));
       });
 
-      test('has link to self', function () {
+      it('has link to self', function () {
         deepEqual(this.game._links.self, { href: this.gameHref });
       });
 
-      test('content type is duelo-game', function () {
+      it('content type is duelo-game', function () {
         this.request.done(function (data, textStatus, jqXHR) {
           var expectedType = 'duelo-game';
           var type = jqXHR.getResponseHeader('Content-Type');
@@ -65,7 +65,7 @@ define(function (require) {
         });
       });
 
-      test('does not expose any _id\'s', function () {
+      it('does not expose any _id\'s', function () {
         strictEqual(this.game._id, undefined, 'game._id');
         strictEqual(this.game._embedded.player[0]._id, undefined, 'game._embedded.player[0]._id');
       });
@@ -83,7 +83,7 @@ define(function (require) {
         ).then(done.bind(null, null));
       });
 
-      test('has a link to the logged user', function () {
+      it('has a link to the logged user', function () {
         deepEqual(this.game._links['viewed-by'], this.user._links.self, 'link[rel=viewed-by]');
       });
     });

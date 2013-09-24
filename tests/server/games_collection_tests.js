@@ -15,14 +15,14 @@ define(function (require) {
 
   QUnit.module('mongo.games.create()');
 
-  test('creates a valid game in lobby state by default', function (done) {
+  it('creates a valid game in lobby state by default', function (done) {
     var game = games.create();
 
     equal(game.state, 'lobby', 'game.status');
     verifyGameIsValid(game, done);
   });
 
-  test('accepts an initial player', function (done) {
+  it('accepts an initial player', function (done) {
     var player = { displayName: 'O Joker' };
     var game = games.create({ players: [player] });
 
@@ -30,7 +30,7 @@ define(function (require) {
     verifyGameIsValid(game, done);
   });
 
-  test('records a createdAt date', function () {
+  it('records a createdAt date', function () {
     var expectedDate = Date.UTC(2013, 2, 28);
     sinon.stub(Date, 'now').returns(expectedDate);
 
@@ -41,7 +41,7 @@ define(function (require) {
 
   QUnit.module('mongo.games.get()');
 
-  test('gets a game by its id', function (done) {
+  it('gets a game by its id', function (done) {
     var existing = [
       new games.model({ state: 'one' }),
       new games.model({ state: 'two' })

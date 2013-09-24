@@ -1,6 +1,6 @@
 define(function (require) {
   'use strict';
-  /*global _*/
+  /*global _,chai*/
   //var should = require('/external/should/lib/should.js');
   var expect = chai.expect;
 
@@ -29,7 +29,7 @@ define(function (require) {
   function validateUrl(url, done) {
     if (url && url.href) { url = url.href; }
     if (!url) {
-      expect(url).to.equal  ('/*', ['<', url, '> is not a valid url'].join(''));
+      expect(url).to.equal('/*', ['<', url, '> is not a valid url'].join(''));
       return $.Deferred().reject();
     }
     return done(url);

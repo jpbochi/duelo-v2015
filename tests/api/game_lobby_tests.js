@@ -14,12 +14,12 @@ define(function (require) {
         api.createTestGame(context).always(done.bind(null, null));
       });
 
-      test('PUT rel=join is 401 unathorized', function (done) {
+      it('PUT rel=join is 401 unathorized', function (done) {
         var context = this;
         api.put(context.gameHref + '/join', null, 401).always(done.bind(null, null));
       });
 
-      test('PUT rel=become-ready is 401 unathorized', function (done) {
+      it('PUT rel=become-ready is 401 unathorized', function (done) {
         var context = this;
         api.put(context.gameHref + '/become-ready', null, 401).always(done.bind(null, null));
       });
@@ -37,7 +37,7 @@ define(function (require) {
         ).always(done.bind(null, null));
       });
 
-      test('has link to join game', function () {
+      it('has link to join game', function () {
         deepEqual(this.game._links.join, { href: this.gameHref + '/join' });
       });
     });
@@ -54,7 +54,7 @@ define(function (require) {
         }).always(done.bind(null, null));
       });
 
-      test('adds logged user to game players list', function (done) {
+      it('adds logged user to game players list', function (done) {
         var context = this;
         var initialPlayers = _.pluck(context.game._embedded.player, 'displayName');
         var expectedPlayers = initialPlayers.concat(context.username);
@@ -68,19 +68,19 @@ define(function (require) {
         }).always(done.bind(null, null));
       });
 
-      test('link to join twice is not present', function (done) {
+      it('link to join twice is not present', function (done) {
         var context = this;
         api.getGame(context).then(function (data) {
           ok(!data._links.hasOwnProperty('join'), 'link[rel=join] should not be present');
         }).always(done.bind(null, null));
       });
 
-      test('attempt to join twice is 403 forbidden', function (done) {
+      it('attempt to join twice is 403 forbidden', function (done) {
         api.put(this.game._links.join, null, 403).always(done.bind(null, null));
         ok(true);
       });
 
-      test('link to become-ready becomes available', function (done) {
+      it('link to become-ready becomes available', function (done) {
         var context = this;
         api.getGame(context).done(function (data) {
           deepEqual(data._links['become-ready'], { href: context.gameHref + '/become-ready' });
@@ -98,7 +98,7 @@ define(function (require) {
         ).always(done.bind(null, null));
       });
 
-      test('is 403 forbidden', function (done) {
+      it('is 403 forbidden', function (done) {
         api.put(this.gameHref + '/become-ready', null, 403).always(done.bind(null, null));
         ok(true);
       });
@@ -118,12 +118,12 @@ define(function (require) {
         }).always(done.bind(null, null));
       });
 
-      test('attempt to become-ready twice is 403 forbidden', function (done) {
+      it('attempt to become-ready twice is 403 forbidden', function (done) {
         api.put(this.game._links.self.href + '/become-ready', null, 403).always(done.bind(null, null));
         ok(true);
       });
 
-      test('marks logged user as ready', function (done) {
+      it('marks logged user as ready', function (done) {
         var context = this;
         api.getGame(context).done(function (data) {
           var loggedPlayer = _(data._embedded.player).find(function (player) {
@@ -155,7 +155,7 @@ define(function (require) {
         }).always(done.bind(null, null));
       });
 
-      test('starts the game', function (done) {
+      it('starts the game', function (done) {
         var context = this;
         api.getGame(context).done(function (data) {
           equal(data.state, 'playing', 'game.state');

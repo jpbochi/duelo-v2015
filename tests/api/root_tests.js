@@ -14,7 +14,7 @@ define(function (require) {
             'all-games': { href: '/api/games/all', title: 'All games' }
           }
         );
-      }).always(done.bind(null,null));
+      }).always(done.bind(null, null));
     });
   });
 });

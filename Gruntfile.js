@@ -1,6 +1,6 @@
+/*global module*/
 module.exports = function (grunt) {
   'use strict';
-  /*global global*/
 
   var _ = require('lodash');
 
@@ -10,8 +10,8 @@ module.exports = function (grunt) {
     'console', 'process',
     'require', 'define',
     'equal', 'notEqual', 'deepEqual', 'strictEqual', 'ok',
-    'start', 'stop',
-    'module', 'QUnit', 'test', 'sinon'
+    'describe', 'it', 'beforeEach', 'afterEach',
+    'sinon', 'QUnit'
   ], function (acc, name) {
     acc[name] = true;
     return acc;
@@ -28,7 +28,7 @@ module.exports = function (grunt) {
         }
       }
     },
-    mocha_phantomjs: {
+    'mocha_phantomjs': {
       all: {
         options: {
           urls: ['http://localhost:3000/tests'],

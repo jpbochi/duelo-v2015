@@ -12,7 +12,7 @@ define(function (require) {
 
   QUnit.module('builder.build() with default options');
 
-  test('builds a board with 3x2 tiles', function () {
+  it('builds a board with 3x2 tiles', function () {
     var game = newGame({ dimensions: [3, 2] });
 
     game.builder().build();

@@ -16,7 +16,7 @@ define(function (require) {
 
   QUnit.module('lobby().join()');
 
-  test('adds player to game', function () {
+  it('adds player to game', function () {
     var game = newGame();
 
     lobby(game, fakeUser('le player')).join();

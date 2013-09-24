@@ -19,11 +19,11 @@ define(function (require) {
       }).always(done.bind(null, null));
     });
 
-    test('has a link to self', function () {
+    it('has a link to self', function () {
       deepEqual(this.data._links, { 'self': { href: '/api/games/all' } }, 'data._links');
     });
 
-    test('content type is duelo-games-list', function () {
+    it('content type is duelo-games-list', function () {
       var expectedType = 'duelo-games-list';
       var type = this.jqXHR.getResponseHeader('Content-Type');
 
@@ -31,7 +31,7 @@ define(function (require) {
       equal(this.data._contentType, expectedType, 'data._contentType');
     });
 
-    test('embedds all games', function () {
+    it('embedds all games', function () {
       should.be(this.data._embedded, should.bePlainObject, 'data._embedded');
       should.be(this.data._embedded.game, _.isArray, 'data._embedded.game');
       if (should.hasFailed()) { return; }
@@ -47,7 +47,7 @@ define(function (require) {
       );
     });
 
-    test('embedded games have state', function () {
+    it('embedded games have state', function () {
       var games = this.data._embedded.game;
       if (!games) { return; }
 
@@ -58,7 +58,7 @@ define(function (require) {
       );
     });
 
-    test('embedded games have createAt', function () {
+    it('embedded games have createAt', function () {
       var games = this.data._embedded.game;
       if (!games) { return; }
 
@@ -73,7 +73,7 @@ define(function (require) {
       );
     });
 
-    test('embedded games have embedded players', function () {
+    it('embedded games have embedded players', function () {
       var games = this.data._embedded.game;
       if (!games) { return; }
 
