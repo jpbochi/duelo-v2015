@@ -8,7 +8,7 @@
   var support = requirejs('tests/support/server.js');
   GLOBAL._ = require('lodash');
 
-  var expect = require('expect.js');
+  var expect = require('chai').expect;
   GLOBAL.stop = function () {};
   GLOBAL.strictEqual = function (actual, expected, message) {
     expect(actual).to.equal(expected, message);

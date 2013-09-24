@@ -1,6 +1,7 @@
 {
   "name": "duelo",
   "version": "0.0.1",
+  "repository": "https://github.com/jpbochi/duelo",
   "private": true,
   "scripts": {
     "start": "node main",
@@ -35,6 +36,6 @@
     "grunt-mocha": "~0.4.0",
     "mocha-unfunk-reporter": "~0.2.0",
     "grunt-mocha-test": "~0.7.0",
-    "expect.js": "~0.2.0"
+    "chai": "~1.8.0"
   }
 }

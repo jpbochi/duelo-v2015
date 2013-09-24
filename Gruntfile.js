@@ -24,7 +24,7 @@ module.exports = function (grunt) {
       test: {
         src: [ 'tests/server.js' ],
         options: {
-          reporter: 'spec'
+          reporter: 'mocha-unfunk-reporter'
         }
       }
     },
