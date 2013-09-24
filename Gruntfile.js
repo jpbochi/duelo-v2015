@@ -1,6 +1,6 @@
+/*global module*/
 module.exports = function (grunt) {
   'use strict';
-  /*global global*/
 
   var _ = require('lodash');
 
@@ -10,8 +10,8 @@ module.exports = function (grunt) {
     'console', 'process',
     'require', 'define',
     'equal', 'notEqual', 'deepEqual', 'strictEqual', 'ok',
-    'start', 'stop',
-    'module', 'QUnit', 'test', 'sinon'
+    'describe', 'it', 'beforeEach', 'afterEach',
+    'sinon', 'QUnit'
   ], function (acc, name) {
     acc[name] = true;
     return acc;
@@ -19,7 +19,27 @@ module.exports = function (grunt) {
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
-    qunit: { all: { options: { urls: ['http://localhost:3333/tests/index.html'] } } },
+    mochaTest: {
+      test: {
+        src: [ 'tests/server.js' ],
+        options: {
+          reporter: 'mocha-unfunk-reporter'
+        }
+      }
+    },
+    'mocha_phantomjs': {
+      all: {
+        options: {
+          urls: ['http://localhost:3000/tests'],
+          mocha: {
+            ignoreLeaks: false
+          },
+          log: true,
+          run: false,
+          reporter: 'spec' //'mocha-unfunk-reporter',
+        }
+      }
+    },
     jshint: {
       all: [
         'lib/**/*.js',
@@ -45,14 +65,14 @@ module.exports = function (grunt) {
         jquery: true,
         white: true,
         undef: true,
-        es5: true,
         globals: globals
       }
     }
   });
 
-  grunt.loadNpmTasks('grunt-contrib-qunit');
   grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-mocha-test');
+  grunt.loadNpmTasks('grunt-mocha-phantomjs');
 
   /*global __dirname*/
   var requirejs = require('requirejs');
