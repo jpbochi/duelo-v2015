@@ -6,7 +6,7 @@ define(function (require) {
   describe('GET /api', function () {
     it('lists root links', function (done) {
       api.get('/api').done(function (data) {
-        assert.equal(
+        assert.deepEqual(
           data._links,
           {
             'self': { href: '/api' },
