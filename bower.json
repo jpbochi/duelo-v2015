@@ -24,6 +24,7 @@
     "jquery": "~2.0.3",
     "lodash": "~2.1.0",
     "mustache": "~0.7.2",
-    "bootstrap": "~3.0.0"
+    "bootstrap": "~3.0.0",
+    "kineticjs": "~4.5.2"
   }
 }
