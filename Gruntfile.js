@@ -3,7 +3,6 @@ module.exports = function (grunt) {
   'use strict';
 
   var _ = require('lodash');
-
   var globals = _.reduce([
     'Kinetic',
     '$',
