@@ -2,7 +2,9 @@
 
 [![Build Status](https://travis-ci.org/jpbochi/duelo.png?branch=master)](https://travis-ci.org/jpbochi/duelo)
 
-[Live demo](http://duelo.herokuapp.com/)
+[![Dependencies](https://david-dm.org/jpbochi/duelo.png)](https://david-dm.org/jpbochi/duelo)
+
+[running app](http://duelo.herokuapp.com/)
 
 [Trello board](https://trello.com/board/duelo-js/5105a4da52f437bd250034df)
 
