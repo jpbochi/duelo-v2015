@@ -8,8 +8,8 @@
     "test": "grunt ci"
   },
   "engines": {
-    "node": "0.8.x",
-    "npm": "1.2.x"
+    "node": "0.10.x",
+    "npm": "1.4.x"
   },
   "dependencies": {
     "requirejs": "^2.1.11",
