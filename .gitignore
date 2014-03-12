@@ -3,7 +3,7 @@
 node_modules/
 bower_components/
 .DS_[s|S]tore
-css/*.css
+content/css/*.css
 *.sublime-workspace
 config_dump.json
 config_prod.json
