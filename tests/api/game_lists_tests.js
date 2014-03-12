@@ -20,21 +20,20 @@ define(function (require) {
     });
 
     it('has a link to self', function () {
-      deepEqual(this.data._links, { 'self': { href: '/api/games/all' } }, 'data._links');
+      assert.deepEqual(this.data._links, { 'self': { href: '/api/games/all' } }, 'data._links');
     });
 
     it('content type is duelo-games-list', function () {
       var expectedType = 'duelo-games-list';
       var type = this.jqXHR.getResponseHeader('Content-Type');
 
-      equal(type, 'application/' + expectedType + '+hal+json', 'Content-Type');
-      equal(this.data._contentType, expectedType, 'data._contentType');
+      assert.equal(type, 'application/' + expectedType + '+hal+json', 'Content-Type');
+      assert.equal(this.data._contentType, expectedType, 'data._contentType');
     });
 
     it('embedds all games', function () {
       should.be(this.data._embedded, should.bePlainObject, 'data._embedded');
-      should.be(this.data._embedded.game, _.isArray, 'data._embedded.game');
-      if (should.hasFailed()) { return; }
+      assert.isArray(this.data._embedded.game, 'data._embedded.game');
 
       should.be(
         _(this.data._embedded.game).pluck('_links').pluck('self').pluck('href'),
@@ -51,7 +50,7 @@ define(function (require) {
       var games = this.data._embedded.game;
       if (!games) { return; }
 
-      deepEqual(
+      assert.deepEqual(
         _.pluck(games, 'state'),
         ['lobby', 'lobby', 'lobby'],
         'data._embedded.game#state'
@@ -84,8 +83,6 @@ define(function (require) {
         },
         'data._embedded.game#embedded'
       );
-      if (should.hasFailed()) { return; }
-
       should.be(
         _(games).pluck('_embedded').pluck('player'),
         function allArePlayers(players) {

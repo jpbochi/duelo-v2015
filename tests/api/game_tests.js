@@ -20,10 +20,10 @@ define(function (require) {
 
       it('redirects to a created game', function (done) {
         var context = this;
-        notEqual(context.gameHref, null, 'Location != null');
+        assert.notEqual(context.gameHref, null, 'Location != null');
 
         api.get(context.gameHref).done(function (data, textStatus, jqXHR) {
-          deepEqual(data._links.self, { href: context.gameHref });
+          assert.deepEqual(data._links.self, { href: context.gameHref });
         }).always(done.bind(null, null));
       });
 
@@ -32,11 +32,9 @@ define(function (require) {
 
         api.get(context.gameHref).done(function (data, textStatus, jqXHR) {
           should.be(data._embedded, should.bePlainObject, 'data._embedded');
-          if (should.hasFailed()) { return; }
-          should.be(data._embedded.player, Array.isArray, 'data._embedded.player');
-          if (should.hasFailed()) { return; }
+          assert.isArray(data._embedded.player, 'data._embedded.player');
 
-          deepEqual(
+          assert.deepEqual(
             _.pluck(data._embedded.player, 'displayName'),
             [ context.username ],
             'data._embedded.player#displayName'
@@ -52,7 +50,7 @@ define(function (require) {
       });
 
       it('has link to self', function () {
-        deepEqual(this.game._links.self, { href: this.gameHref });
+        assert.deepEqual(this.game._links.self, { href: this.gameHref });
       });
 
       it('content type is duelo-game', function () {
@@ -60,14 +58,14 @@ define(function (require) {
           var expectedType = 'duelo-game';
           var type = jqXHR.getResponseHeader('Content-Type');
 
-          equal(type, 'application/' + expectedType + '+hal+json', 'Content-Type');
-          equal(data._contentType, expectedType, 'data._contentType');
+          assert.equal(type, 'application/' + expectedType + '+hal+json', 'Content-Type');
+          assert.equal(data._contentType, expectedType, 'data._contentType');
         });
       });
 
       it('does not expose any _id\'s', function () {
-        strictEqual(this.game._id, undefined, 'game._id');
-        strictEqual(this.game._embedded.player[0]._id, undefined, 'game._embedded.player[0]._id');
+        assert.strictEqual(this.game._id, undefined, 'game._id');
+        assert.strictEqual(this.game._embedded.player[0]._id, undefined, 'game._embedded.player[0]._id');
       });
     });
 
@@ -84,7 +82,11 @@ define(function (require) {
       });
 
       it('has a link to the logged user', function () {
-        deepEqual(this.game._links['viewed-by'], this.user._links.self, 'link[rel=viewed-by]');
+        assert.deepEqual(
+          this.game._links['viewed-by'],
+          this.user._links.self,
+          'link[rel=viewed-by]'
+        );
       });
     });
   });

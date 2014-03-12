@@ -10,11 +10,11 @@ define(function (require) {
     it.skip('init', function () {
       canvas(1, 2);
 
-      ok(Kinetic.Stage.called);
-      equal(Kinetic.Stage.callCount, 1);
-      equal(Kinetic.Stage.lastCall.args[0].width, 1);
-      equal(Kinetic.Stage.lastCall.args[0].height, 2);
-      equal(Kinetic.Stage.lastCall.args[0].container, 'board');
+      assert(Kinetic.Stage.called);
+      assert.equal(Kinetic.Stage.callCount, 1);
+      assert.equal(Kinetic.Stage.lastCall.args[0].width, 1);
+      assert.equal(Kinetic.Stage.lastCall.args[0].height, 2);
+      assert.equal(Kinetic.Stage.lastCall.args[0].container, 'board');
     });
   });
 });

@@ -1,6 +1,8 @@
 define(function (require) {
   /*global _*/
   'use strict';
+  var requirejs = require;
+  var assert = GLOBAL.assert || requirejs('chai').assert;
 
   function stringify(value) {
     if (value && _.isFunction(value.value)) { value = value.value(); }
@@ -10,7 +12,7 @@ define(function (require) {
   function should(value, transform, description) {
     description = description || JSON.stringify(value);
 
-    ok(
+    assert(
       transform(value),
       [
         description, ' was expected to ', transform.name,
@@ -20,23 +22,13 @@ define(function (require) {
   }
 
   function dateEqual(actual, expected) {
-    if (!actual || actual.constructor !== Date) {
-      ok(false, ['"', actual, '" does not seems to be Date.'].join(''));
-    } else {
-      equal(actual.toJSON(), new Date(expected).toJSON());
-    }
-  }
-
-  function hasFailed() {
-    return _(QUnit.config.current.assertions).any(function (assertion) {
-      return !assertion.result;
-    });
+    assert.instanceOf(actual, Date);
+    assert.equal(actual.toJSON(), new Date(expected).toJSON());
   }
 
   return {
     be: should,
     bePlainObject: function bePlainObject(value) { return _.isPlainObject(value); },
-    dateEqual: dateEqual,
-    hasFailed: hasFailed
+    dateEqual: dateEqual
   };
 });

@@ -4,18 +4,8 @@ define(function (require) {
     ui: 'bdd'
   });
 
-  (function (expect, assert) {
-    var GLOBAL = window;
+  chai.Assertion.includeStack = true;
 
-    GLOBAL.stop = function () {};
-    GLOBAL.strictEqual = assert.strictEqual;
-    GLOBAL.ok = assert.ok;
-    GLOBAL.equal = assert.equal;
-    GLOBAL.notEqual = assert.notEqual;
-    GLOBAL.deepEqual = assert.deepEqual;
-    GLOBAL.test = GLOBAL.it;
-    GLOBAL.QUnit = {
-      config: { current: { assertions: [] } }
-    };
-  })(chai.expect, chai.assert);
+  window.GLOBAL = window;
+  window.assert = chai.assert;
 });

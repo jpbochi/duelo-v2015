@@ -4,13 +4,11 @@ module.exports = function (grunt) {
 
   var _ = require('lodash');
   var globals = _.reduce([
-    'Kinetic',
-    '$',
+    'Kinetic', '$', 'GLOBAL',
     'console', 'process',
     'require', 'define',
-    'equal', 'notEqual', 'deepEqual', 'strictEqual', 'ok',
     'describe', 'it', 'beforeEach', 'afterEach',
-    'sinon', 'QUnit'
+    'assert', 'sinon'
   ], function (acc, name) {
     acc[name] = true;
     return acc;
@@ -35,7 +33,7 @@ module.exports = function (grunt) {
           },
           log: true,
           run: false,
-          reporter: 'spec' //'mocha-unfunk-reporter',
+          reporter: 'spec'
         }
       }
     },
