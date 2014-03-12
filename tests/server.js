@@ -23,7 +23,7 @@
   GLOBAL.test = GLOBAL.it;
   GLOBAL.QUnit = {
     config: { current: { assertions: [] } },
-    module: function () {}// GLOBAL.suite
+    module: function () {}
   };
   GLOBAL.module = GLOBAL.QUnit.suite;
 
