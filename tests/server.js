@@ -9,7 +9,6 @@
   GLOBAL._ = require('lodash');
 
   var expect = require('chai').expect;
-  GLOBAL.stop = function () {};
   GLOBAL.strictEqual = function (actual, expected, message) {
     expect(actual).to.equal(expected, message);
   };
@@ -20,12 +19,6 @@
     expect(actual).not.to.eql(expected, message);
   };
   GLOBAL.deepEqual = GLOBAL.equal;
-  GLOBAL.test = GLOBAL.it;
-  GLOBAL.QUnit = {
-    config: { current: { assertions: [] } },
-    module: function () {}
-  };
-  GLOBAL.module = GLOBAL.QUnit.suite;
 
   describe('server-side tests', function () {
     before(support.ensureMongoConnected);

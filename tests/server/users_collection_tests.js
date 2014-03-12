@@ -23,47 +23,9 @@ define(function (require) {
     }
   };
 
-  QUnit.module('mongo.users.loginWith()');
-
-  it('creates a user if he not registered', function (done) {
-    var expectedDate = Date.UTC(2013, 2, 28);
-    sinon.stub(Date, 'now').returns(expectedDate);
-
-    users.loginWith(data.authProfile, function (err, user) {
-      strictEqual(err, null);
-
-      deepEqual(
-        _.pick(user, 'key', 'email', 'displayName'),
-        {
-          key: 'facebook:12345',
-          email: 'j@duelo.com',
-          displayName: 'John Doe'
-        }
-      );
-      should.dateEqual(user.lastLogin, expectedDate);
-
-      users.model.find({}, function (err, result) {
-        strictEqual(err, null);
-
-        deepEqual(_.pluck(result, 'key'), ['facebook:12345']);
-        deepEqual(_.pluck(result, 'email'), ['j@duelo.com']);
-        deepEqual(_.pluck(result, 'displayName'), ['John Doe']);
-        should.dateEqual(result[0].lastLogin, expectedDate);
-        done();
-      });
-    });
-  });
-
-  it('returns existing user if he registered', function (done) {
-    new users.model({
-      key: 'facebook:12345',
-      email: 'previous@old.me',
-      displayName: 'Previous Name',
-      lastLogin: Date.UTC(1999, 5, 13)
-    }).save(function (err) {
-      strictEqual(err, null);
-
-      var expectedDate = Date.UTC(2013, 10, 27);
+  describe('mongo.users.loginWith()', function () {
+    it('creates a user if he not registered', function (done) {
+      var expectedDate = Date.UTC(2013, 2, 28);
       sinon.stub(Date, 'now').returns(expectedDate);
 
       users.loginWith(data.authProfile, function (err, user) {
@@ -73,8 +35,8 @@ define(function (require) {
           _.pick(user, 'key', 'email', 'displayName'),
           {
             key: 'facebook:12345',
-            email: 'previous@old.me',
-            displayName: 'Previous Name'
+            email: 'j@duelo.com',
+            displayName: 'John Doe'
           }
         );
         should.dateEqual(user.lastLogin, expectedDate);
@@ -83,10 +45,48 @@ define(function (require) {
           strictEqual(err, null);
 
           deepEqual(_.pluck(result, 'key'), ['facebook:12345']);
-          deepEqual(_.pluck(result, 'email'), ['previous@old.me']);
-          deepEqual(_.pluck(result, 'displayName'), ['Previous Name']);
+          deepEqual(_.pluck(result, 'email'), ['j@duelo.com']);
+          deepEqual(_.pluck(result, 'displayName'), ['John Doe']);
           should.dateEqual(result[0].lastLogin, expectedDate);
           done();
+        });
+      });
+    });
+
+    it('returns existing user if he registered', function (done) {
+      new users.model({
+        key: 'facebook:12345',
+        email: 'previous@old.me',
+        displayName: 'Previous Name',
+        lastLogin: Date.UTC(1999, 5, 13)
+      }).save(function (err) {
+        strictEqual(err, null);
+
+        var expectedDate = Date.UTC(2013, 10, 27);
+        sinon.stub(Date, 'now').returns(expectedDate);
+
+        users.loginWith(data.authProfile, function (err, user) {
+          strictEqual(err, null);
+
+          deepEqual(
+            _.pick(user, 'key', 'email', 'displayName'),
+            {
+              key: 'facebook:12345',
+              email: 'previous@old.me',
+              displayName: 'Previous Name'
+            }
+          );
+          should.dateEqual(user.lastLogin, expectedDate);
+
+          users.model.find({}, function (err, result) {
+            strictEqual(err, null);
+
+            deepEqual(_.pluck(result, 'key'), ['facebook:12345']);
+            deepEqual(_.pluck(result, 'email'), ['previous@old.me']);
+            deepEqual(_.pluck(result, 'displayName'), ['Previous Name']);
+            should.dateEqual(result[0].lastLogin, expectedDate);
+            done();
+          });
         });
       });
     });

@@ -4,13 +4,12 @@ module.exports = function (grunt) {
 
   var _ = require('lodash');
   var globals = _.reduce([
-    'Kinetic',
-    '$',
+    'Kinetic', '$',
     'console', 'process',
     'require', 'define',
     'equal', 'notEqual', 'deepEqual', 'strictEqual', 'ok',
     'describe', 'it', 'beforeEach', 'afterEach',
-    'sinon', 'QUnit'
+    'sinon'
   ], function (acc, name) {
     acc[name] = true;
     return acc;

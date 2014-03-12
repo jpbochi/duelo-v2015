@@ -14,13 +14,13 @@ define(function (require) {
     return { displayName: name, _links: { self: { href: '#/player/' + id } } };
   };
 
-  QUnit.module('lobby().join()');
+  describe('lobby().join()', function () {
+    it('adds player to game', function () {
+      var game = newGame();
 
-  it('adds player to game', function () {
-    var game = newGame();
+      lobby(game, fakeUser('le player')).join();
 
-    lobby(game, fakeUser('le player')).join();
-
-    deepEqual(_.pluck(game.players, 'displayName'), [ 'le player' ]);
+      deepEqual(_.pluck(game.players, 'displayName'), [ 'le player' ]);
+    });
   });
 });
