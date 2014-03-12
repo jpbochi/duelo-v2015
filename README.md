@@ -49,4 +49,4 @@ first, download and install [heroku toolbelt](https://toolbelt.herokuapp.com/).
 
 run this once: `heroku git:remote -a duelo`
 
-to deploy, make sure the build is passing, then run this: `grunt && git push heroku master`
+to deploy, make sure the build is passing, then run this: `npm test && git push heroku master`
