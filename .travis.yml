@@ -4,7 +4,7 @@ node_js:
   - "0.10"
   - "0.9"
 install:
-  - "time npm install --loglevel warn"
+  - "time make install"
 before_script:
   - "time npm install -g grunt-cli --loglevel warn"
   - "mongo --eval 'db.runCommand( { serverStatus: 1 }).version'"
