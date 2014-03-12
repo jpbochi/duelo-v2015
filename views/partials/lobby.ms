@@ -11,8 +11,8 @@
   {{/_embedded.player}}
 </ul>
 {{#_links.join}}
-<button class="btn" href="{{href}}" rel="{{rel}}">Join</button>
+<button class="btn btn-default" href="{{href}}" rel="{{rel}}">Join</button>
 {{/_links.join}}
 {{#_links.become-ready}}
-<button class="btn" href="{{href}}" rel="{{rel}}">I'm ready</button>
+<button class="btn btn-default" href="{{href}}" rel="{{rel}}">I'm ready</button>
 {{/_links.become-ready}}
