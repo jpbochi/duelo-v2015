@@ -20,15 +20,15 @@ define(function (require) {
     });
 
     it('has a link to self', function () {
-      deepEqual(this.data._links, { 'self': { href: '/api/games/all' } }, 'data._links');
+      assert.deepEqual(this.data._links, { 'self': { href: '/api/games/all' } }, 'data._links');
     });
 
     it('content type is duelo-games-list', function () {
       var expectedType = 'duelo-games-list';
       var type = this.jqXHR.getResponseHeader('Content-Type');
 
-      equal(type, 'application/' + expectedType + '+hal+json', 'Content-Type');
-      equal(this.data._contentType, expectedType, 'data._contentType');
+      assert.equal(type, 'application/' + expectedType + '+hal+json', 'Content-Type');
+      assert.equal(this.data._contentType, expectedType, 'data._contentType');
     });
 
     it('embedds all games', function () {
@@ -51,7 +51,7 @@ define(function (require) {
       var games = this.data._embedded.game;
       if (!games) { return; }
 
-      deepEqual(
+      assert.deepEqual(
         _.pluck(games, 'state'),
         ['lobby', 'lobby', 'lobby'],
         'data._embedded.game#state'

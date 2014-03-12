@@ -12,7 +12,7 @@ define(function (require) {
   function should(value, transform, description) {
     description = description || JSON.stringify(value);
 
-    ok(
+    assert(
       transform(value),
       [
         description, ' was expected to ', transform.name,
