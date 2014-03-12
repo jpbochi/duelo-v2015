@@ -1,7 +1,6 @@
 define(function (require) {
   'use strict';
   /*global _,chai*/
-  //var should = require('/external/should/lib/should.js');
   var expect = chai.expect;
 
   function callExpecting(request, action, expectedStatus) {
@@ -18,7 +17,6 @@ define(function (require) {
       }
     }
 
-    //stop();
     return request.fail(function (jqXHR) {
       verify(jqXHR);
     }).done(function (data, textStatus, jqXHR) {

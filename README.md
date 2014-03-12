@@ -25,7 +25,7 @@ node main
 
 ## tests
 
-the test suite uses qunit.
+the test suite uses mocha for both client and server side tests.
 
 ### with grunt
 
@@ -36,7 +36,7 @@ requirements:
 to run the tests:
 
 ```
-grunt
+npm test
 ```
 
 ### on the browser
