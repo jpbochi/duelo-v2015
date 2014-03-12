@@ -4,9 +4,13 @@ define(function (require) {
     ui: 'bdd'
   });
 
+  chai.Assertion.includeStack = true;
+
   (function (expect, assert) {
     var GLOBAL = window;
 
+    GLOBAL.GLOBAL = window;
+    GLOBAL.assert = assert;
     GLOBAL.strictEqual = assert.strictEqual;
     GLOBAL.ok = assert.ok;
     GLOBAL.equal = assert.equal;

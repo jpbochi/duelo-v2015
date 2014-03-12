@@ -1,5 +1,6 @@
 define(function (require) {
   var _ = require('lodash');
+  var assert = require('chai').assert;
   var sinon = require('sinon-restore');
   var support = require('tests/support/server.js');
   var should = require('tests/support/should.js');
@@ -8,7 +9,7 @@ define(function (require) {
 
   function verifyGameIsValid(game, done) {
     game.validate(function (err) {
-      equal(err, undefined, 'game should be valid');
+      assert.isUndefined(err);
       done && done();
     });
   }
@@ -17,7 +18,7 @@ define(function (require) {
     it('creates a valid game in lobby state by default', function (done) {
       var game = games.create();
 
-      equal(game.state, 'lobby', 'game.status');
+      assert.equal(game.state, 'lobby');
       verifyGameIsValid(game, done);
     });
 
@@ -25,7 +26,8 @@ define(function (require) {
       var player = { displayName: 'O Joker' };
       var game = games.create({ players: [player] });
 
-      deepEqual(_.pluck(game.players, 'displayName'), ['O Joker']);
+      require('assert').deepEqual(_.pluck(game.players, 'displayName'), ['O Joker']);
+      assert.deepEqual(_.pluck(game.players, 'displayName'), ['O Joker']);
       verifyGameIsValid(game, done);
     });
 
@@ -48,10 +50,10 @@ define(function (require) {
 
       support.saveAll(existing, function (all) {
         games.get(existing[1].id, function (err, result) {
-          expect(err).to.be.null;
+          assert.isNull(err);
 
-          equal(result.id, existing[1].id);
-          equal(result.state, 'two');
+          assert.equal(result.id, existing[1].id);
+          assert.equal(result.state, 'two');
           done();
         });
       });

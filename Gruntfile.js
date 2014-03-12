@@ -4,7 +4,7 @@ module.exports = function (grunt) {
 
   var _ = require('lodash');
   var globals = _.reduce([
-    'Kinetic', '$',
+    'Kinetic', '$', 'GLOBAL',
     'console', 'process',
     'require', 'define',
     'equal', 'notEqual', 'deepEqual', 'strictEqual', 'ok', //TODO: kill this line
@@ -34,7 +34,7 @@ module.exports = function (grunt) {
           },
           log: true,
           run: false,
-          reporter: 'spec' //'mocha-unfunk-reporter',
+          reporter: 'spec'
         }
       }
     },

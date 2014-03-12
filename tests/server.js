@@ -8,15 +8,7 @@
   var support = requirejs('tests/support/server.js');
   GLOBAL._ = require('lodash');
 
-  var expect = require('chai').expect;
-  GLOBAL.expect = expect;
-  GLOBAL.equal = function (actual, expected, message) {
-    expect(actual).to.eql(expected, message);
-  };
-  GLOBAL.notEqual = function (actual, expected, message) {
-    expect(actual).not.to.eql(expected, message);
-  };
-  GLOBAL.deepEqual = GLOBAL.equal;
+  require('chai').Assertion.includeStack = true;
 
   describe('server-side tests', function () {
     before(support.ensureMongoConnected);
