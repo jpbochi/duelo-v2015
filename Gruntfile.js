@@ -3,6 +3,7 @@ module.exports = function (grunt) {
   'use strict';
 
   var _ = require('lodash');
+
   var globals = _.reduce([
     'Kinetic', '$', 'GLOBAL',
     'console', 'process',
@@ -78,6 +79,6 @@ module.exports = function (grunt) {
   requirejs('./tasks/server.js').register(grunt, __dirname);
   requirejs('./tasks/tests.js').register(grunt);
 
-  grunt.registerTask('default', ['test', 'jshint']);
-  grunt.registerTask('ci', ['test', 'jshint']);
+  grunt.registerTask('default', ['jshint', 'test']);
+  grunt.registerTask('ci', ['jshint', 'test']);
 };

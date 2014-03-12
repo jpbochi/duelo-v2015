@@ -4,8 +4,8 @@
   "repository": "https://github.com/jpbochi/duelo",
   "private": true,
   "scripts": {
-    "start": "make start",
-    "test": "make test"
+    "start": "node main",
+    "test": "grunt ci"
   },
   "engines": {
     "node": "0.10.x",
