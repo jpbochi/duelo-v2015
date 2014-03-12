@@ -33,8 +33,7 @@ define(function (require) {
 
     it('embedds all games', function () {
       should.be(this.data._embedded, should.bePlainObject, 'data._embedded');
-      should.be(this.data._embedded.game, _.isArray, 'data._embedded.game');
-      if (should.hasFailed()) { return; }
+      assert.isArray(this.data._embedded.game, 'data._embedded.game');
 
       should.be(
         _(this.data._embedded.game).pluck('_links').pluck('self').pluck('href'),
@@ -84,8 +83,6 @@ define(function (require) {
         },
         'data._embedded.game#embedded'
       );
-      if (should.hasFailed()) { return; }
-
       should.be(
         _(games).pluck('_embedded').pluck('player'),
         function allArePlayers(players) {

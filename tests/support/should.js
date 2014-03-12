@@ -26,14 +26,9 @@ define(function (require) {
     assert.equal(actual.toJSON(), new Date(expected).toJSON());
   }
 
-  function hasFailed() {
-    return false; //TODO: remove this
-  }
-
   return {
     be: should,
     bePlainObject: function bePlainObject(value) { return _.isPlainObject(value); },
-    dateEqual: dateEqual,
-    hasFailed: hasFailed
+    dateEqual: dateEqual
   };
 });

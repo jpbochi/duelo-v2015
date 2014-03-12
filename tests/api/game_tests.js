@@ -32,9 +32,7 @@ define(function (require) {
 
         api.get(context.gameHref).done(function (data, textStatus, jqXHR) {
           should.be(data._embedded, should.bePlainObject, 'data._embedded');
-          if (should.hasFailed()) { return; }
-          should.be(data._embedded.player, Array.isArray, 'data._embedded.player');
-          if (should.hasFailed()) { return; }
+          assert.isArray(data._embedded.player, 'data._embedded.player');
 
           assert.deepEqual(
             _.pluck(data._embedded.player, 'displayName'),
