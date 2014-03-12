@@ -1,10 +1,14 @@
 language: node_js
 node_js:
+  - "0.11"
   - "0.10"
-install: "time npm install --loglevel warn"
+  - "0.9"
+install:
+  - "time make install"
 before_script:
   - "time npm install -g grunt-cli --loglevel warn"
   - "mongo --eval 'db.runCommand( { serverStatus: 1 }).version'"
-script: "time npm test"
+script:
+  - "time npm test"
 services:
-  - mongodb
+  - "mongodb"
