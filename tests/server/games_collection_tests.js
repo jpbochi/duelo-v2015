@@ -48,7 +48,7 @@ define(function (require) {
 
       support.saveAll(existing, function (all) {
         games.get(existing[1].id, function (err, result) {
-          strictEqual(err, null);
+          expect(err).to.be.null;
 
           equal(result.id, existing[1].id);
           equal(result.state, 'two');

@@ -7,9 +7,9 @@ module.exports = function (grunt) {
     'Kinetic', '$',
     'console', 'process',
     'require', 'define',
-    'equal', 'notEqual', 'deepEqual', 'strictEqual', 'ok',
+    'equal', 'notEqual', 'deepEqual', 'strictEqual', 'ok', //TODO: kill this line
     'describe', 'it', 'beforeEach', 'afterEach',
-    'sinon'
+    'expect', 'sinon'
   ], function (acc, name) {
     acc[name] = true;
     return acc;

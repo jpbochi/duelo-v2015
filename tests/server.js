@@ -9,9 +9,7 @@
   GLOBAL._ = require('lodash');
 
   var expect = require('chai').expect;
-  GLOBAL.strictEqual = function (actual, expected, message) {
-    expect(actual).to.equal(expected, message);
-  };
+  GLOBAL.expect = expect;
   GLOBAL.equal = function (actual, expected, message) {
     expect(actual).to.eql(expected, message);
   };

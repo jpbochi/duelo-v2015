@@ -29,7 +29,7 @@ define(function (require) {
       sinon.stub(Date, 'now').returns(expectedDate);
 
       users.loginWith(data.authProfile, function (err, user) {
-        strictEqual(err, null);
+        expect(err).to.be.null;
 
         deepEqual(
           _.pick(user, 'key', 'email', 'displayName'),
@@ -42,7 +42,7 @@ define(function (require) {
         should.dateEqual(user.lastLogin, expectedDate);
 
         users.model.find({}, function (err, result) {
-          strictEqual(err, null);
+          expect(err).to.be.null;
 
           deepEqual(_.pluck(result, 'key'), ['facebook:12345']);
           deepEqual(_.pluck(result, 'email'), ['j@duelo.com']);
@@ -60,13 +60,13 @@ define(function (require) {
         displayName: 'Previous Name',
         lastLogin: Date.UTC(1999, 5, 13)
       }).save(function (err) {
-        strictEqual(err, null);
+        expect(err).to.be.null;
 
         var expectedDate = Date.UTC(2013, 10, 27);
         sinon.stub(Date, 'now').returns(expectedDate);
 
         users.loginWith(data.authProfile, function (err, user) {
-          strictEqual(err, null);
+          expect(err).to.be.null;
 
           deepEqual(
             _.pick(user, 'key', 'email', 'displayName'),
@@ -79,7 +79,7 @@ define(function (require) {
           should.dateEqual(user.lastLogin, expectedDate);
 
           users.model.find({}, function (err, result) {
-            strictEqual(err, null);
+            expect(err).to.be.null;
 
             deepEqual(_.pluck(result, 'key'), ['facebook:12345']);
             deepEqual(_.pluck(result, 'email'), ['previous@old.me']);
