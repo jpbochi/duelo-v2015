@@ -21,10 +21,10 @@
     "tests"
   ],
   "dependencies": {
-    "jquery": "~2.0.3",
-    "lodash": "~2.1.0",
-    "mustache": "~0.7.2",
-    "bootstrap": "~3.0.0",
-    "kineticjs": "~4.5.2"
+    "jquery": "~2.1.0",
+    "lodash": "~2.4.1",
+    "mustache": "~0.8.1",
+    "bootstrap": "~3.1.1",
+    "kineticjs": "~5.0.1"
   }
 }
