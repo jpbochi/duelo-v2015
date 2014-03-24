@@ -17,12 +17,7 @@ requirements:
 * npm ~> 1.1
 * mongo running on default port (27017)
 
-to run it, simply:
-
-```
-npm install
-node main
-```
+to run it, simply do `npm start`
 
 ## tests
 
