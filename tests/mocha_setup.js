@@ -4,7 +4,7 @@ define(function (require) {
     ui: 'bdd'
   });
 
-  chai.Assertion.includeStack = true;
+  chai.config.includeStack = true;
 
   window.GLOBAL = window;
   window.assert = chai.assert;

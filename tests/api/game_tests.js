@@ -58,7 +58,7 @@ define(function (require) {
           var expectedType = 'duelo-game';
           var type = jqXHR.getResponseHeader('Content-Type');
 
-          assert.equal(type, 'application/' + expectedType + '+hal+json', 'Content-Type');
+          assert.equal(type, 'application/' + expectedType + '+hal+json; charset=utf-8', 'Content-Type');
           assert.equal(data._contentType, expectedType, 'data._contentType');
         });
       });
