@@ -13,8 +13,8 @@ Follow the [Trello board](https://trello.com/board/duelo-js/5105a4da52f437bd2500
 
 requirements:
 
-* node ~> 0.8
-* npm ~> 1.1
+* node ~> 0.10.x
+* npm ~> 1.4.x
 * mongo running on default port (27017)
 
 to run it, simply do `npm start`

@@ -8,7 +8,7 @@
   var support = requirejs('tests/support/server.js');
   GLOBAL._ = require('lodash');
 
-  require('chai').Assertion.includeStack = true;
+  require('chai').config.includeStack = true;
 
   describe('server-side tests', function () {
     before(support.ensureMongoConnected);
