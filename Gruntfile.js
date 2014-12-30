@@ -4,7 +4,7 @@ module.exports = function (grunt) {
 
   var _ = require('lodash');
   var globals = _.reduce([
-    'Kinetic', '$', 'GLOBAL',
+    '$', 'GLOBAL',
     'console', 'process',
     'require', 'define',
     'describe', 'it', 'beforeEach', 'afterEach',

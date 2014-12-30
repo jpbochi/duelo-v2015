@@ -27,7 +27,7 @@ define(function (require) {
       return done && done();
     }
 
-    mongo.db.disconnect(function (err) {
+    mongo.disconnect(function (err) {
       throwIfError(err);
       console.log('mongo disconnected');
 
