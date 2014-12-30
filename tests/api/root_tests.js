@@ -1,6 +1,5 @@
 define(function (require) {
   'use strict';
-  var assert = require('/external/chai/chai.js').assert;
   var api = require('/tests/support/api.js');
 
   describe('GET /api', function () {
