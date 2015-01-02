@@ -1,8 +1,8 @@
 define(function (require) {
-  /*global _*/
+  /*global _,chai*/
   'use strict';
   var requirejs = require;
-  var assert = GLOBAL.assert || requirejs('chai').assert;
+  var assert = ((typeof chai !== 'undefined') && chai.assert) || requirejs('chai').assert;
 
   function stringify(value) {
     if (value && _.isFunction(value.value)) { value = value.value(); }

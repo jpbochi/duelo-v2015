@@ -5,7 +5,4 @@ define(function (require) {
   });
 
   chai.config.includeStack = true;
-
-  window.GLOBAL = window;
-  window.assert = chai.assert;
 });
