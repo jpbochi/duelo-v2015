@@ -2,6 +2,7 @@
 *.*~
 node_modules/
 bower_components/
+tmp/
 .DS_[s|S]tore
 content/css/*.css
 *.sublime-workspace
