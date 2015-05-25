@@ -18,7 +18,7 @@ define(function (require) {
         global.mongo = require('../lib/server/mongo.js');
         global.lo = require('lodash');
         global.sinon = require('sinon-restore');
-        global.tileName = require('../lib/tile_name.js');
+        global.tileName = require('../lib/common/tile_name.js');
 
         Object.defineProperty(global, 'exit', {
           get: function () { done(true); return 'bye'; }
