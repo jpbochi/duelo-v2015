@@ -8,3 +8,6 @@ content/css/*.css
 *.sublime-workspace
 config_dump.json
 config_prod.json
+.npm/
+.node_repl_history
+.mongorc.js

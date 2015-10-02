@@ -3,12 +3,13 @@ sudo: false
 node_js:
   - "0.11"
   - "0.10"
+before_install:
+  - "time make travis.before_install"
 install:
   - "time make install"
 before_script:
-  - "time npm install -g grunt-cli --loglevel warn"
-  - "mongo --eval 'db.runCommand( { serverStatus: 1 }).version'"
+  - "time make travis.before_script"
 script:
-  - "time npm test"
+  - "time make travis.script"
 services:
-  - "mongodb"
+  - docker

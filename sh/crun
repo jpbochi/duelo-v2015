@@ -1,0 +1,17 @@
+#!/bin/bash -e
+
+image=$1
+if [ -z "$image" ]; then
+  echo >&2 "Usage: crun [image] [command]"
+  exit 1
+fi
+
+docker inspect --format="{{.Id}}" $1 > /dev/null || (echo "Pulling image"; docker pull $1)
+
+container_home='/Users/crun/duelo'
+docker run -v $(pwd):$container_home -v /tmp:/tmp -v /var/run/docker.sock:/var/run/docker.sock \
+  -e PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:./node_modules/grunt-cli/bin/" \
+  -e HOME=$container_home \
+  -w $container_home \
+  -p 3000:3000 -p 3030:3030 \
+  --rm -ti "$@"

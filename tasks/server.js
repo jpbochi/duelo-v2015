@@ -2,7 +2,7 @@ define(function (require) {
   var app = require('../lib/server.js');
 
   return {
-    register: function (grunt, dirname) {
+    register(grunt, dirname) {
       grunt.registerTask('server', 'Starts a web server listening on the specified port.', function (port) {
         var done = this.async();
 

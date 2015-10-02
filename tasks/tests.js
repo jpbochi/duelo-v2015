@@ -2,7 +2,7 @@ define(function (require) {
   return {
     register: function (grunt) {
       grunt.registerTask('test:set_env', 'Sets environment variables to test.', function () {
-        process.env.MONGOHQ_URL = 'mongodb://localhost/duelo_test';
+        process.env.MONGOHQ_URL = 'mongodb://mongodb/duelo_test';
 
         grunt.config.set('mocha_phantomjs.all.options.urls', ['http://localhost:3333/tests']);
       });
