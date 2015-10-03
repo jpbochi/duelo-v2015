@@ -1,4 +1,5 @@
-#!/bin/bash -e
+#!/bin/bash
+set -e
 
 image=$1
 if [ -z "$image" ]; then
@@ -7,12 +8,14 @@ if [ -z "$image" ]; then
 fi
 shift
 
-docker inspect --format="{{.Id}}" $image > /dev/null || (echo "Pulling $image image..."; docker pull $image)
+if ! docker inspect --format="{{.Id}}" $image > /dev/null; then
+  echo "Pulling $image image..."
+  docker pull $image
+fi
 
 container_home='/Users/crun/duelo'
 docker run -v $(pwd):$container_home -v /tmp:/tmp -v /var/run/docker.sock:/var/run/docker.sock \
   -e HOME=$container_home \
   -w $container_home \
   -e PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:./node_modules/grunt-cli/bin/" \
-  -p 3000:3000 -p 3030:3030 \
-  --rm -ti $image "$@"
+  $CRUN_OPTS --rm -ti --sig-proxy=true $image "$@"

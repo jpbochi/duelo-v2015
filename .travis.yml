@@ -3,6 +3,6 @@ sudo: true
 services:
   - docker
 before_install: time make travis.before_install
-install: time make install
+install: time make travis.install
 before_script: time make travis.before_script
 script: time make travis.script

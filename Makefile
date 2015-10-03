@@ -1,4 +1,6 @@
-.PHONY: all install start test dev
+.PHONY: all npm.install start test dev
+.PHONY: docker-compose mongodb-up mongodb-stop mongodb-test
+.PHONY: travis.before_install travis.install travis.before_script travis.script
 
 NODE_VERSION=4.1.1
 MONGO_VERSION=3.0.6
@@ -7,26 +9,35 @@ CRUN_MONGO=./sh/crun mongo:${MONGO_VERSION}
 
 all: start
 
-travis.before_install:
-	./sh/install-docker-compose
-
-install:
+npm.install:
 	${CRUN_NODE} npm --harmony install --loglevel warn
 
-travis.before_script:
-	${CRUN_MONGO} mongo --host mongodb --eval 'db.runCommand({ serverStatus: 1 }).version'
+start: npm.install
+	CRUN_OPTS='-p 3000:3000' ${CRUN_NODE} node --harmony main
 
-travis.script:
-	${CRUN_NODE} npm --harmony test
-
-start: install
-	${CRUN_NODE} node --harmony main
-
-test: install mongodb-up
+test: mongodb-up npm.install
 	${CRUN_NODE} grunt ci
-
-mongodb-up:
-	docker-compose up -d
 
 dev: mongodb-up
 	${CRUN_NODE} bash
+
+docker-compose:
+	@./sh/install-docker-compose
+
+mongodb-up: docker-compose
+	docker-compose up -d
+	@${MAKE} mongodb-test
+
+mongodb-stop: docker-compose
+	docker-compose stop
+
+mongodb-test:
+	${CRUN_MONGO} mongo --host mongodb --quiet --eval 'db.runCommand({ serverStatus: 1 }).version'
+
+travis.before_install: docker-compose
+
+travis.install: npm.install
+
+travis.before_script: mongodb-up
+
+travis.script: test

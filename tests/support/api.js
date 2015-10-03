@@ -91,7 +91,7 @@ define(function (require) {
   function createTestGame(context) {
     return post('/api-test/seed?games=1')
     .then(function (data, textStatus, jqXHR) {
-      context.gameHref = '/api/games/' + data[0]._id;
+      context.gameHref = '/api/games/' + data.ops[0]._id;
       return getGame(context);
     });
   }
