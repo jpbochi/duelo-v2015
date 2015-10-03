@@ -1,5 +1,6 @@
 #!/bin/bash
 set -e
+set -o pipefail
 
 image=$1
 if [ -z "$image" ]; then
@@ -8,14 +9,25 @@ if [ -z "$image" ]; then
 fi
 shift
 
+MONGODB_URL="${MONGODB_URL-mongodb://mongohost/duelo_test}"
+
 if ! docker inspect --format="{{.Id}}" $image > /dev/null; then
   echo "Pulling $image image..."
   docker pull $image
 fi
 
+# This .mongohost.ip shenanigans is only require because of docker 1.7 used travis-ci
+if [ -f ".mongohost.ip" ]; then
+  MONGOHOST_IP=$(cat .mongohost.ip)
+  EXTRA_HOST="--add-host='mongohost:$MONGOHOST_IP'"
+fi
+
 container_home='/Users/crun/duelo'
-docker run -v $(pwd):$container_home -v /tmp:/tmp -v /var/run/docker.sock:/var/run/docker.sock \
+pwd=$(pwd)
+set -x
+docker run -v $pwd:$container_home -v /tmp:/tmp -v /var/run/docker.sock:/var/run/docker.sock \
   -e HOME=$container_home \
   -w $container_home \
   -e PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:./node_modules/grunt-cli/bin/" \
-  $CRUN_OPTS --rm -ti --sig-proxy=true $image "$@"
+  -e MONGODB_URL="$MONGODB_URL" \
+  $CRUN_OPTS $EXTRA_HOST --rm -ti --sig-proxy=true $image "$@"

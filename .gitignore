@@ -13,3 +13,4 @@ config_prod.json
 .npm/
 .config/
 .node-gyp/
+.*.ip

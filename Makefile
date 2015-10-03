@@ -25,19 +25,24 @@ docker-compose:
 	@./sh/install-docker-compose
 
 mongodb-up: docker-compose
-	docker-compose up -d
-	@${MAKE} mongodb-test
+	./sh/docker-compose up -d
+	docker inspect --format='{{.NetworkSettings.IPAddress}}' mongohost > .mongohost.ip
 
 mongodb-stop: docker-compose
+	rm -f .*.ip
 	docker-compose stop
+	docker-compose rm -f
+
+mongodb-restart: mongodb-stop mongodb-up
 
 mongodb-test:
-	${CRUN_MONGO} mongo --host mongodb --quiet --eval 'db.runCommand({ serverStatus: 1 }).version'
+	sleep 6
+	${CRUN_MONGO} mongo --host mongohost --quiet --eval 'db.runCommand({ serverStatus: 1 }).version'
 
 travis.before_install: docker-compose
 
 travis.install: npm.install
 
-travis.before_script: mongodb-up
+travis.before_script: mongodb-up mongodb-test
 
 travis.script: test
