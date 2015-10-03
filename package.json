@@ -3,8 +3,11 @@
   "version": "0.0.3",
   "repository": "https://github.com/jpbochi/duelo",
   "private": true,
+  "config": {
+    "unsafe-perm":true
+  },
   "scripts": {
-    "postinstall": "./node_modules/bower/bin/bower install",
+    "postinstall": "./node_modules/bower/bin/bower --allow-root install",
     "start": "make start",
     "test": "make test"
   },
