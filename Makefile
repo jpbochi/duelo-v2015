@@ -1,4 +1,4 @@
-.PHONY: all npm.install start test dev
+.PHONY: all clean npm.install start test dev
 .PHONY: docker-compose mongodb-up mongodb-stop mongodb-test
 .PHONY: travis.before_install travis.install travis.before_script travis.script
 
@@ -9,8 +9,12 @@ CRUN_MONGO=./sh/crun mongo:${MONGO_VERSION}
 
 all: start
 
+clean:
+	rm -r node_modules/
+	rm -r bower_components/
+
 npm.install:
-	${CRUN_NODE} npm --harmony install --loglevel warn
+	${CRUN_NODE} npm install --harmony --unsafe-perm --loglevel warn
 
 start: npm.install
 	CRUN_OPTS='-p 3000:3000' ${CRUN_NODE} node --harmony main
