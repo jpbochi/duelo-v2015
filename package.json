@@ -4,7 +4,7 @@
   "repository": "https://github.com/jpbochi/duelo",
   "private": true,
   "scripts": {
-    "install": "./node_modules/bower/bin/bower install --allow-root --log-level=warn",
+    "postinstall": "./node_modules/bower/bin/bower install --allow-root --config.interactive=false",
     "start": "make start",
     "test": "make test"
   },

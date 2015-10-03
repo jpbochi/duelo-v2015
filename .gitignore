@@ -8,4 +8,5 @@ config_prod.json
 .npm/
 .config/
 .node-gyp/
+.cache/
 .*.ip

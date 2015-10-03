@@ -7,7 +7,9 @@ define(function (require) {
         var done = this.async();
 
         app.configure(dirname, function () {
-          app.start(port);
+          app.start(port, function () {
+            done(true);
+          });
         });
       });
 
