@@ -9,7 +9,6 @@ all: start
 
 travis.before_install:
 	./sh/install-docker-compose
-	${CRUN_NODE} npm install -g grunt-cli --loglevel warn
 
 install:
 	${CRUN_NODE} npm --harmony install --loglevel warn

@@ -7,7 +7,7 @@ if [ -z "$image" ]; then
 fi
 shift
 
-docker inspect --format="{{.Id}}" $image > /dev/null || (echo "Pulling image"; docker pull $image)
+docker inspect --format="{{.Id}}" $image > /dev/null || (echo "Pulling $image image..."; docker pull $image)
 
 container_home='/Users/crun/duelo'
 docker run -v $(pwd):$container_home -v /tmp:/tmp -v /var/run/docker.sock:/var/run/docker.sock \
