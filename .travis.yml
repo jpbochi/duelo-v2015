@@ -1,8 +1,8 @@
-language: node_js
-sudo: false
+language: generic
+sudo: true
+services:
+  - docker
 before_install: time make travis.before_install
 install: time make install
 before_script: time make travis.before_script
 script: time make travis.script
-services:
-  - docker
