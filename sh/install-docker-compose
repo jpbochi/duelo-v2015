@@ -4,6 +4,11 @@ curl -sS -L https://github.com/docker/compose/releases/download/1.4.0/docker-com
 chmod +x docker-compose
 mv docker-compose ./sh
 export PATH="$PATH:./sh"
+set +x
 docker-compose --version
+docker --version
+set -x
 
-docker info
+# https://github.com/travis-ci/travis-ci/issues/4778
+# https://github.com/zuazo/kitchen-in-travis-native/issues/1#issuecomment-142230889
+sudo iptables -L DOCKER || ( echo "DOCKER iptables chain missing" ; sudo iptables -N DOCKER )
