@@ -9,4 +9,5 @@ config_prod.json
 .config/
 .node-gyp/
 .cache/
+.travis/
 .*.ip

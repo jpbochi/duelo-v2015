@@ -6,3 +6,7 @@ before_install: time make travis.before_install
 install: time make travis.install
 before_script: time make travis.before_script
 script: time make travis.script
+deploy:
+  api_key:
+    secure: cG6u88f7brUO9NrRjLzOKS+PIHd+TeGCUyyGMRJrw48nd+TUneeNhYc/NrCD9TfeGBIKAyDmyMf6eQkIX/TmAcSxxgGpevu3p2HS0pcyW9Rr6lOAaRfhIgh1gOav7es1BMQSFz9I40BJkUfDCjn2Ax17bjW0Wc2i3Omtb0gbBSE=
+  provider: heroku
