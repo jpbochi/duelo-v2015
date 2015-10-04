@@ -1,7 +1,7 @@
 #!/bin/sh
 set -e
 
-if hash docker-compose; then
+if hash docker-compose 2> /dev/null; then
   exit 0
 fi
 

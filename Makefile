@@ -1,4 +1,5 @@
-.PHONY: all clean npm.install start test dev
+.PHONY: all clean npm.install
+.PHONY: start urls test dev
 .PHONY: docker-compose mongodb-up mongodb-stop mongodb-test
 .PHONY: travis.before_install travis.install travis.before_script travis.script
 
@@ -10,14 +11,22 @@ CRUN_MONGO=./sh/crun mongo:${MONGO_VERSION}
 all: start
 
 clean:
-	rm -r node_modules/
-	rm -r bower_components/
+	rm -rf node_modules/
+	rm -rf bower_components/
+	rm -rf .npm/
+	rm -rf .node-gyp/
+	rm -rf .cache/
+	rm -rf .config/
 
 npm.install:
 	${CRUN_NODE} npm install --harmony --unsafe-perm --loglevel warn
 
 start: npm.install
 	CRUN_OPTS='-p 3000:3000' ${CRUN_NODE} node --harmony main
+
+urls:
+	@echo "app\thttp://$$(./sh/docker-ip):3000"
+	@echo "test\thttp://$$(./sh/docker-ip):3000/test"
 
 test: mongodb-up npm.install
 	${CRUN_NODE} grunt ci

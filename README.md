@@ -9,40 +9,19 @@ See it [running](http://duelo.herokuapp.com/) (not playable yet).
 
 Follow the [Trello board](https://trello.com/board/duelo-js/5105a4da52f437bd250034df).
 
-## running
+## Development setup
 
-requirements:
+The only requirement is `docker` 1.7.0 or greater, and `make`.
 
-* node ~> 0.10.x
-* npm ~> 1.4.x
-* mongo running on default port (27017)
+- Run tests with `make test`.
+- Start local server with `make start`.
+  - Try `make urls` to see where your local server is running. By default, it listens on the port `3000`.
+- Get inside a development-ready container with `make dev`. There you'll be able to run `node`, `npm`, and `grunt`
 
-to run it, simply do `npm start`
+## if you have access to our heroku app
 
-## tests
+First, download and install [heroku toolbelt](https://toolbelt.herokuapp.com/).
 
-the test suite uses mocha for both client and server side tests.
+Run this once: `heroku git:remote -a duelo`
 
-### with grunt
-
-requirements:
-
-* grunt cli (`npm install -g grunt-cli`)
-
-to run the tests:
-
-```
-npm test
-```
-
-### on the browser
-
-`node main` then visit `localhost:3000/tests`
-
-### if you have access to our heroku app
-
-first, download and install [heroku toolbelt](https://toolbelt.herokuapp.com/).
-
-run this once: `heroku git:remote -a duelo`
-
-to deploy, make sure the build is passing, then run this: `npm test && git push heroku master`
+To deploy, make sure the build is passing, then run this: `npm test && git push heroku master`
