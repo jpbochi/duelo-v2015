@@ -10,4 +10,5 @@ config_prod.json
 .node-gyp/
 .cache/
 .travis/
+.bin/
 .*.ip

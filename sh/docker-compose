@@ -1,3 +1,10 @@
 #!/bin/sh
 set -e
-docker-compose $@
+if hash docker-compose 2> /dev/null; then
+  docker-compose $@
+elif [ -x './.bin/docker-compose' ]; then
+  ./.bin/docker-compose $@
+else
+  echo >&2 "Failed to locate docker-compose."
+  exit 1
+fi
