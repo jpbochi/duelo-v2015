@@ -9,8 +9,8 @@
     "test": "make test"
   },
   "engines": {
-    "node": "0.12.x",
-    "npm": "2.10.x"
+    "node": "4.1.x",
+    "npm": "2.14.x"
   },
   "dependencies": {
     "body-parser": "^1.14.1",
