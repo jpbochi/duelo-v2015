@@ -18,10 +18,12 @@ The only requirement is `docker` 1.7.0 or greater, and `make`.
   - Try `make urls` to see where your local server is running. By default, it listens on the port `3000`.
 - Get inside a development-ready container with `make dev`. There you'll be able to run `node`, `npm`, and `grunt`
 
-## if you have access to our heroku app
+## Deployment
 
-First, download and install [heroku toolbelt](https://toolbelt.herokuapp.com/).
+Deployment to heroku is fully automated through travis-ci. Any successful build on master will be deployed.
 
-Run this once: `heroku git:remote -a duelo`
+## If you want to make a manual deploy
 
-To deploy, make sure the build is passing, then run this: `npm test && git push heroku master`
+1. First, download and install [heroku toolbelt](https://toolbelt.herokuapp.com/).
+2. Run this once: `heroku git:remote -a duelo`
+3. To deploy, then run this: `make test && git push heroku master`
