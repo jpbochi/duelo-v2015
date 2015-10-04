@@ -1,7 +1,9 @@
-.PHONY: all clean npm.install
+.PHONY: all npm.install clean
 .PHONY: start urls test dev
 .PHONY: docker-compose mongodb-up mongodb-stop mongodb-test
-.PHONY: travis.before_install travis.install travis.before_script travis.script travis.before_deploy
+.PHONY: travis.before_install travis.install
+.PHONY: travis.before_script travis.script travis.after_script travis.before_deploy
+.PHONY: .FORCE
 
 NODE_VERSION=4.1.1
 MONGO_VERSION=3.0.6
@@ -9,14 +11,6 @@ CRUN_NODE=./sh/crun node:${NODE_VERSION}
 CRUN_MONGO=./sh/crun mongo:${MONGO_VERSION}
 
 all: start
-
-clean:
-	rm -rf node_modules/
-	rm -rf bower_components/
-	rm -rf .npm/
-	rm -rf .node-gyp/
-	rm -rf .cache/
-	rm -rf .config/
 
 npm.install:
 	${CRUN_NODE} npm install --harmony --unsafe-perm --loglevel warn
@@ -52,6 +46,17 @@ mongodb-test:
 	sleep 6
 	${CRUN_MONGO} mongo --host mongohost --quiet --eval 'db.runCommand({ serverStatus: 1 }).version'
 
+TEMP_DIRS=node_modules/ bower_components/ .node-gyp/ .local/ .config/ .cache/ .npm/
+RM_TEMP_DIRS=$(addprefix clean-dir/,$(TEMP_DIRS))
+clean-dir/%: .FORCE
+	@rm -rf $*
+
+CHWON_TEMP_DIRS=$(addprefix chown-dir/,$(TEMP_DIRS))
+chown-dir/%: .FORCE
+	@sudo chown -R `whoami` $*
+
+clean: $(RM_TEMP_DIRS)
+
 travis.before_install: docker-compose
 
 travis.install: npm.install
@@ -60,10 +65,6 @@ travis.before_script: mongodb-up mongodb-test
 
 travis.script: test
 
-travis.before_deploy:
-	sudo chown -R `whoami` node_modules/
-	sudo chown -R `whoami` bower_components/
-	sudo chown -R `whoami` .node-gyp/
-	sudo chown -R `whoami` .local/
-	sudo chown -R `whoami` .config/
-	sudo chown -R `whoami` .cache/
+travis.after_script: mongodb-stop
+
+travis.before_deploy: $(CHWON_TEMP_DIRS)
