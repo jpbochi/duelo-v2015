@@ -43,8 +43,8 @@ mongodb-up: docker-compose
 
 mongodb-stop: docker-compose
 	rm -f .*.ip
-	docker-compose stop
-	docker-compose rm -f
+	./sh/docker-compose stop
+	./sh/docker-compose rm -f
 
 mongodb-restart: mongodb-stop mongodb-up
 
@@ -59,3 +59,11 @@ travis.install: npm.install
 travis.before_script: mongodb-up mongodb-test
 
 travis.script: test
+
+before_deploy:
+	sudo chown -R `whoami` node_modules/
+	sudo chown -R `whoami` bower_components/
+	sudo chown -R `whoami` .node-gyp/
+	sudo chown -R `whoami` .local/
+	sudo chown -R `whoami` .config/
+	sudo chown -R `whoami` .cache/
