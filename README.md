@@ -1,13 +1,13 @@
 # Duelo
 
 [![Build Status](https://travis-ci.org/jpbochi/duelo.png?branch=master)](https://travis-ci.org/jpbochi/duelo)
+[![duelo@heroku](https://heroku-badge.herokuapp.com/?app=duelo&style=flat)](http://duelo.herokuapp.com/)
+[![Trello board](http://i.picresize.com/images/2015/10/04/7KGth.png)](https://trello.com/board/duelo-js/5105a4da52f437bd250034df)
+
 [![Dependency Status](https://david-dm.org/jpbochi/duelo.png)](https://david-dm.org/jpbochi/duelo)
 [![devDependency Status](https://david-dm.org/jpbochi/duelo/dev-status.png)](https://david-dm.org/jpbochi/duelo#info=devDependencies)
 [![Code Climate](https://codeclimate.com/github/jpbochi/duelo.png)](https://codeclimate.com/github/jpbochi/duelo)
 
-See it [running](http://duelo.herokuapp.com/) (not playable yet).
-
-Follow the [Trello board](https://trello.com/board/duelo-js/5105a4da52f437bd250034df).
 
 ## Development setup
 
