@@ -1,7 +1,7 @@
 .PHONY: all clean npm.install
 .PHONY: start urls test dev
 .PHONY: docker-compose mongodb-up mongodb-stop mongodb-test
-.PHONY: travis.before_install travis.install travis.before_script travis.script
+.PHONY: travis.before_install travis.install travis.before_script travis.script travis.before_deploy
 
 NODE_VERSION=4.1.1
 MONGO_VERSION=3.0.6
@@ -60,7 +60,7 @@ travis.before_script: mongodb-up mongodb-test
 
 travis.script: test
 
-before_deploy:
+travis.before_deploy:
 	sudo chown -R `whoami` node_modules/
 	sudo chown -R `whoami` bower_components/
 	sudo chown -R `whoami` .node-gyp/
