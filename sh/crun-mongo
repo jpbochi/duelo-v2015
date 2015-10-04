@@ -1,0 +1,9 @@
+#!/bin/sh
+set -e
+
+if hash jq 2> /dev/null; then
+  VERSION=$(jq -r '.runtimeDependencies.mongodb' package.json)
+else
+  VERSION=3.0.6
+fi
+./sh/crun "mongo:$VERSION" "$@"

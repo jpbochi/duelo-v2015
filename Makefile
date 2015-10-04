@@ -1,32 +1,30 @@
 .PHONY: all npm.install clean
-.PHONY: start urls test dev
+.PHONY: start urls test dev update-deps
 .PHONY: docker-compose mongodb-up mongodb-stop mongodb-test
 .PHONY: travis.before_install travis.install
 .PHONY: travis.before_script travis.script travis.after_script travis.before_deploy
 .PHONY: .FORCE
 
-NODE_VERSION=4.1.1
-MONGO_VERSION=3.0.6
-CRUN_NODE=./sh/crun node:${NODE_VERSION}
-CRUN_MONGO=./sh/crun mongo:${MONGO_VERSION}
-
 all: start
 
 npm.install:
-	${CRUN_NODE} npm install --harmony --unsafe-perm --loglevel warn
+	./sh/crun-node npm install --harmony --unsafe-perm --loglevel warn
 
 start: npm.install
-	CRUN_OPTS='-p 3000:3000' ${CRUN_NODE} node --harmony main
+	CRUN_OPTS='-p 3000:3000' ./sh/crun-node node --harmony main
 
 urls:
 	@echo "app\thttp://$$(./sh/docker-ip):3000"
 	@echo "test\thttp://$$(./sh/docker-ip):3000/test"
 
 test: mongodb-up npm.install
-	${CRUN_NODE} grunt ci
+	./sh/crun-node grunt ci
 
 dev: mongodb-up
-	${CRUN_NODE} bash
+	./sh/crun-node bash
+
+update-deps: npm.install
+	./sh/crun-node ncu --upgradeAll
 
 docker-compose:
 	@./sh/install-docker-compose
@@ -43,8 +41,7 @@ mongodb-stop: docker-compose
 mongodb-restart: mongodb-stop mongodb-up
 
 mongodb-test:
-	sleep 6
-	${CRUN_MONGO} mongo --host mongohost --quiet --eval 'db.runCommand({ serverStatus: 1 }).version'
+	sh/crun-mongo mongo --host mongohost --quiet --eval 'db.runCommand({ serverStatus: 1 }).version'
 
 TEMP_DIRS=node_modules/ bower_components/ .node-gyp/ .local/ .config/ .cache/ .npm/
 RM_TEMP_DIRS=$(addprefix clean-dir/,$(TEMP_DIRS))

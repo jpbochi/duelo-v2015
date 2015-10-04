@@ -9,8 +9,11 @@
     "test": "make test"
   },
   "engines": {
-    "node": "4.1.x",
+    "node": "4.1.1",
     "npm": "2.14.x"
+  },
+  "runtimeDependencies": {
+    "mongodb": "3.0.6"
   },
   "dependencies": {
     "body-parser": "^1.14.1",
@@ -43,6 +46,7 @@
     "grunt-mocha-test": "^0.12.7",
     "mocha": "^2.3.3",
     "mocha-unfunk-reporter": "^0.4.0",
+    "npm-check-updates": "^2.3.0",
     "passport-local": "^1.0.0",
     "phantomjs": "^1.9.18",
     "sinon": "^1.17.1",

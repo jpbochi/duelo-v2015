@@ -1,0 +1,9 @@
+#!/bin/sh
+set -e
+
+if hash jq 2> /dev/null; then
+  VERSION=$(jq -r '.engines.node' package.json)
+else
+  VERSION=4.1.1
+fi
+./sh/crun "node:$VERSION" "$@"
