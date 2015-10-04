@@ -1,4 +1,5 @@
 /*global module*/
+/*jshint camelcase: false */
 module.exports = function (grunt) {
   'use strict';
 
@@ -24,13 +25,10 @@ module.exports = function (grunt) {
         }
       }
     },
-    'mocha_phantomjs': {
+    mocha_phantomjs: {
       all: {
         options: {
-          urls: ['http://localhost:3000/tests'],
-          mocha: {
-            ignoreLeaks: false
-          },
+          urls: ['http://127.0.0.1:3000/tests'],
           log: true,
           run: false,
           reporter: 'spec'
@@ -62,6 +60,7 @@ module.exports = function (grunt) {
         jquery: true,
         white: true,
         undef: true,
+        esnext: true,
         globals: globals
       }
     }

@@ -1,10 +1,12 @@
-*.swp
-*.*~
 node_modules/
 bower_components/
-tmp/
-.DS_[s|S]tore
-content/css/*.css
 *.sublime-workspace
 config_dump.json
 config_prod.json
+.node_repl_history
+.mongorc.js
+.npm/
+.config/
+.node-gyp/
+.cache/
+.*.ip

@@ -1,0 +1,16 @@
+#!/bin/sh
+set -e
+
+if hash docker-compose 2> /dev/null; then
+  exit 0
+fi
+
+curl -sS -L https://github.com/docker/compose/releases/download/1.4.0/docker-compose-`uname -s`-`uname -m` > docker-compose
+chmod +x docker-compose
+mv docker-compose ./sh/
+./sh/docker-compose --version
+docker --version
+
+# https://github.com/travis-ci/travis-ci/issues/4778
+# https://github.com/zuazo/kitchen-in-travis-native/issues/1#issuecomment-142230889
+sudo iptables -L DOCKER || ( echo "DOCKER iptables chain missing" ; sudo iptables -N DOCKER )

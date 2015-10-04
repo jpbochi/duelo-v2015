@@ -1,14 +1,8 @@
-language: node_js
-sudo: false
-node_js:
-  - "0.11"
-  - "0.10"
-install:
-  - "time make install"
-before_script:
-  - "time npm install -g grunt-cli --loglevel warn"
-  - "mongo --eval 'db.runCommand( { serverStatus: 1 }).version'"
-script:
-  - "time npm test"
+language: generic
+sudo: true
 services:
-  - "mongodb"
+  - docker
+before_install: time make travis.before_install
+install: time make travis.install
+before_script: time make travis.before_script
+script: time make travis.script

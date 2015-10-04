@@ -1,8 +1,6 @@
-define(function (require) {
-  /*global mocha,chai */
-  mocha.setup({
-    ui: 'bdd'
-  });
+/*global mocha,chai */
+chai.config.includeStack = true;
 
-  chai.config.includeStack = true;
+mocha.setup({
+  ui: 'bdd'
 });
