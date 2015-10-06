@@ -1,0 +1,9 @@
+#!/bin/sh
+set -e
+
+if hash jq 2> /dev/null; then
+  VERSION=$(jq -r '.runtimeDependencies.mongodb' package.json)
+  curl -sS "https://semver.io/mongodb/resolve/$VERSION"
+else
+  curl -sS https://semver.io/mongodb/stable
+fi
