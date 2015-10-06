@@ -1,4 +1,4 @@
-.PHONY: all npm.install clean
+.PHONY: all npm-install clean
 .PHONY: start urls test dev update-deps
 .PHONY: docker-compose mongodb-up mongodb-stop mongodb-test
 .PHONY: travis.before_install travis.install
@@ -7,23 +7,23 @@
 
 all: start
 
-npm.install:
+npm-install: .FORCE
 	./sh/crun-node npm install --harmony --unsafe-perm --loglevel warn
 
-start: npm.install
+start: npm-install
 	CRUN_OPTS='-p 3000:3000' ./sh/crun-node node --harmony main
 
 urls:
 	@echo "app\thttp://$$(./sh/docker-ip):3000"
 	@echo "test\thttp://$$(./sh/docker-ip):3000/test"
 
-test: mongodb-up npm.install
+test: mongodb-up npm-install
 	./sh/crun-node grunt ci
 
 dev: mongodb-up
 	./sh/crun-node bash
 
-update-deps: npm.install
+update-deps: npm-install
 	./sh/crun-node ncu --upgradeAll
 
 docker-compose:
@@ -54,9 +54,14 @@ chown-dir/%: .FORCE
 
 clean: $(RM_TEMP_DIRS)
 
-travis.before_install: docker-compose
+versions:
+	bash --version
+	./sh/docker-compose --version
+	docker --version
 
-travis.install: npm.install
+travis.before_install: docker-compose versions
+
+travis.install: npm-install
 
 travis.before_script: mongodb-up mongodb-test
 
