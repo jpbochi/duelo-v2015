@@ -5,12 +5,17 @@ IMAGE="$1"
 VERSION_FILE="./.cache/$IMAGE.version"
 
 if [ ! -f "$VERSION_FILE" ] || [ "./package.json" -nt "$VERSION_FILE" ]; then
-  mkdir -p './.cache'
+  rm -f "$VERSION_FILE"
+
   echo >&2 "Resolving $IMAGE version..."
-  "sh/resolve-$IMAGE-version" > $VERSION_FILE
+  VERSION=$(sh/resolve-$IMAGE-version)
+
+  mkdir -p './.cache'
+  echo $VERSION > $VERSION_FILE
+else
+  VERSION=$(cat $VERSION_FILE)
 fi
 
-VERSION=$(cat $VERSION_FILE)
 if [ -z "$VERSION" ]; then
   echo >&2 "Failed to resolve $IMAGE version."
   cat "$VERSION_FILE"

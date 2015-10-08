@@ -29,12 +29,23 @@ if [ -f ".mongohost.ip" ]; then
   EXTRA_HOST="--add-host='mongohost:$MONGOHOST_IP'"
 fi
 
-container_home='/Users/crun/duelo'
-pwd=$(pwd)
+BASH_PATH=$(dirname "${BASH_SOURCE[0]}")
+if hash realpath 2> /dev/null; then
+  REPO_ROOT=$(realpath "${BASH_PATH}/../")
+else
+  REPO_ROOT=$(readlink -f "${BASH_PATH}/../")
+fi
+CONTAINER_HOME=$REPO_ROOT
+
+DOCKER_OPTS="--rm"
+if [ "$NO_DOCKER_RM" ]; then
+  DOCKER_OPTS=""
+fi
+
 set -x
-docker run -v $pwd:$container_home -v /tmp:/tmp -v /var/run/docker.sock:/var/run/docker.sock \
-  -e HOME=$container_home \
-  -w $container_home \
+docker run -v $REPO_ROOT:$CONTAINER_HOME -v /tmp:/tmp -v /var/run/docker.sock:/var/run/docker.sock \
+  -e HOME=$CONTAINER_HOME \
+  -w $CONTAINER_HOME \
   -e PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:./node_modules/.bin/" \
   -e MONGODB_URL="$MONGODB_URL" \
-  $CRUN_OPTS $EXTRA_HOST --rm -ti --sig-proxy=true $image "$@"
+  $CRUN_OPTS $EXTRA_HOST $DOCKER_OPTS -ti --sig-proxy=true $image "$@"
