@@ -3,8 +3,10 @@ set -e
 PATH="$PATH:./.bin/"
 DOCKER_COMPOSE_VERSION=${DOCKER_COMPOSE_VERSION-1.4.2}
 
-if hash docker-compose 2> /dev/null; then
-  INSTALLED_VERSION=$(docker-compose -v | awk '{print $3}')
+if [ -x './.bin/docker-compose' ]; then
+  exit 0 #assuming locally installed version is correct
+elif hash docker-compose 2> /dev/null; then
+  INSTALLED_VERSION=$(docker-compose --version | grep docker-compose | awk '{print $3}' | tr -d '\n')
   if [ "$INSTALLED_VERSION" == "$DOCKER_COMPOSE_VERSION" ]; then
     exit 0
   else
