@@ -30,7 +30,7 @@ docker-compose:
 	@./sh/install-docker-compose
 
 mongodb-up: docker-compose
-	./sh/docker-compose up -d
+	./sh/docker-compose up -d --no-recreate
 	./sh/mongohost-ip > .mongohost.ip
 
 mongodb-stop: docker-compose
