@@ -1,16 +1,22 @@
 #!/bin/sh
 set -e
 PATH="$PATH:./.bin/"
+DOCKER_COMPOSE_VERSION=${DOCKER_COMPOSE_VERSION-1.4.2}
 
 if hash docker-compose 2> /dev/null; then
-  exit 0
+  INSTALLED_VERSION=$(docker-compose -v | awk '{print $3}')
+  if [ "$INSTALLED_VERSION" == "$DOCKER_COMPOSE_VERSION" ]; then
+    exit 0
+  else
+    echo >&2 "Installed docker-compose version ($INSTALLED_VERSION) differs from expected ($DOCKER_COMPOSE_VERSION)"
+  fi
+else
+  echo >&2 "docker-compose not found"
 fi
 
-curl -sS -L https://github.com/docker/compose/releases/download/1.4.0/docker-compose-`uname -s`-`uname -m` > docker-compose
+DOCKER_COMPOSE_INSTALL_URL="https://github.com/docker/compose/releases/download/$DOCKER_COMPOSE_VERSION/docker-compose-`uname -s`-`uname -m`"
+echo "Installing docker-compose from $DOCKER_COMPOSE_INSTALL_URL"
+curl -sS -L "$DOCKER_COMPOSE_INSTALL_URL" > docker-compose
 chmod +x docker-compose
 mkdir -p .bin/
 mv docker-compose ./.bin/
-
-# https://github.com/travis-ci/travis-ci/issues/4778
-# https://github.com/zuazo/kitchen-in-travis-native/issues/1#issuecomment-142230889
-sudo iptables -L DOCKER || ( echo "DOCKER iptables chain missing" ; sudo iptables -N DOCKER )

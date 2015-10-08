@@ -57,11 +57,16 @@ clean: $(RM_TEMP_DIRS)
 versions:
 	make --version
 	bash --version
-	./sh/docker-compose --version
-	docker --version
+	./sh/docker-compose version || ./sh/docker-compose --version
+	docker version
 	docker info
 
-travis.before_install: docker-compose versions
+docker-fix-iptables:
+	@# https://github.com/travis-ci/travis-ci/issues/4778
+	@# https://github.com/zuazo/kitchen-in-travis-native/issues/1#issuecomment-142230889
+	sudo iptables -L DOCKER || ( echo "DOCKER iptables chain missing" ; sudo iptables -N DOCKER )
+
+travis.before_install: docker-compose docker-fix-iptables versions
 
 travis.install: npm-install
 
