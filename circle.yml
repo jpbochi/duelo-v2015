@@ -1,0 +1,11 @@
+dependencies:
+  pre:
+    - make travis.before_install
+    - make travis.install
+   -  make travis.before_script
+
+test:
+  override:
+    - make travis.script
+  post:
+    - make travis.after_script
