@@ -1,9 +1,8 @@
 #!/bin/sh
 set -e
-PATH="$PATH:./.bin/"
 DOCKER_COMPOSE_VERSION=${DOCKER_COMPOSE_VERSION-1.4.2}
 
-BIN_TARGET='./.bin/docker-compose'
+BIN_TARGET='.bin/docker-compose'
 if [ -x $BIN_TARGET ]; then
   EXISTING_DC=$BIN_TARGET
 elif hash docker-compose 2> /dev/null; then
@@ -14,8 +13,8 @@ else
 fi
 
 if [ "$EXISTING_DC" ]; then
-  INSTALLED_VERSION=$($EXISTING_DC --version | grep docker-compose | awk '{print $3}' | tr -d '\n')
-  if [ "$INSTALLED_VERSION" == "$DOCKER_COMPOSE_VERSION" ]; then
+  INSTALLED_VERSION=$(${EXISTING_DC} --version | grep docker-compose | awk '{print $3}' | tr -d '\n')
+  if [ "'${INSTALLED_VERSION}'" == "'${DOCKER_COMPOSE_VERSION}'" ]; then
     exit 0
   else
     echo >&2 "Installed docker-compose version ($INSTALLED_VERSION) differs from expected ($DOCKER_COMPOSE_VERSION)"
