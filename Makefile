@@ -31,7 +31,7 @@ docker-compose:
 
 mongodb-up: docker-compose
 	./sh/docker-compose up -d
-	docker inspect --format='{{.NetworkSettings.IPAddress}}' mongohost > .mongohost.ip
+	./sh/mongohost-ip > .mongohost.ip
 
 mongodb-stop: docker-compose
 	rm -f .*.ip

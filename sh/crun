@@ -23,7 +23,6 @@ if ! docker inspect --format="{{.Id}}" $image > /dev/null; then
   docker pull $image
 fi
 
-# This .mongohost.ip shenanigans is only require because of docker 1.7 used travis-ci
 if [ -f ".mongohost.ip" ]; then
   MONGOHOST_IP=$(cat .mongohost.ip)
   EXTRA_HOST="--add-host='mongohost:$MONGOHOST_IP'"
