@@ -55,9 +55,11 @@ chown-dir/%: .FORCE
 clean: $(RM_TEMP_DIRS)
 
 versions:
+	make --version
 	bash --version
 	./sh/docker-compose --version
 	docker --version
+	docker info
 
 travis.before_install: docker-compose versions
 
