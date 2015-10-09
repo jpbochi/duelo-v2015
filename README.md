@@ -1,6 +1,6 @@
 # Duelo
 
-[![Build Status](https://travis-ci.org/jpbochi/duelo.png?branch=master)](https://travis-ci.org/jpbochi/duelo)
+[![Circle CI](https://circleci.com/gh/jpbochi/duelo.png)](https://circleci.com/gh/jpbochi/duelo)
 [![duelo@heroku](https://heroku-badge.herokuapp.com/?app=duelo&style=flat)](http://duelo.herokuapp.com/)
 
 [![Dependency Status](https://david-dm.org/jpbochi/duelo.png)](https://david-dm.org/jpbochi/duelo)
