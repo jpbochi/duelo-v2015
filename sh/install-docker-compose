@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 set -e
 DOCKER_COMPOSE_VERSION=${DOCKER_COMPOSE_VERSION-1.4.2}
 
@@ -14,7 +14,7 @@ fi
 
 if [ "$EXISTING_DC" ]; then
   INSTALLED_VERSION=$(${EXISTING_DC} --version | grep docker-compose | awk '{print $3}' | tr -d '\n')
-  if [ "'${INSTALLED_VERSION}'" == "'${DOCKER_COMPOSE_VERSION}'" ]; then
+  if [ "${INSTALLED_VERSION}" == "${DOCKER_COMPOSE_VERSION}" ]; then
     exit 0
   else
     echo >&2 "Installed docker-compose version ($INSTALLED_VERSION) differs from expected ($DOCKER_COMPOSE_VERSION)"
