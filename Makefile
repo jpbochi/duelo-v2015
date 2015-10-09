@@ -36,7 +36,7 @@ mongodb-up: docker-compose
 mongodb-stop: docker-compose
 	rm -f .*.ip
 	./sh/docker-compose stop
-	./sh/docker-compose rm -f
+	[ "${NO_DOCKER_RM}" ] && echo ./sh/docker-compose rm -f || echo "possibly, leaving containers behind"
 
 mongodb-restart: mongodb-stop mongodb-up
 
