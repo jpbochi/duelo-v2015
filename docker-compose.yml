@@ -1,3 +1,3 @@
 mongodb:
   image: mongo:3.0.6
-  container_name: mongohost
+  # container_name: mongohost #not supported by docker-compose older than 1.4

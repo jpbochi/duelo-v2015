@@ -1,0 +1,8 @@
+#!/bin/bash
+set -e
+
+# This mongohost-ip shenanigans is require because:
+# 1. docker-compose older than 1.4 (used by circleci) does not support container_name
+# 2. docker 1.7 (used by travis-ci) does not automatically adds /etc/hosts for other containers
+CONTAINER_NAME=$(./sh/docker-compose ps | grep 27017 | awk '{print $1}')
+docker inspect --format='{{.NetworkSettings.IPAddress}}' "$CONTAINER_NAME"

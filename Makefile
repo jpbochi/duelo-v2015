@@ -30,13 +30,13 @@ docker-compose:
 	@./sh/install-docker-compose
 
 mongodb-up: docker-compose
-	./sh/docker-compose up -d
-	docker inspect --format='{{.NetworkSettings.IPAddress}}' mongohost > .mongohost.ip
+	./sh/docker-compose up -d --no-recreate
+	./sh/mongohost-ip > .mongohost.ip
 
 mongodb-stop: docker-compose
 	rm -f .*.ip
 	./sh/docker-compose stop
-	./sh/docker-compose rm -f
+	[ "${NO_DOCKER_RM}" ] && echo ./sh/docker-compose rm -f || echo "possibly, leaving containers behind"
 
 mongodb-restart: mongodb-stop mongodb-up
 
@@ -55,11 +55,18 @@ chown-dir/%: .FORCE
 clean: $(RM_TEMP_DIRS)
 
 versions:
+	make --version
 	bash --version
-	./sh/docker-compose --version
-	docker --version
+	./sh/docker-compose version || ./sh/docker-compose --version
+	docker version
+	docker info
 
-travis.before_install: docker-compose versions
+docker-fix-iptables:
+	@# https://github.com/travis-ci/travis-ci/issues/4778
+	@# https://github.com/zuazo/kitchen-in-travis-native/issues/1#issuecomment-142230889
+	sudo iptables -L DOCKER || ( echo "DOCKER iptables chain missing" ; sudo iptables -N DOCKER )
+
+travis.before_install: docker-compose docker-fix-iptables versions
 
 travis.install: npm-install
 
