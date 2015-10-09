@@ -15,3 +15,8 @@ test:
     - make travis.script
   post:
     - make travis.after_script
+deployment:
+  staging:
+    branch: master
+    heroku:
+      appname: duelo
