@@ -57,9 +57,9 @@ clean: $(RM_TEMP_DIRS)
 versions:
 	make --version
 	bash --version
-	./sh/docker-compose version || ./sh/docker-compose --version
 	docker version
 	docker info
+	./sh/docker-compose version || ./sh/docker-compose --version
 
 docker-fix-iptables:
 	@# https://github.com/travis-ci/travis-ci/issues/4778
