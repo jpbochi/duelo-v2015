@@ -46,6 +46,6 @@ set -x
 docker run -v $REPO_ROOT:$CONTAINER_HOME -v /tmp:/tmp -v /var/run/docker.sock:/var/run/docker.sock \
   -e HOME=$CONTAINER_HOME \
   -w $CONTAINER_HOME \
-  -e PATH="$STANDARD_PATH:./node_modules/.bin/" \
+  -e PATH="./node_modules/.bin/:$STANDARD_PATH" \
   -e MONGODB_URL="$MONGODB_URL" \
   $CRUN_OPTS $EXTRA_HOST $DOCKER_OPTS -ti --sig-proxy=true $image "$@"
