@@ -1,4 +1,4 @@
-.PHONY: all npm-install npm-install-force clean
+.PHONY: all npm-install clean
 .PHONY: start urls test dev update-deps
 .PHONY: docker-compose mongodb-up mongodb-stop mongodb-test
 .PHONY: circle.dependencies circle.test circle.post-test
@@ -10,9 +10,6 @@ all: start
 
 npm-install: .FORCE
 	./sh/crun-node npm install --harmony --unsafe-perm --loglevel warn
-
-npm-install-force: .FORCE
-	./sh/crun-node npm install --harmony --unsafe-perm --loglevel warn --force
 
 start: npm-install
 	CRUN_OPTS='-p 3000:3000' ./sh/crun-node node --harmony main
@@ -70,7 +67,7 @@ docker-fix-iptables:
 	@# https://github.com/zuazo/kitchen-in-travis-native/issues/1#issuecomment-142230889
 	sudo iptables -L DOCKER || ( echo "DOCKER iptables chain missing" ; sudo iptables -N DOCKER )
 
-circle.dependencies: docker-compose versions npm-install-force  mongodb-up mongodb-test
+circle.dependencies: docker-compose versions npm-install mongodb-up mongodb-test
 circle.test: test
 circle.post-test: mongodb-stop
 
