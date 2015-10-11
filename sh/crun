@@ -37,9 +37,9 @@ fi
 CONTAINER_HOME=$REPO_ROOT
 STANDARD_PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
-DOCKER_OPTS="--rm"
+SPECIAL_OPTS="--rm"
 if [ "$NO_DOCKER_RM" ]; then
-  DOCKER_OPTS=""
+  SPECIAL_OPTS=""
 fi
 
 set -x
@@ -48,4 +48,4 @@ docker run -v $REPO_ROOT:$CONTAINER_HOME -v /tmp:/tmp -v /var/run/docker.sock:/v
   -w $CONTAINER_HOME \
   -e PATH="./node_modules/.bin/:$STANDARD_PATH" \
   -e MONGODB_URL="$MONGODB_URL" \
-  $CRUN_OPTS $EXTRA_HOST $DOCKER_OPTS -ti --sig-proxy=true $image "$@"
+  $DOCKER_OPTS $EXTRA_HOST $SPECIAL_OPTS -ti --sig-proxy=true $image "$@"

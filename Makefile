@@ -13,7 +13,7 @@ npm-install: .FORCE
 	./sh/crun-node npm install --harmony --unsafe-perm --loglevel warn
 
 start: npm-install
-	CRUN_OPTS='-p 3000:3000' ./sh/crun-node ./sh/web.proc
+	DOCKER_OPTS='-p 3000:3000' ./sh/crun-node ./sh/web.proc
 
 up: npm-install docker-compose
 	./sh/docker-compose build
