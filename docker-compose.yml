@@ -1,3 +1,10 @@
 mongodb:
   image: mongo:3.0.6
   # container_name: mongohost #not supported by docker-compose older than 1.4
+localserver:
+  build: ./
+  ports:
+    - "3000:3000"
+  links:
+    - mongodb:mongohost
+  command: sh/web.proc

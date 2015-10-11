@@ -1,5 +1,6 @@
 .PHONY: all npm-install clean
-.PHONY: start urls test dev update-deps
+.PHONY: start up localurl localurl-test
+.PHONY: test dev update-deps
 .PHONY: docker-compose mongodb-up mongodb-stop mongodb-test
 .PHONY: circle.dependencies circle.test circle.post-test
 .PHONY: travis.before_install travis.install
@@ -12,11 +13,17 @@ npm-install: .FORCE
 	./sh/crun-node npm install --harmony --unsafe-perm --loglevel warn
 
 start: npm-install
-	CRUN_OPTS='-p 3000:3000' ./sh/crun-node node --harmony main
+	CRUN_OPTS='-p 3000:3000' ./sh/crun-node ./sh/web.proc
 
-urls:
-	@echo "app\thttp://$$(./sh/docker-ip):3000"
-	@echo "test\thttp://$$(./sh/docker-ip):3000/test"
+up: npm-install docker-compose
+	./sh/docker-compose build
+	./sh/docker-compose up --force-recreate
+
+localurl:
+	@echo "http://$$(./sh/docker-ip):3000"
+
+localurl-test:
+	@echo "http://$$(./sh/docker-ip):3000/test"
 
 test: mongodb-up npm-install
 	./sh/crun-node grunt ci
@@ -31,13 +38,14 @@ docker-compose:
 	@./sh/install-docker-compose
 
 mongodb-up: docker-compose
-	./sh/docker-compose up -d --no-recreate
+	./sh/docker-compose up -d --no-recreate mongodb
 	./sh/mongohost-ip > .mongohost.ip
 
 mongodb-stop: docker-compose
 	rm -f .*.ip
-	./sh/docker-compose stop
-	[ "${NO_DOCKER_RM}" ] && echo ./sh/docker-compose rm -f || echo "possibly, leaving containers behind"
+	./sh/docker-compose stop mongodb
+	@[ -n "${NO_DOCKER_RM}" ] && echo "possibly, leaving containers behind" || true
+	@[ -z "${NO_DOCKER_RM}" ] && ./sh/docker-compose rm -f mongodb || true
 
 mongodb-restart: mongodb-stop mongodb-up
 
