@@ -7,14 +7,16 @@ machine:
   ruby: #docker is all we need, but a language has to be chosen
 dependencies:
   override:
-    - make travis.before_install
-    - make travis.install
-    - make travis.before_script
+    - make circle.dependencies
+  cache_directories:
+    - ".npm/"
+    - ".cache/bower/"
+    - ".node-gyp/"
 test:
   override:
-    - make travis.script
+    - make circle.test
   post:
-    - make travis.after_script
+    - make circle.post-test
 deployment:
   staging:
     branch: master

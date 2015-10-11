@@ -3,6 +3,7 @@ bower_components/
 *.sublime-workspace
 config_dump.json
 config_prod.json
+npm-debug.log
 .node_repl_history
 .mongorc.js
 .npm/
@@ -11,4 +12,6 @@ config_prod.json
 .cache/
 .travis/
 .bin/
+.qws/
+.local/
 .*.ip
