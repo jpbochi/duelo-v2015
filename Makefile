@@ -1,5 +1,5 @@
 .PHONY: all npm-install clean
-.PHONY: start up localurl localurl-test
+.PHONY: start up stop localurl localurl-test
 .PHONY: test dev update-deps
 .PHONY: docker-compose mongodb-up mongodb-stop mongodb-test
 .PHONY: circle.dependencies circle.test circle.post-test
@@ -13,17 +13,25 @@ npm-install: .FORCE
 	./sh/crun-node npm install --harmony --unsafe-perm --loglevel warn
 
 start: npm-install
-	DOCKER_OPTS='-p 3000:3000' ./sh/crun-node ./sh/web.proc
+	DOCKER_OPTS='-p 80:3000' ./sh/crun-node ./sh/web.proc
 
 up: npm-install docker-compose
-	./sh/docker-compose build
-	./sh/docker-compose up --force-recreate
+	./sh/docker-compose build web
+	./sh/docker-compose up -d
+	./sh/mongohost-ip > .mongohost.ip
+
+stop: docker-compose
+	rm -f .*.ip
+	./sh/docker-compose stop
+	./sh/docker-compose rm -f
 
 localurl:
-	@echo "http://$$(./sh/docker-ip):3000"
+	@./sh/verify-duelo-host
+	@echo "http://duelo.info"
 
 localurl-test:
-	@echo "http://$$(./sh/docker-ip):3000/test"
+	@./sh/verify-duelo-host
+	@echo "http://duelo.info/test"
 
 test: mongodb-up npm-install
 	./sh/crun-node grunt ci

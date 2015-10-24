@@ -44,6 +44,7 @@ fi
 
 set -x
 docker run -v $REPO_ROOT:$CONTAINER_HOME -v /tmp:/tmp -v /var/run/docker.sock:/var/run/docker.sock \
+  --dns "8.8.8.8" \
   -e HOME=$CONTAINER_HOME \
   -w $CONTAINER_HOME \
   -e PATH="./node_modules/.bin/:$STANDARD_PATH" \

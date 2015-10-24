@@ -1,0 +1,9 @@
+#!/bin/bash
+set -e
+
+DUELO_HOST="duelo.infos"
+DOCKER_IP="$(./sh/docker-ip)"
+if [ "$(resolveip -s $DUELO_HOST 2> /dev/null || true)" != "$DOCKER_IP" ]; then
+	echo "# $DUELO_HOST is incorrect, run the following to fix it"
+	echo "sudo sh -c 'echo $DOCKER_IP $DUELO_HOST >> /etc/hosts'"
+fi

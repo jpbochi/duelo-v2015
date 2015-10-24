@@ -9,9 +9,7 @@ dependencies:
   override:
     - make circle.dependencies
   cache_directories:
-    - ".npm/"
     - ".cache/bower/"
-    - ".node-gyp/"
 test:
   override:
     - make circle.test

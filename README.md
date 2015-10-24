@@ -14,8 +14,8 @@
 The only requirement is `docker` 1.7.0 or greater, and `make`.
 
 - Run tests with `make test`.
-- Start local server with `make start`.
-  - Try `make urls` to see where your local server is running. By default, it listens on the port `3000`.
+- Start local server with `make dev-up`.
+  - Try `make localurl` to see where your local server is running.
 - Get inside a development-ready container with `make dev`. There you'll be able to run `node`, `npm`, and `grunt`
 
 ## Deployment

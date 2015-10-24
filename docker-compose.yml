@@ -3,8 +3,12 @@ mongodb:
   # container_name: mongohost #not supported by docker-compose older than 1.4
 web:
   build: ./
+  dockerfile: dev.dockerfile
+  volumes:
+    - ./:/home/user/duelo:ro
+  dns: 8.8.8.8
   ports:
-    - "3000:3000"
+    - "80:80"
   links:
     - mongodb:mongohost
   command: sh/web.proc
