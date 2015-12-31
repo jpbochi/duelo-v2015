@@ -31,11 +31,14 @@ if [ -f ".mongohost.ip" ]; then
 fi
 
 BASH_PATH=$(dirname "${BASH_SOURCE[0]}")
-if hash realpath 2> /dev/null; then
-  REPO_ROOT=$(realpath "${BASH_PATH}/../")
-else
-  REPO_ROOT=$(readlink -f "${BASH_PATH}/../")
-fi
+_realpath() {
+  if hash realpath 2> /dev/null; then
+    realpath $1
+  else
+    sh -c "cd '$1' && echo \$PWD" #only works with directories, which suffices here
+  fi
+}
+REPO_ROOT=$(_realpath "${BASH_PATH}/../")
 CONTAINER_HOME=$REPO_ROOT
 STANDARD_PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
