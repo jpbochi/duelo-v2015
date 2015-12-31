@@ -12,7 +12,7 @@ all: start
 npm-install: .FORCE
 	./sh/crun-node npm install --harmony --unsafe-perm --loglevel warn
 
-start: npm-install
+start: npm-install mongodb-up
 	DOCKER_OPTS='-p 80:3000' ./sh/crun-node ./sh/web.proc
 
 up: npm-install docker-compose
