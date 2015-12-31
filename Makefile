@@ -1,7 +1,7 @@
 .PHONY: all npm-install clean
 .PHONY: start up stop localurl localurl-test
 .PHONY: test dev update-deps
-.PHONY: docker-compose mongodb-up mongodb-stop mongodb-test
+.PHONY: mongodb-up mongodb-stop mongodb-test
 .PHONY: circle.dependencies circle.test circle.post-test
 .PHONY: travis.before_install travis.install
 .PHONY: travis.before_script travis.script travis.after_script travis.before_deploy
@@ -15,12 +15,12 @@ npm-install: .FORCE
 start: npm-install mongodb-up
 	DOCKER_OPTS='-p 80:3000' ./sh/crun-node ./sh/web.proc
 
-up: npm-install docker-compose
+up: npm-install
 	./sh/docker-compose build web
 	./sh/docker-compose up -d
 	./sh/mongohost-ip > .mongohost.ip
 
-stop: docker-compose
+stop:
 	rm -f .*.ip
 	./sh/docker-compose stop
 	./sh/docker-compose rm -f
@@ -42,14 +42,11 @@ dev: mongodb-up
 update-deps: npm-install
 	./sh/crun-node ncu --upgradeAll
 
-docker-compose:
-	@./sh/install-docker-compose
-
-mongodb-up: docker-compose
+mongodb-up:
 	./sh/docker-compose up -d --no-recreate mongodb
 	./sh/mongohost-ip > .mongohost.ip
 
-mongodb-stop: docker-compose
+mongodb-stop:
 	rm -f .*.ip
 	./sh/docker-compose stop mongodb
 	@[ -n "${NO_DOCKER_RM}" ] && echo "possibly, leaving containers behind" || true
@@ -83,11 +80,11 @@ docker-fix-iptables:
 	@# https://github.com/zuazo/kitchen-in-travis-native/issues/1#issuecomment-142230889
 	sudo iptables -L DOCKER || ( echo "DOCKER iptables chain missing" ; sudo iptables -N DOCKER )
 
-circle.dependencies: docker-compose versions npm-install mongodb-up mongodb-test
+circle.dependencies: versions npm-install mongodb-up mongodb-test
 circle.test: test
 circle.post-test: mongodb-stop
 
-travis.before_install: docker-compose docker-fix-iptables versions
+travis.before_install: docker-fix-iptables versions
 travis.install: npm-install
 travis.before_script: mongodb-up mongodb-test
 travis.script: test

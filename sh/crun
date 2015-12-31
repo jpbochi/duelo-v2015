@@ -25,7 +25,9 @@ fi
 
 if [ -f ".mongohost.ip" ]; then
   MONGOHOST_IP=$(cat .mongohost.ip)
-  EXTRA_HOST="--add-host='mongohost:$MONGOHOST_IP'"
+  if [ -n "$MONGOHOST_IP" ]; then
+    EXTRA_HOST="--add-host='mongohost:$MONGOHOST_IP'"
+  fi
 fi
 
 BASH_PATH=$(dirname "${BASH_SOURCE[0]}")

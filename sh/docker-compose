@@ -1,10 +1,4 @@
 #!/bin/bash
 set -e
-if [ -x '.bin/docker-compose' ]; then
-  ./.bin/docker-compose $@
-elif hash docker-compose 2> /dev/null; then
-  docker-compose $@
-else
-  echo >&2 "Failed to locate docker-compose."
-  exit 1
-fi
+DOCKER_COMPOSE_VERSION=${DOCKER_COMPOSE_VERSION-1.4.2}
+./sh/crun dduportal/docker-compose:${DOCKER_COMPOSE_VERSION} $@
