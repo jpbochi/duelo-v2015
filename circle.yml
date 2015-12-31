@@ -3,7 +3,7 @@ machine:
     - docker
   environment:
     NO_DOCKER_RM: true
-    DOCKER_COMPOSE_VERSION: 1.3.3
+    DOCKER_COMPOSE_VERSION: 1.4.2
   ruby: #docker is all we need, but a language has to be chosen
 dependencies:
   override:
