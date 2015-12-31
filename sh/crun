@@ -46,9 +46,11 @@ SPECIAL_OPTS="--rm"
 if [ "$NO_DOCKER_RM" ]; then
   SPECIAL_OPTS=""
 fi
+DOCKER_SOCK=${DOCKER_SOCK:-/var/run/docker.sock}
 
 set -x
-docker run -v $REPO_ROOT:$CONTAINER_HOME -v /tmp:/tmp -v /var/run/docker.sock:/var/run/docker.sock \
+docker run -v $REPO_ROOT:$CONTAINER_HOME -v /tmp:/tmp \
+  -v $DOCKER_SOCK:$DOCKER_SOCK \
   --dns "8.8.8.8" \
   -e HOME=$CONTAINER_HOME \
   -w $CONTAINER_HOME \

@@ -6,6 +6,7 @@ machine:
     - docker
   environment:
     NO_DOCKER_RM: true
+    DOCKER_SOCK: /run/docker.sock
     DOCKER_COMPOSE_VERSION: 1.5.2
   ruby: #docker is all we need, but a language has to be chosen
 dependencies:
