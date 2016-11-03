@@ -18,7 +18,7 @@ start: npm-install mongodb-up
 up: npm-install
 	./sh/docker-compose build web
 	./sh/docker-compose up -d
-	./sh/mongohost-ip > .mongohost.ip
+	# ./sh/mongohost-ip > .mongohost.ip
 
 stop:
 	rm -f .*.ip
@@ -44,7 +44,7 @@ update-deps: npm-install
 
 mongodb-up:
 	./sh/docker-compose up -d --no-recreate mongodb
-	./sh/mongohost-ip > .mongohost.ip
+	# ./sh/mongohost-ip > .mongohost.ip
 
 mongodb-stop:
 	rm -f .*.ip

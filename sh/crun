@@ -23,12 +23,12 @@ if ! docker inspect --format="{{.Id}}" $image > /dev/null; then
   docker pull $image
 fi
 
-if [ -f ".mongohost.ip" ]; then
-  MONGOHOST_IP=$(cat .mongohost.ip)
-  if [ -n "$MONGOHOST_IP" ]; then
-    EXTRA_HOST="--add-host='mongohost:$MONGOHOST_IP'"
-  fi
-fi
+# if [ -f ".mongohost.ip" ]; then
+#   MONGOHOST_IP=$(cat .mongohost.ip)
+#   if [ -n "$MONGOHOST_IP" ]; then
+#     EXTRA_HOST="--add-host='mongohost:$MONGOHOST_IP'"
+#   fi
+# fi
 
 BASH_PATH=$(dirname "${BASH_SOURCE[0]}")
 _realpath() {
@@ -40,7 +40,7 @@ _realpath() {
 }
 REPO_ROOT=$(_realpath "${BASH_PATH}/../")
 CONTAINER_HOME=$REPO_ROOT
-STANDARD_PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+# STANDARD_PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
 SPECIAL_OPTS="--rm"
 if [ "$NO_DOCKER_RM" ]; then
@@ -48,12 +48,11 @@ if [ "$NO_DOCKER_RM" ]; then
 fi
 DOCKER_SOCK=${DOCKER_SOCK:-/var/run/docker.sock}
 
-set -x
-docker run -v $REPO_ROOT:$CONTAINER_HOME -v /tmp:/tmp \
+# set -x
+  # -e PATH="./node_modules/.bin/:$STANDARD_PATH" \
+docker run -v $REPO_ROOT:$CONTAINER_HOME -it -v /tmp:/tmp \
   -v $DOCKER_SOCK:$DOCKER_SOCK \
-  --dns "8.8.8.8" \
   -e HOME=$CONTAINER_HOME \
   -w $CONTAINER_HOME \
-  -e PATH="./node_modules/.bin/:$STANDARD_PATH" \
   -e MONGODB_URL="$MONGODB_URL" \
-  $DOCKER_OPTS $EXTRA_HOST $SPECIAL_OPTS -ti --sig-proxy=true $image "$@"
+  $EXTRA_HOST $SPECIAL_OPTS $DOCKER_OPTS $image "$@"

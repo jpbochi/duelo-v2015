@@ -1,4 +1,4 @@
 #!/bin/bash
 set -e
-DOCKER_COMPOSE_VERSION=${DOCKER_COMPOSE_VERSION-1.4.2}
-./sh/crun dduportal/docker-compose:${DOCKER_COMPOSE_VERSION} $@
+DOCKER_COMPOSE_VERSION=${DOCKER_COMPOSE_VERSION-1.7.1}
+DOCKER_OPTS="-e HOME=$HOME" ./sh/crun dduportal/docker-compose:${DOCKER_COMPOSE_VERSION} $@
